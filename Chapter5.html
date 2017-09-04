@@ -1,0 +1,817 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.8.1: http://docutils.sourceforge.net/" />
+<title>Chapter 5: Sequences and Coroutines</title>
+<link rel="stylesheet" href="css/lectures.css" type="text/css" />
+
+        <script src="js/jsMath/easy/load.js"></script>
+        <link href="css/prettify.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="css/prettify.js"></script></head>
+<body onload="prettyPrint();">
+<div class="document" id="chapter-5-sequences-and-coroutines">
+<h1 class="title">Chapter 5: Sequences and Coroutines</h1>
+<!-- These notes have been placed in the public domain under the license -->
+<!-- Creative Commons Attribution-ShareAlike 3.0 -->
+<!-- http://creativecommons.org/licenses/by-sa/3.0/ -->
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="auto-toc simple">
+<li><a class="reference internal" href="#introduction" id="id1">5.1&nbsp;&nbsp;&nbsp;Introduction</a></li>
+<li><a class="reference internal" href="#implicit-sequences" id="id2">5.2&nbsp;&nbsp;&nbsp;Implicit Sequences</a><ul class="auto-toc">
+<li><a class="reference internal" href="#python-iterators" id="id3">5.2.1&nbsp;&nbsp;&nbsp;Python Iterators</a></li>
+<li><a class="reference internal" href="#for-statements" id="id4">5.2.2&nbsp;&nbsp;&nbsp;For Statements</a></li>
+<li><a class="reference internal" href="#generators-and-yield-statements" id="id5">5.2.3&nbsp;&nbsp;&nbsp;Generators and Yield Statements</a></li>
+<li><a class="reference internal" href="#iterables" id="id6">5.2.4&nbsp;&nbsp;&nbsp;Iterables</a></li>
+<li><a class="reference internal" href="#streams" id="id7">5.2.5&nbsp;&nbsp;&nbsp;Streams</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#coroutines" id="id8">5.3&nbsp;&nbsp;&nbsp;Coroutines</a><ul class="auto-toc">
+<li><a class="reference internal" href="#python-coroutines" id="id9">5.3.1&nbsp;&nbsp;&nbsp;Python Coroutines</a></li>
+<li><a class="reference internal" href="#produce-filter-and-consume" id="id10">5.3.2&nbsp;&nbsp;&nbsp;Produce, Filter, and Consume</a></li>
+<li><a class="reference internal" href="#multitasking" id="id11">5.3.3&nbsp;&nbsp;&nbsp;Multitasking</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h1><a class="toc-backref" href="#id1">5.1&nbsp;&nbsp;&nbsp;Introduction</a></h1>
+<p>In this chapter, we continue our discussion of real-world applications by
+developing new tools to process sequential data. In Chapter 2, we introduced a
+sequence interface, implemented in Python by built-in data types such as
+<tt class="docutils literal">tuple</tt> and <tt class="docutils literal">list</tt>. Sequences supported two operations: querying their
+length and accessing an element by index. In Chapter 3, we developed a
+user-defined implementations of the sequence interface, the <tt class="docutils literal">Rlist</tt> class for
+representing recursive lists. These sequence types proved effective for
+representing and accessing a wide variety of sequential datasets.</p>
+<p>However, representing sequential data using the sequence abstraction has two
+important limitations. The first is that a sequence of length <em>n</em> typically
+takes up an amount of memory proportional to <em>n</em>. Therefore, the longer a
+sequence is, the more memory it takes to represent it.</p>
+<p>The second limitation of sequences is that sequences can only represent
+datasets of known, finite length. Many sequential collections that we may want
+to represent do not have a well-defined length, and some are even infinite.
+Two mathematical examples of infinite sequences are the positive integers and
+the Fibonacci numbers. Sequential data sets of unbounded length also appear in
+other computational domains. For instance, the sequence of all Twitter posts
+grows longer with every second and therefore does not have a fixed length.
+Likewise, the sequence of telephone calls sent through a cell tower, the
+sequence of mouse movements made by a computer user, and the sequence of
+acceleration measurements from sensors on an aircraft all extend without bound
+as the world evolves.</p>
+<p>In this chapter, we introduce new constructs for working with sequential
+data that are designed to accommodate collections of unknown or unbounded
+length, while using limited memory. We also discuss how these tools can be used
+with a programming construct called a coroutine to create efficient, modular
+data processing pipelines.</p>
+</div>
+<div class="section" id="implicit-sequences">
+<h1><a class="toc-backref" href="#id2">5.2&nbsp;&nbsp;&nbsp;Implicit Sequences</a></h1>
+<p>The central observation that will lead us to efficient processing of sequential
+data is that a sequence can be <em>represented</em> using programming constructs
+without each element being <em>stored</em> explicitly in the memory of the computer.
+To put this idea into practice, we will construct objects that provides access
+to all of the elements of some sequential dataset that an application may
+desire, but without computing all of those elements in advance and storing
+them.</p>
+<p>A simple example of this idea arises in the <tt class="docutils literal">range</tt> sequence type introduced
+in Chapter 2. A <tt class="docutils literal">range</tt> represents a consecutive, bounded sequence of
+integers. However, it is not the case that each element of that sequence is
+represented explicitly in memory.  Instead, when an element is requested from a
+<tt class="docutils literal">range</tt>, it is computed. Hence, we can represent very large ranges of
+integers without using large blocks of memory. Only the end points of the range
+are stored as part of the <tt class="docutils literal">range</tt> object, and elements are computed on the
+fly.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; r = range(10000, 1000000000)
+&gt;&gt;&gt; r[45006230]
+45016230
+</pre>
+<p>In this example, not all 999,990,000 integers in this range are stored when the
+range instance is constructed.  Instead, the range object adds the first
+element 10,000 to the index 45,006,230 to produce the element 45,016,230.
+Computing values on demand, rather than retrieving them from an existing
+representation, is an example of <em>lazy</em> computation. Computer science is a
+discipline that celebrates laziness as an important computational tool.</p>
+<p>An <em>iterator</em> is an object that provides sequential access to an underlying
+sequential dataset. Iterators are built-in objects in many programming
+languages, including Python.  The iterator abstraction has two components: a
+mechanism for retrieving the <em>next</em> element in some underlying series of
+elements and a mechanism for signaling that the end of the series has been
+reached and no further elements remain. In programming languages with built-in
+object systems, this abstraction typically corresponds to a particular
+interface that can be implemented by classes. The Python interface for
+iterators is described in the next section.</p>
+<p>The usefulness of iterators is derived from the fact that the underlying
+series of data for an iterator may not be represented explicitly in memory.
+An iterator provides a mechanism for considering each of a series of values in
+turn, but all of those elements do not need to be stored simultaneously.
+Instead, when the next element is requested from an iterator, that element may
+be computed on demand instead of being retrieved from an existing memory
+source.</p>
+<p>Ranges are able to compute the elements of a sequence lazily because the
+sequence represented is uniform, and any element is easy to compute from the
+starting and ending bounds of the range. Iterators allow for lazy generation
+of a much broader class of underlying sequential datasets, because they do
+not need to provide access to arbitrary elements of the underlying series.
+Instead, they must only compute the next element of the series, in order, each
+time another element is requested. While not as flexible as accessing arbitrary
+elements of a sequence (called <em>random access</em>), <em>sequential access</em> to
+sequential data series is often sufficient for data processing applications.</p>
+<div class="section" id="python-iterators">
+<h2><a class="toc-backref" href="#id3">5.2.1&nbsp;&nbsp;&nbsp;Python Iterators</a></h2>
+<p>The Python iterator interface includes two messages. The <tt class="docutils literal">__next__</tt> message
+queries the iterator for the next element of the underlying series that it
+represents. In response to invoking <tt class="docutils literal">__next__</tt> as a method, an iterator can
+perform arbitrary computation in order to either retrieve or compute the next
+element in an underlying series. Calls to <tt class="docutils literal">__next__</tt> make a mutating change
+to the iterator: they advance the position of the iterator. Hence, multiple
+calls to <tt class="docutils literal">__next__</tt> will return sequential elements of an underlying series.
+Python signals that the end of an underlying series has been reached by
+raising a <tt class="docutils literal">StopIteration</tt> exception during a call to <tt class="docutils literal">__next__</tt>.</p>
+<p>The <tt class="docutils literal">Letters</tt> class below iterates over an underlying series of letters from
+<tt class="docutils literal">a</tt> to <tt class="docutils literal">d</tt>.  The member variable <tt class="docutils literal">current</tt> stores the current letter in
+the series, and the <tt class="docutils literal">__next__</tt> method returns this letter and uses it to
+compute a new value for <tt class="docutils literal">current</tt>.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; class Letters(object):
+        def __init__(self):
+            self.current = 'a'
+        def __next__(self):
+            if self.current &gt; 'd':
+                raise StopIteration
+            result = self.current
+            self.current = chr(ord(result)+1)
+            return result
+        def __iter__(self):
+            return self
+</pre>
+<p>The <tt class="docutils literal">__iter__</tt> message is the second required message of the Python iterator
+interface. It simply returns the iterator; it is useful for providing a common
+interface to iterators and sequences, as described in the next section.</p>
+<p>Using this class, we can access letters in sequence.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; letters = Letters()
+&gt;&gt;&gt; letters.__next__()
+'a'
+&gt;&gt;&gt; letters.__next__()
+'b'
+&gt;&gt;&gt; letters.__next__()
+'c'
+&gt;&gt;&gt; letters.__next__()
+'d'
+&gt;&gt;&gt; letters.__next__()
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;&lt;stdin&gt;&quot;, line 12, in next
+StopIteration
+</pre>
+<p>A <tt class="docutils literal">Letters</tt> instance can only be iterated through once. Once its
+<tt class="docutils literal">__next__()</tt> method raises a <tt class="docutils literal">StopIteration</tt> exception, it continues to do
+so from then on. There is no way to reset it; one must create a new instance.</p>
+<p>Iterators also allow us to represent infinite series by implementing a
+<tt class="docutils literal">__next__</tt> method that never raises a <tt class="docutils literal">StopIteration</tt> exception. For
+example, the <tt class="docutils literal">Positives</tt> class below iterates over the infinite series of
+positive integers.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; class Positives(object):
+        def __init__(self):
+            self.current = 0;
+        def __next__(self):
+            result = self.current
+            self.current += 1
+            return result
+        def __iter__(self):
+            return self
+</pre>
+</div>
+<div class="section" id="for-statements">
+<h2><a class="toc-backref" href="#id4">5.2.2&nbsp;&nbsp;&nbsp;For Statements</a></h2>
+<p>In Python, sequences can expose themselves to iteration by implementing the
+<tt class="docutils literal">__iter__</tt> message. If an object represents sequential data, it can serve as
+an <em>iterable</em> object in a <tt class="docutils literal">for</tt> statement by returning an iterator object in
+response to the <tt class="docutils literal">__iter__</tt> message. This iterator is meant to have a
+<tt class="docutils literal">__next__()</tt> method that returns each element of the sequence in turn,
+eventually raising a <tt class="docutils literal">StopIteration</tt> exception when the end of the sequence
+is reached.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; counts = [1, 2, 3]
+&gt;&gt;&gt; for item in counts:
+        print(item)
+1
+2
+3
+</pre>
+<p>In the above example, the <tt class="docutils literal">counts</tt> list returns an iterator in response to a
+call to its <tt class="docutils literal">__iter__()</tt> method. The <tt class="docutils literal">for</tt> statement then calls that
+iterator's <tt class="docutils literal">__next__()</tt> method repeatedly, and assigns the returned value to
+<tt class="docutils literal">item</tt> each time. This process continues until the iterator raises a
+<tt class="docutils literal">StopIteration</tt> exception, at which point the <tt class="docutils literal">for</tt> statement concludes.</p>
+<p>With our knowledge of iterators, we can implement the evaluation rule of a
+<tt class="docutils literal">for</tt> statement in terms of <tt class="docutils literal">while</tt>, assignment, and <tt class="docutils literal">try</tt> statements.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; i = counts.__iter__()
+&gt;&gt;&gt; try:
+        while True:
+            item = i.__next__()
+            print(item)
+    except StopIteration:
+        pass
+1
+2
+3
+</pre>
+<p>Above, the iterator returned by invoking the <tt class="docutils literal">__iter__</tt> method of <tt class="docutils literal">counts</tt>
+is bound to a name <tt class="docutils literal">i</tt> so that it can be queried for each element in turn.
+The handling clause for the <tt class="docutils literal">StopIteration</tt> exception does nothing, but
+handling the exception provides a control mechanism for exiting the <tt class="docutils literal">while</tt>
+loop.</p>
+</div>
+<div class="section" id="generators-and-yield-statements">
+<h2><a class="toc-backref" href="#id5">5.2.3&nbsp;&nbsp;&nbsp;Generators and Yield Statements</a></h2>
+<p>The <tt class="docutils literal">Letters</tt> and <tt class="docutils literal">Positives</tt> objects above require us to introduce a new
+field <tt class="docutils literal">self.current</tt> into our object to keep track of progress through the
+sequence. With simple sequences like those shown above, this can be done
+easily. With complex sequences, however, it can be quite difficult for the
+<tt class="docutils literal">__next__()</tt> function to save its place in the calculation. Generators allow
+us to define more complicated iterations by leveraging the features of the
+Python interpreter.</p>
+<p>A <em>generator</em> is an iterator returned by a special class of function called a
+<em>generator function</em>. Generator functions are distinguished from regular
+functions in that rather than containing <tt class="docutils literal">return</tt> statements in their body,
+they use <tt class="docutils literal">yield</tt> statement to return elements of a series.</p>
+<p>Generators do not use attributes of an object to track their progress through
+a series. Instead, they control the execution of the generator function, which
+runs until the next <tt class="docutils literal">yield</tt> statement is executed each time the generator's
+<tt class="docutils literal">__next__</tt> method is invoked. The <tt class="docutils literal">Letters</tt> iterator can be implemented
+much more compactly using a generator function.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def letters_generator():
+        current = 'a'
+        while current &lt;= 'd':
+            yield current
+            current = chr(ord(current)+1)
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; for letter in letters_generator():
+        print(letter)
+a
+b
+c
+d
+</pre>
+<p>Even though we never explicitly defined <tt class="docutils literal">__iter__()</tt> or <tt class="docutils literal">__next__()</tt>
+methods, Python understands that when we use the <tt class="docutils literal">yield</tt> statement, we are
+defining a generator function.  When called, a generator function doesn't
+return a particular yielded value, but instead a <tt class="docutils literal">generator</tt> (which is a type
+of iterator) that itself can return the yielded values. A generator object has <tt class="docutils literal">__iter__</tt> and
+<tt class="docutils literal">__next__</tt> methods, and each call to <tt class="docutils literal">__next__</tt> continues execution of the
+generator function from wherever it left off previously until another <tt class="docutils literal">yield</tt>
+statement is executed.</p>
+<p>The first time <tt class="docutils literal">__next__</tt> is called, the program executes statements from
+the body of the <tt class="docutils literal">letters_generator</tt> function until it encounters the
+<tt class="docutils literal">yield</tt> statement. Then, it pauses and returns the value of <tt class="docutils literal">current</tt>.
+<tt class="docutils literal">yield</tt> statements do not destroy the newly created environment, they
+preserve it for later. When <tt class="docutils literal">__next__</tt> is called again, execution resumes
+where it left off. The values of <tt class="docutils literal">current</tt> and of any other bound names in
+the scope of <tt class="docutils literal">letters_generator</tt> are preserved across subsequent calls to
+<tt class="docutils literal">__next__</tt>.</p>
+<p>We can walk through the generator by manually calling <tt class="docutils literal">____next__()</tt>:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; letters = letters_generator()
+&gt;&gt;&gt; type(letters)
+&lt;class 'generator'&gt;
+&gt;&gt;&gt; letters.__next__()
+'a'
+&gt;&gt;&gt; letters.__next__()
+'b'
+&gt;&gt;&gt; letters.__next__()
+'c'
+&gt;&gt;&gt; letters.__next__()
+'d'
+&gt;&gt;&gt; letters.__next__()
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+StopIteration
+</pre>
+<p>The generator does not start executing any of the body statements of its
+generator function until the first time <tt class="docutils literal">__next__()</tt> is called.</p>
+</div>
+<div class="section" id="iterables">
+<h2><a class="toc-backref" href="#id6">5.2.4&nbsp;&nbsp;&nbsp;Iterables</a></h2>
+<p>In Python, iterators only make a single pass over the elements of an underlying
+series. After that pass, the iterator will continue to raise a
+<tt class="docutils literal">StopIteration</tt> exception when <tt class="docutils literal">__next__()</tt> is called. Many applications
+require iteration over elements multiple times. For example, we have to iterate
+over a list many times in order to enumerate all pairs of elements.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def all_pairs(s):
+        for item1 in s:
+            for item2 in s:
+                yield (item1, item2)
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; list(all_pairs([1, 2, 3]))
+[(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
+</pre>
+<p>Sequences are not themselves iterators, but instead <em>iterable</em> objects. The
+iterable interface in Python consists of a single message, <tt class="docutils literal">__iter__</tt>, that
+returns an iterator. The built-in sequence types in Python return new instances
+of iterators when their <tt class="docutils literal">__iter__</tt> methods are invoked.  If an iterable
+object returns a fresh instance of an iterator each time <tt class="docutils literal">__iter__</tt> is
+called, then it can be iterated over multiple times.</p>
+<p>New iterable classes can be defined by implementing the iterable interface. For
+example, the <em>iterable</em> <tt class="docutils literal">LetterIterable</tt> class below returns a new iterator
+over letters each time <tt class="docutils literal">__iter__</tt> is invoked.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; class LetterIterable(object):
+        def __iter__(self):
+            current = 'a'
+            while current &lt;= 'd':
+                yield current
+                current = chr(ord(current)+1)
+</pre>
+<p>The <tt class="docutils literal">__iter__</tt> method is a generator function; it returns a generator object
+that yields the letters <tt class="docutils literal">'a'</tt> through <tt class="docutils literal">'d'</tt>.</p>
+<p>A <tt class="docutils literal">Letters</tt> iterator object gets &quot;used up&quot; after a single iteration, whereas the
+<tt class="docutils literal">LetterIterable</tt> object can be iterated over multiple times. As a result, a
+<tt class="docutils literal">LetterIterable</tt> instance can serve as an argument to <tt class="docutils literal">all_pairs</tt>.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; letters = LetterIterable()
+&gt;&gt;&gt; all_pairs(letters).__next__()
+('a', 'a')
+</pre>
+</div>
+<div class="section" id="streams">
+<h2><a class="toc-backref" href="#id7">5.2.5&nbsp;&nbsp;&nbsp;Streams</a></h2>
+<p><em>Streams</em> offer a final way to represent sequential data implicity.  A stream
+is a lazily computed recursive list.  Like the <tt class="docutils literal">Rlist</tt> class from Chapter 3,
+a <tt class="docutils literal">Stream</tt> instance responds to requests for its <tt class="docutils literal">first</tt> element and the
+<tt class="docutils literal">rest</tt> of the stream. Like an <tt class="docutils literal">Rlist</tt>, the <tt class="docutils literal">rest</tt> of a <tt class="docutils literal">Stream</tt> is
+itself a <tt class="docutils literal">Stream</tt>.  Unlike an <tt class="docutils literal">Rlist</tt>, the <tt class="docutils literal">rest</tt> of a stream is only
+computed when it is looked up, rather than being stored in advance. That is,
+the <tt class="docutils literal">rest</tt> of a stream is computed lazily.</p>
+<p>To achieve this lazy evaluation, a stream stores a function that computes the
+rest of the stream.  Whenever this function is called, its returned value is
+cached as part of the stream in an attribute called <tt class="docutils literal">_rest</tt>, named with an
+underscore to indicate that it should not be accessed directly.  The accessible
+attribute <tt class="docutils literal">rest</tt> is a property method that returns the rest of the stream,
+computing it if necessary.  With this design, a stream stores <em>how to compute</em>
+the rest of the stream, rather than always storing it explicitly.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; class Stream(object):
+        &quot;&quot;&quot;A lazily computed recursive list.&quot;&quot;&quot;
+        def __init__(self, first, compute_rest, empty=False):
+            self.first = first
+            self._compute_rest = compute_rest
+            self.empty = empty
+            self._rest = None
+            self._computed = False
+        &#64;property
+        def rest(self):
+            &quot;&quot;&quot;Return the rest of the stream, computing it if necessary.&quot;&quot;&quot;
+            assert not self.empty, 'Empty streams have no rest.'
+            if not self._computed:
+                self._rest = self._compute_rest()
+                self._computed = True
+            return self._rest
+        def __repr__(self):
+            if self.empty:
+                return '&lt;empty stream&gt;'
+            return 'Stream({0}, &lt;compute_rest&gt;)'.format(repr(self.first))
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; Stream.empty = Stream(None, None, True)
+</pre>
+<p>A recursive list is defined using a nested expression.  For example,
+we can create an <tt class="docutils literal">Rlist</tt> that represents the elements <tt class="docutils literal">1</tt> then <tt class="docutils literal">5</tt> as
+follows:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; r = Rlist(1, Rlist(2+3, Rlist.empty))
+</pre>
+<p>Likewise, we can create a <tt class="docutils literal">Stream</tt> representing the same series.  The
+<tt class="docutils literal">Stream</tt> does not actually compute the second element <tt class="docutils literal">5</tt> until the rest of
+the stream is requested.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; s = Stream(1, lambda: Stream(2+3, lambda: Stream.empty))
+</pre>
+<p>Here, <tt class="docutils literal">1</tt> is the first element of the stream, and the <tt class="docutils literal">lambda</tt> expression
+that follows returns a function for computing the rest of the stream. The
+second element of the computed stream is a function that returns an empty
+stream.</p>
+<p>Accessing the elements of recursive list <tt class="docutils literal">r</tt> and stream <tt class="docutils literal">s</tt> proceed
+similarly.  However, while <tt class="docutils literal">5</tt> is stored within <tt class="docutils literal">r</tt>, it is computed on
+demand for <tt class="docutils literal">s</tt> via addition the first time that it is requested.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; r.first
+1
+&gt;&gt;&gt; s.first
+1
+&gt;&gt;&gt; r.rest.first
+5
+&gt;&gt;&gt; s.rest.first
+5
+&gt;&gt;&gt; r.rest
+Rlist(5)
+&gt;&gt;&gt; s.rest
+Stream(5, &lt;compute_rest&gt;)
+</pre>
+<p>While the <tt class="docutils literal">rest</tt> of <tt class="docutils literal">r</tt> is a one-element recursive list, the <tt class="docutils literal">rest</tt> of
+<tt class="docutils literal">s</tt> includes a function to compute the rest; the fact that it will return the
+empty stream may not yet have been discovered.</p>
+<p>When a <tt class="docutils literal">Stream</tt> instance is constructed, the field <tt class="docutils literal">self._computed</tt> is
+<tt class="docutils literal">False</tt>, signifying that the <tt class="docutils literal">_rest</tt> of the <tt class="docutils literal">Stream</tt> has not yet been
+computed. When the <tt class="docutils literal">rest</tt> attribute is requested via a dot expression, the
+<tt class="docutils literal">rest</tt> method is invoked, which triggers computation with <tt class="docutils literal">self._rest =
+self.compute_rest</tt>.  Because of the caching mechanism within a <tt class="docutils literal">Stream</tt>, the
+<tt class="docutils literal">compute_rest</tt> function is only ever called once.</p>
+<p>The essential properties of a <tt class="docutils literal">compute_rest</tt> function are that it takes no
+arguments, and it returns a <tt class="docutils literal">Stream</tt>.</p>
+<p>Lazy evaluation gives us the ability to represent infinite sequential datasets
+using streams. For example, we can represent increasing integers, starting at
+any <tt class="docutils literal">first</tt> value.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def make_integer_stream(first=1):
+      def compute_rest():
+        return make_integer_stream(first+1)
+      return Stream(first, compute_rest)
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; ints = make_integer_stream()
+&gt;&gt;&gt; ints
+Stream(1, &lt;compute_rest&gt;)
+&gt;&gt;&gt; ints.first
+1
+</pre>
+<p>When <tt class="docutils literal">make_integer_stream</tt> is called for the first time, it returns a stream
+whose <tt class="docutils literal">first</tt> is the first integer in the sequence (<tt class="docutils literal">1</tt> by default).
+However, <tt class="docutils literal">make_integer_stream</tt> is actually recursive because this stream's
+<tt class="docutils literal">compute_rest</tt> calls <tt class="docutils literal">make_integer_stream</tt> again, with an incremented
+argument. This makes <tt class="docutils literal">make_integer_stream</tt> recursive, but also lazy.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; ints.first
+1
+&gt;&gt;&gt; ints.rest.first
+2
+&gt;&gt;&gt; ints.rest.rest
+Stream(3, &lt;compute_rest&gt;)
+</pre>
+<p>Recursive calls are only made to <tt class="docutils literal">make_integer_stream</tt> whenever the <tt class="docutils literal">rest</tt>
+of an integer stream is requested.</p>
+<p>The same higher-order functions that manipulate sequences -- <tt class="docutils literal">map</tt> and
+<tt class="docutils literal">filter</tt> -- also apply to streams, although their implementations must change
+to apply their argument functions lazily.  The function <tt class="docutils literal">map_stream</tt> maps a
+function over a stream, which produces a new stream.  The locally defined
+<tt class="docutils literal">compute_rest</tt> function ensures that the function will be mapped onto the
+rest of the stream whenever the rest is computed.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def map_stream(fn, s):
+        if s.empty:
+            return s
+        def compute_rest():
+            return map_stream(fn, s.rest)
+        return Stream(fn(s.first), compute_rest)
+</pre>
+<p>A stream can be filtered by defining a <tt class="docutils literal">compute_rest</tt> function that applies
+the filter function to the rest of the stream.  If the filter function rejects
+the first element of the stream, the rest is computed immediately.  Because
+<tt class="docutils literal">filter_stream</tt> is recursive, the rest may be computed multiple times until a
+valid <tt class="docutils literal">first</tt> element is found.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def filter_stream(fn, s):
+        if s.empty:
+            return s
+        def compute_rest():
+            return filter_stream(fn, s.rest)
+        if fn(s.first):
+            return Stream(s.first, compute_rest)
+        return compute_rest()
+</pre>
+<p>The <tt class="docutils literal">map_stream</tt> and <tt class="docutils literal">filter_stream</tt> functions exhibit a common pattern in
+stream processing: a locally defined <tt class="docutils literal">compute_rest</tt> function recursively
+applies a processing function to the rest of the stream whenever the rest is
+computed.</p>
+<p>To inspect the contents of a stream, we can truncate it to finite length and
+convert it to a Python <tt class="docutils literal">list</tt>.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def truncate_stream(s, k):
+        if s.empty or k == 0:
+            return Stream.empty
+        def compute_rest():
+            return truncate_stream(s.rest, k-1)
+        return Stream(s.first, compute_rest)
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def stream_to_list(s):
+        r = []
+        while not s.empty:
+            r.append(s.first)
+            s = s.rest
+        return r
+</pre>
+<p>These convenience functions allow us to verify our <tt class="docutils literal">map_stream</tt>
+implementation with a simple example that squares the integers from <tt class="docutils literal">3</tt> to
+<tt class="docutils literal">7</tt>.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; s = make_integer_stream(3)
+&gt;&gt;&gt; s
+Stream(3, &lt;compute_rest&gt;)
+&gt;&gt;&gt; m = map_stream(lambda x: x*x, s)
+&gt;&gt;&gt; m
+Stream(9, &lt;compute_rest&gt;)
+&gt;&gt;&gt; stream_to_list(truncate_stream(m, 5))
+[9, 16, 25, 36, 49]
+</pre>
+<p>We can use our <tt class="docutils literal">filter_stream</tt> function to define a stream of prime numbers
+using the sieve of Eratosthenes, which filters a stream of integers to remove
+all numbers that are multiples of its first element.  By successively filtering
+with each prime, all composite numbers are removed from the stream.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def primes(pos_stream):
+        def not_divible(x):
+            return x % pos_stream.first != 0
+        def compute_rest():
+            return primes(filter_stream(not_divible, pos_stream.rest))
+        return Stream(pos_stream.first, compute_rest)
+</pre>
+<p>By truncating the <tt class="docutils literal">primes</tt> stream, we can enumerate any prefix of the prime
+numbers.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; p1 = primes(make_integer_stream(2))
+&gt;&gt;&gt; stream_to_list(truncate_stream(p1, 7))
+[2, 3, 5, 7, 11, 13, 17]
+</pre>
+<p>Streams contrast with iterators in that they can be passed to pure functions
+multiple times and yield the same result each time.  The primes stream is not
+&quot;used up&quot; by converting it to a list.  That is, the <tt class="docutils literal">first</tt> element of <tt class="docutils literal">p1</tt>
+is still <tt class="docutils literal">2</tt> after converting the prefix of the stream to a list.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; p1.first
+2
+</pre>
+<p>Just as recursive lists provide a simple implementation of the sequence
+abstraction, streams provide a simple, functional, recursive data structure
+that implements lazy evaluation through the use of higher-order functions.</p>
+</div>
+</div>
+<div class="section" id="coroutines">
+<h1><a class="toc-backref" href="#id8">5.3&nbsp;&nbsp;&nbsp;Coroutines</a></h1>
+<p>Much of this text has focused on techniques for decomposing complex programs
+into small, modular components.  When the logic for a function with complex
+behavior is divided into several self-contained steps that are themselves
+functions, these functions are called helper functions or <em>subroutines</em>.
+Subroutines are called by a main function that is responsible for coordinating
+the use of several subroutines.</p>
+<div class="figure">
+<img alt="img/subroutine.png" src="img/subroutine.png" style="height: 300px;" />
+</div>
+<p>In this section, we introduce a different way of decomposing complex
+computations using <em>coroutines</em>, an approach that is particularly applicable to
+the task of processing sequential data.  Like a subroutine, a coroutine
+computes a single step of a complex computation. However, when using
+coroutines, there is no main function to coordinate results. Instead coroutines
+themselves link together to form a pipeline. There may be a coroutine for
+consuming the incoming data and sending it to other coroutines.  There may be
+coroutines that each do simple processing steps on data sent to them, and there
+may finally be another coroutine that outputs a final result.</p>
+<div class="figure">
+<img alt="img/coroutine.png" src="img/coroutine.png" style="width: 400px;" />
+</div>
+<p>The difference between coroutines and subroutines is conceptual: subroutines
+slot into an overarching function to which they are subordinate, whereas
+coroutines are all colleagues, they cooperate to form a pipeline without any
+supervising function responsible for calling them in a particular order.</p>
+<p>In this section, we will learn how Python supports building coroutines with the
+<tt class="docutils literal">yield</tt> and <tt class="docutils literal">send()</tt> statements. Then, we will look at different roles that
+coroutines can play in a pipeline, and how coroutines can support multitasking.</p>
+<div class="section" id="python-coroutines">
+<h2><a class="toc-backref" href="#id9">5.3.1&nbsp;&nbsp;&nbsp;Python Coroutines</a></h2>
+<p>In the previous section, we introduced generator functions, which use <tt class="docutils literal">yield</tt>
+to return values. Python generator functions can also consume values using a
+<tt class="docutils literal">(yield)</tt> statement. In addition two new methods on generator objects,
+<tt class="docutils literal">send()</tt> and <tt class="docutils literal">close()</tt>, create a framework for objects that <em>consume</em> and
+produce values. Generator functions that define these objects are coroutines.</p>
+<p>Coroutines consume values using a <tt class="docutils literal">(yield)</tt> statement as follows:</p>
+<pre class="literal-block">
+value = (yield)
+</pre>
+<p>With this syntax, execution pauses at this statement until the object's
+<tt class="docutils literal">send</tt> method is invoked with an argument:</p>
+<pre class="literal-block">
+coroutine.send(data)
+</pre>
+<p>Then, execution resumes, with <tt class="docutils literal">value</tt> being assigned to the value of
+<tt class="docutils literal">data</tt>. To signal the end of a computation, we shut down a coroutine using
+the <tt class="docutils literal">close()</tt> method. This raises a <tt class="docutils literal">GeneratorExit</tt> exception inside the
+coroutine, which we can catch with a <tt class="docutils literal">try/except</tt> clause.</p>
+<p>The example below illustrates these concepts. It is a coroutine that prints
+strings that match a provided pattern.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def match(pattern):
+        print('Looking for ' + pattern)
+        try:
+            while True:
+                s = (yield)
+                if pattern in s:
+                    print(s)
+        except GeneratorExit:
+            print(&quot;=== Done ===&quot;)
+</pre>
+<p>We initialize it with a pattern, and call <tt class="docutils literal">__next__()</tt> to start execution:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; m = match(&quot;Jabberwock&quot;)
+&gt;&gt;&gt; m.__next__()
+Looking for Jabberwock
+</pre>
+<p>The call to <tt class="docutils literal">__next__()</tt> causes the body of the function to be executed, so
+the line &quot;Looking for jabberwock&quot; gets printed out. Execution continues until
+the statement <tt class="docutils literal">line = (yield)</tt> is encountered. Then, execution pauses, and
+waits for a value to be sent to <tt class="docutils literal">m</tt>. We can send values to it using <tt class="docutils literal">send</tt>.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; m.send(&quot;the Jabberwock with eyes of flame&quot;)
+the Jabberwock with eyes of flame
+&gt;&gt;&gt; m.send(&quot;came whiffling through the tulgey wood&quot;)
+&gt;&gt;&gt; m.send(&quot;and burbled as it came&quot;)
+&gt;&gt;&gt; m.close()
+=== Done ===
+</pre>
+<p>When we call <tt class="docutils literal">m.send</tt> with a value, evaluation resumes inside the coroutine
+<tt class="docutils literal">m</tt> at the statement <tt class="docutils literal">line = (yield)</tt>, where the sent value is assigned to
+the variable <tt class="docutils literal">line</tt>. Evaluation continues inside <tt class="docutils literal">m</tt>, printing out the line
+if it matches, going through the loop until it encounters <tt class="docutils literal">line = (yield)</tt>
+again.  Then, evaluation pauses inside <tt class="docutils literal">m</tt> and resumes where <tt class="docutils literal">m.send</tt> was
+called.</p>
+<p>We can chain functions that <tt class="docutils literal">send()</tt> and functions that <tt class="docutils literal">yield</tt> together
+achieve complex behaviors. For example, the function below splits a string
+named <tt class="docutils literal">text</tt> into words and sends each word to another coroutine.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def read(text, next_coroutine):
+        for line in text.split():
+            next_coroutine.send(line)
+        next_coroutine.close()
+</pre>
+<p>Each word is sent to the coroutine bound to <tt class="docutils literal">next_coroutine</tt>, causing
+<tt class="docutils literal">next_coroutine</tt> to start executing, and this function to pause and wait. It
+waits until <tt class="docutils literal">next_coroutine</tt> pauses, at which point the function resumes by
+sending the next word or completing.</p>
+<p>If we chain this function together with <tt class="docutils literal">match</tt> defined above, we can create
+a program that prints out only the words that match a particular word.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; text = 'Commending spending is offending to people pending lending!'
+&gt;&gt;&gt; matcher = match('ending')
+&gt;&gt;&gt; matcher.__next__()
+Looking for ending
+&gt;&gt;&gt; read(text, matcher)
+Commending
+spending
+offending
+pending
+lending!
+=== Done ===
+</pre>
+<p>The <tt class="docutils literal">read</tt> function sends each word to the coroutine <tt class="docutils literal">matcher</tt>, which
+prints out any input that matches its <tt class="docutils literal">pattern</tt>. Within the <tt class="docutils literal">matcher</tt>
+coroutine, the line <tt class="docutils literal">s = (yield)</tt> waits for each sent word, and it transfers
+control back to <tt class="docutils literal">read</tt> when it is reached.</p>
+<div class="figure">
+<img alt="img/read-match-coroutine.png" src="img/read-match-coroutine.png" style="width: 600px;" />
+</div>
+</div>
+<div class="section" id="produce-filter-and-consume">
+<h2><a class="toc-backref" href="#id10">5.3.2&nbsp;&nbsp;&nbsp;Produce, Filter, and Consume</a></h2>
+<p>Coroutines can have different roles depending on how they use <tt class="docutils literal">yield</tt> and
+<tt class="docutils literal">send()</tt>:</p>
+<div class="figure">
+<img alt="img/produce-filter-consume.png" src="img/produce-filter-consume.png" style="width: 600px;" />
+</div>
+<ul class="simple">
+<li>A <strong>Producer</strong> creates items in a series and uses send(), but not
+<tt class="docutils literal">(yield)</tt></li>
+<li>A <strong>Filter</strong> uses <tt class="docutils literal">(yield)</tt> to consume items and <tt class="docutils literal">send()</tt> to send result
+to a next step.</li>
+<li>A <strong>Consumer</strong> uses <tt class="docutils literal">(yield)</tt> to consume items, but does not send.</li>
+</ul>
+<p>The function <tt class="docutils literal">read</tt> above is an example of a <em>producer</em>. It does not use
+<tt class="docutils literal">(yield)</tt>, but uses <tt class="docutils literal">send</tt> to produce data items. The function <tt class="docutils literal">match</tt> is
+an example of a consumer. It does not <tt class="docutils literal">send</tt> anything, but consumes data with
+<tt class="docutils literal">(yield)</tt>.We can break up <tt class="docutils literal">match</tt> into a filter and a consumer. The filter
+would be a coroutine that only sends on strings that match its pattern.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def match_filter(pattern, next_coroutine):
+        print('Looking for ' + pattern)
+        try:
+            while True:
+                s = (yield)
+                if pattern in s:
+                    next_coroutine.send(s)
+        except GeneratorExit:
+            next_coroutine.close()
+</pre>
+<p>And the consumer would be a function that printed out lines sent to it.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def print_consumer():
+        print('Preparing to print')
+        try:
+            while True:
+                line = (yield)
+                print(line)
+        except GeneratorExit:
+            print(&quot;=== Done ===&quot;)
+</pre>
+<p>When a filter or consumer is constructed, its <tt class="docutils literal">__next__</tt> method must be
+invoked to start its execution.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; printer = print_consumer()
+&gt;&gt;&gt; printer.__next__()
+Preparing to print
+&gt;&gt;&gt; matcher = match_filter('pend', printer)
+&gt;&gt;&gt; matcher.__next__()
+Looking for pend
+&gt;&gt;&gt; read(text, matcher)
+spending
+pending
+=== Done ===
+</pre>
+<p>Even though the name <em>filter</em> implies removing items, filters can transform
+items as well. The function below is an example of a filter that transforms
+items. It consumes strings and sends along a dictionary of the number of times
+different letters occur in the string.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def count_letters(next_coroutine):
+        try:
+            while True:
+                s = (yield)
+                counts = {letter:s.count(letter) for letter in set(s)}
+                next_coroutine.send(counts)
+        except GeneratorExit as e:
+            next_coroutine.close()
+</pre>
+<p>We can use it to count the most frequently-used letters in text using a
+consumer that adds up dictionaries and finds the most frequent key.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def sum_dictionaries():
+        total = {}
+        try:
+            while True:
+                counts = (yield)
+                for letter, count in counts.items():
+                    total[letter] = count + total.get(letter, 0)
+        except GeneratorExit:
+            max_letter = max(total.items(), key=lambda t: t[1])[0]
+            print(&quot;Most frequent letter: &quot; + max_letter)
+</pre>
+<p>To run this pipeline on a file, we must first read the lines of a file
+one-by-one. Then, we send the results through <tt class="docutils literal">count_letters</tt> and finally to
+<tt class="docutils literal">sum_dictionaries</tt>. We can re-use the <tt class="docutils literal">read</tt> coroutine to read the lines
+of a file.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; s = sum_dictionaries()
+&gt;&gt;&gt; s.__next__()
+&gt;&gt;&gt; c = count_letters(s)
+&gt;&gt;&gt; c.__next__()
+&gt;&gt;&gt; read(text, c)
+Most frequent letter: n
+</pre>
+</div>
+<div class="section" id="multitasking">
+<h2><a class="toc-backref" href="#id11">5.3.3&nbsp;&nbsp;&nbsp;Multitasking</a></h2>
+<p>A producer or filter does not have to be restricted to just one next step. It
+can have multiple coroutines downstream of it, and <tt class="docutils literal">send()</tt> data to all of
+them. For example, here is a version of <tt class="docutils literal">read</tt> that sends the words in a
+string to multiple next steps.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def read_to_many(text, coroutines):
+        for word in text.split():
+            for coroutine in coroutines:
+                coroutine.send(word)
+        for coroutine in coroutines:
+            coroutine.close()
+</pre>
+<p>We can use it to examine the same text for multiple words:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; m = match(&quot;mend&quot;)
+&gt;&gt;&gt; m.__next__()
+Looking for mend
+&gt;&gt;&gt; p = match(&quot;pe&quot;)
+&gt;&gt;&gt; p.__next__()
+Looking for pe
+&gt;&gt;&gt; read_to_many(text, [m, p])
+Commending
+spending
+people
+pending
+=== Done ===
+=== Done ===
+</pre>
+<p>First, <tt class="docutils literal">read_to_many</tt> calls <tt class="docutils literal">send(word)</tt> on <tt class="docutils literal">m</tt>. The coroutine, which is
+waiting at <tt class="docutils literal">text = (yield)</tt> runs through its loop, prints out a match if
+found, and resumes waiting for the next <tt class="docutils literal">send</tt>. Execution then returns to
+<tt class="docutils literal">read_to_many</tt>, which proceeds to send the same line to <tt class="docutils literal">p</tt>. Thus, the
+words of <tt class="docutils literal">text</tt> are printed in order.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,2172 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.8.1: http://docutils.sourceforge.net/" />
+<title>Chapter 1: Building Abstractions with Functions</title>
+<link rel="stylesheet" href="css/lectures.css" type="text/css" />
+
+        <script src="js/jsMath/easy/load.js"></script>
+        <link href="css/prettify.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="css/prettify.js"></script></head>
+<body onload="prettyPrint();">
+<div class="document" id="chapter-1-building-abstractions-with-functions">
+<h1 class="title">Chapter 1: Building Abstractions with Functions</h1>
+<!-- These notes have been placed in the public domain under the license -->
+<!-- Creative Commons Attribution-ShareAlike 3.0 -->
+<!-- http://creativecommons.org/licenses/by-sa/3.0/ -->
+<!-- To add syntax highlighting to HTML: -->
+<!-- - add to header: -->
+<!-- <link href="prettify.css" type="text/css" rel="stylesheet"  /> -->
+<!-- <script type="text/javascript" src="prettify.js"></script> -->
+<!-- - Add onload="prettyPrint()" to your document's body tag. -->
+<!-- - change highlighted class from 'prettyprint' to 'doctest-block' or -->
+<!-- 'literal-block' in prettify.js -->
+<!-- http://google-code-prettify.googlecode.com/svn/trunk/README.html -->
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="auto-toc simple">
+<li><a class="reference internal" href="#introduction" id="id1">1.1&nbsp;&nbsp;&nbsp;Introduction</a><ul class="auto-toc">
+<li><a class="reference internal" href="#programming-in-python" id="id2">1.1.1&nbsp;&nbsp;&nbsp;Programming in Python</a></li>
+<li><a class="reference internal" href="#installing-python-3" id="id3">1.1.2&nbsp;&nbsp;&nbsp;Installing Python 3</a></li>
+<li><a class="reference internal" href="#interactive-sessions" id="id4">1.1.3&nbsp;&nbsp;&nbsp;Interactive Sessions</a></li>
+<li><a class="reference internal" href="#first-example" id="id5">1.1.4&nbsp;&nbsp;&nbsp;First Example</a></li>
+<li><a class="reference internal" href="#practical-guidance-errors" id="id6">1.1.5&nbsp;&nbsp;&nbsp;Practical Guidance: Errors</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-elements-of-programming" id="id7">1.2&nbsp;&nbsp;&nbsp;The Elements of Programming</a><ul class="auto-toc">
+<li><a class="reference internal" href="#expressions" id="id8">1.2.1&nbsp;&nbsp;&nbsp;Expressions</a></li>
+<li><a class="reference internal" href="#call-expressions" id="id9">1.2.2&nbsp;&nbsp;&nbsp;Call Expressions</a></li>
+<li><a class="reference internal" href="#importing-library-functions" id="id10">1.2.3&nbsp;&nbsp;&nbsp;Importing Library Functions</a></li>
+<li><a class="reference internal" href="#names-and-the-environment" id="id11">1.2.4&nbsp;&nbsp;&nbsp;Names and the Environment</a></li>
+<li><a class="reference internal" href="#evaluating-nested-expressions" id="id12">1.2.5&nbsp;&nbsp;&nbsp;Evaluating Nested Expressions</a></li>
+<li><a class="reference internal" href="#function-diagrams" id="id13">1.2.6&nbsp;&nbsp;&nbsp;Function Diagrams</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defining-new-functions" id="id14">1.3&nbsp;&nbsp;&nbsp;Defining New Functions</a><ul class="auto-toc">
+<li><a class="reference internal" href="#environments" id="id15">1.3.1&nbsp;&nbsp;&nbsp;Environments</a></li>
+<li><a class="reference internal" href="#calling-user-defined-functions" id="id16">1.3.2&nbsp;&nbsp;&nbsp;Calling User-Defined Functions</a></li>
+<li><a class="reference internal" href="#example-calling-a-user-defined-function" id="id17">1.3.3&nbsp;&nbsp;&nbsp;Example: Calling a User-Defined Function</a></li>
+<li><a class="reference internal" href="#local-names" id="id18">1.3.4&nbsp;&nbsp;&nbsp;Local Names</a></li>
+<li><a class="reference internal" href="#practical-guidance-choosing-names" id="id19">1.3.5&nbsp;&nbsp;&nbsp;Practical Guidance: Choosing Names</a></li>
+<li><a class="reference internal" href="#functions-as-abstractions" id="id20">1.3.6&nbsp;&nbsp;&nbsp;Functions as Abstractions</a></li>
+<li><a class="reference internal" href="#operators" id="id21">1.3.7&nbsp;&nbsp;&nbsp;Operators</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#practical-guidance-the-art-of-the-function" id="id22">1.4&nbsp;&nbsp;&nbsp;Practical Guidance: The Art of the Function</a><ul class="auto-toc">
+<li><a class="reference internal" href="#docstrings" id="id23">1.4.1&nbsp;&nbsp;&nbsp;Docstrings</a></li>
+<li><a class="reference internal" href="#default-argument-values" id="id24">1.4.2&nbsp;&nbsp;&nbsp;Default Argument Values</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#control" id="id25">1.5&nbsp;&nbsp;&nbsp;Control</a><ul class="auto-toc">
+<li><a class="reference internal" href="#statements" id="id26">1.5.1&nbsp;&nbsp;&nbsp;Statements</a></li>
+<li><a class="reference internal" href="#compound-statements" id="id27">1.5.2&nbsp;&nbsp;&nbsp;Compound Statements</a></li>
+<li><a class="reference internal" href="#defining-functions-ii-local-assignment" id="id28">1.5.3&nbsp;&nbsp;&nbsp;Defining Functions II: Local Assignment</a></li>
+<li><a class="reference internal" href="#conditional-statements" id="id29">1.5.4&nbsp;&nbsp;&nbsp;Conditional Statements</a></li>
+<li><a class="reference internal" href="#iteration" id="id30">1.5.5&nbsp;&nbsp;&nbsp;Iteration</a></li>
+<li><a class="reference internal" href="#practical-guidance-testing" id="id31">1.5.6&nbsp;&nbsp;&nbsp;Practical Guidance: Testing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#higher-order-functions" id="id32">1.6&nbsp;&nbsp;&nbsp;Higher-Order Functions</a><ul class="auto-toc">
+<li><a class="reference internal" href="#functions-as-arguments" id="id33">1.6.1&nbsp;&nbsp;&nbsp;Functions as Arguments</a></li>
+<li><a class="reference internal" href="#functions-as-general-methods" id="id34">1.6.2&nbsp;&nbsp;&nbsp;Functions as General Methods</a></li>
+<li><a class="reference internal" href="#defining-functions-iii-nested-definitions" id="id35">1.6.3&nbsp;&nbsp;&nbsp;Defining Functions III: Nested Definitions</a></li>
+<li><a class="reference internal" href="#functions-as-returned-values" id="id36">1.6.4&nbsp;&nbsp;&nbsp;Functions as Returned Values</a></li>
+<li><a class="reference internal" href="#lambda-expressions" id="id37">1.6.5&nbsp;&nbsp;&nbsp;Lambda Expressions</a></li>
+<li><a class="reference internal" href="#example-newton-s-method" id="id38">1.6.6&nbsp;&nbsp;&nbsp;Example: Newton's Method</a></li>
+<li><a class="reference internal" href="#abstractions-and-first-class-functions" id="id39">1.6.7&nbsp;&nbsp;&nbsp;Abstractions and First-Class Functions</a></li>
+<li><a class="reference internal" href="#function-decorators" id="id40">1.6.8&nbsp;&nbsp;&nbsp;Function Decorators</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h1><a class="toc-backref" href="#id1">1.1&nbsp;&nbsp;&nbsp;Introduction</a></h1>
+<p>Computer science is a tremendously broad academic discipline. The areas of
+globally distributed systems, artificial intelligence, robotics, graphics,
+security, scientific computing, computer architecture, and dozens of emerging
+sub-fields each expand with new techniques and discoveries every year. The
+rapid progress of computer science has left few aspects of human life
+unaffected. Commerce, communication, science, art, leisure, and politics have
+all been reinvented as computational domains.</p>
+<p>The tremendous productivity of computer science is only possible because it is
+built upon an elegant and powerful set of fundamental ideas. All computing
+begins with representing information, specifying logic to process it, and
+designing abstractions that manage the complexity of that logic. Mastering
+these fundamentals will require us to understand precisely how computers
+interpret computer programs and carry out computational processes.</p>
+<p>These fundamental ideas have long been taught at Berkeley using the classic
+textbook <em>Structure and Interpretation of Computer Programs</em> (<a class="reference external" href="http://mitpress.mit.edu/sicp">SICP</a>) by Harold
+Abelson and Gerald Jay Sussman with Julie Sussman. These lecture notes borrow
+heavily from that textbook, which the original authors have kindly licensed for
+adaptation and reuse.</p>
+<p>The embarkment of our intellectual journey requires no revision, nor should we
+expect that it ever will.</p>
+<blockquote class="epigraph">
+<p>We are about to study the idea of a <em>computational process</em>. Computational
+processes are abstract beings that inhabit computers. As they evolve,
+processes manipulate other abstract things called data. The evolution of a
+process is directed by a pattern of rules called a program. People create
+programs to direct processes. In effect, we conjure the spirits of the
+computer with our spells.</p>
+<p>The programs we use to conjure processes are like a sorcerer's spells. They
+are carefully composed from symbolic expressions in arcane and esoteric
+<em>programming languages</em> that prescribe the tasks we want our processes to
+perform.</p>
+<p>A computational process, in a correctly working computer, executes programs
+precisely and accurately. Thus, like the sorcerer's apprentice, novice
+programmers must learn to understand and to anticipate the consequences of
+their conjuring.</p>
+<p class="attribution">&mdash;Abelson and Sussman, <a class="reference external" href="http://mitpress.mit.edu/sicp">SICP</a> (1993)</p>
+</blockquote>
+<div class="section" id="programming-in-python">
+<h2><a class="toc-backref" href="#id2">1.1.1&nbsp;&nbsp;&nbsp;Programming in Python</a></h2>
+<blockquote class="epigraph">
+<p>A language isn’t something you learn so much as something you join.</p>
+<p class="attribution">&mdash;<a class="reference external" href="http://arikaokrent.com/">Arika Okrent</a></p>
+</blockquote>
+<p>In order to define computational processes, we need a programming language;
+preferably one many humans and a great variety of computers can all understand.
+In this course, we will learn the <a class="reference external" href="http://docs.python.org/py3k/">Python</a> language.</p>
+<p>Python is a widely used programming language that has recruited enthusiasts from
+many professions: web programmers, game engineers, scientists, academics, and
+even designers of new programming languages. When you learn Python, you join a
+million-person-strong community of developers. Developer communities are
+tremendously important institutions: members help each other solve problems,
+share their code and experiences, and collectively develop software and tools.
+Dedicated members often achieve celebrity and widespread esteem for their
+contributions. Perhaps someday you will be named among these elite Pythonistas.</p>
+<p>The Python language itself is the product of a <a class="reference external" href="http://www.python.org/psf/members/">large volunteer community</a> that prides itself on the <a class="reference external" href="http://python.org/community/diversity/">diversity</a> of its contributors. The language
+was conceived and first implemented by <a class="reference external" href="http://en.wikipedia.org/wiki/Guido_van_Rossum">Guido van Rossum</a> in the late 1980's.
+The first chapter of his <a class="reference external" href="http://docs.python.org/py3k/tutorial/appetite.html">Python 3 Tutorial</a> explains why Python is so popular,
+among the many languages available today.</p>
+<p>Python excels as an instructional language because, throughout its history,
+Python's developers have emphasized the human interpretability of Python code,
+reinforced by the <a class="reference external" href="http://www.python.org/dev/peps/pep-0020/">Zen of Python</a> guiding principles of beauty, simplicity, and
+readability. Python is particularly appropriate for this course because its
+broad set of features support a variety of different programming styles, which
+we will explore. While there is no single way to program in Python, there are a
+set of conventions shared across the developer community that facilitate the
+process of reading, understanding, and extending existing programs. Hence,
+Python's combination of great flexibility and accessibility allows students to
+explore many programming paradigms, and then apply their newly acquired
+knowledge to thousands of <a class="reference external" href="http://pypi.python.org/pypi">ongoing projects</a>.</p>
+<p>These notes maintain the spirit of <a class="reference external" href="http://mitpress.mit.edu/sicp">SICP</a> by introducing the features of Python
+in lock step with techniques for abstraction design and a rigorous model of
+computation. In addition, these notes provide a practical introduction to
+Python programming, including some advanced language features and illustrative
+examples. Learning Python will come naturally as you progress through the
+course.</p>
+<p>However, Python is a rich language with many features and uses, and we
+consciously introduce them slowly as we layer on fundamental computer science
+concepts. For experienced students who want to inhale all of the details of the
+language quickly, we recommend reading Mark Pilgrim's book <a class="reference external" href="http://diveintopython3.ep.io/">Dive Into Python
+3</a>, which is freely available online.  The topics in that book differ
+substantially from the topics of this course, but the book contains very
+valuable practical information on using the Python language. Be forewarned:
+unlike these notes, Dive Into Python 3 assumes substantial programming
+experience.</p>
+<p>The best way to get started programming in Python is to interact with the
+interpreter directly. This section describes how to install Python 3, initiate
+an interactive session with the interpreter, and start programming.</p>
+</div>
+<div class="section" id="installing-python-3">
+<h2><a class="toc-backref" href="#id3">1.1.2&nbsp;&nbsp;&nbsp;Installing Python 3</a></h2>
+<p>As with all great software, Python has many versions. This course will use the
+most recent stable version of Python 3 (currently Python 3.2). Many computers
+have older versions of Python installed already, but those will not suffice for
+this course. You should be able to use any computer for this course, but expect
+to install Python 3. Don't worry, Python is free.</p>
+<p>Dive Into Python 3 has detailed <a class="reference external" href="http://diveintopython3.ep.io/installing-python.html">installation instructions</a> for all major
+platforms. These instructions mention Python 3.1 several times, but you're
+better off with Python 3.2 (although the differences are insignificant for this
+course). All instructional machines in the EECS department have Python 3.2
+already installed.</p>
+</div>
+<div class="section" id="interactive-sessions">
+<h2><a class="toc-backref" href="#id4">1.1.3&nbsp;&nbsp;&nbsp;Interactive Sessions</a></h2>
+<p>In an interactive Python session, you type some Python <em>code</em> after the
+<em>prompt</em>, <tt class="docutils literal">&gt;&gt;&gt;</tt>. The Python <em>interpreter</em> reads and evaluates what you type,
+carrying out your various commands.</p>
+<p>There are several ways to start an interactive session, and they differ in their
+properties. Try them all to find out what you prefer. They all use exactly the
+same interpreter behind the scenes.</p>
+<ul class="simple">
+<li>The simplest and most common way is to run the Python 3 application. Type
+<tt class="docutils literal">python3</tt> at a terminal prompt (Mac/Unix/Linux) or open the Python 3
+application in Windows.</li>
+</ul>
+<!-- TODO: how do you start Python 3 in Windows? -->
+<ul class="simple">
+<li>A more user-friendly application for those learning the language is called
+Idle 3 (<tt class="docutils literal">idle3</tt>). Idle colorizes your code (called syntax highlighting),
+pops up usage hints, and marks the source of some errors. Idle is always
+bundled with Python, so you have already installed it.</li>
+<li>The Emacs editor can run an interactive session inside one of its buffers.
+While slightly more challenging to learn, Emacs is a powerful and versatile
+editor for any programming language.  Read the 61A Emacs Tutorial to get
+started. Many programmers who invest the time to learn Emacs never switch
+editors again.</li>
+</ul>
+<p>In any case, if you see the Python prompt, <tt class="docutils literal">&gt;&gt;&gt;</tt>, then you have successfully
+started an interactive session. These notes depict example interactions using
+the prompt, followed by some input.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; 2 + 2
+4
+</pre>
+<p>Controls: Each session keeps a history of what you have typed. To access that
+history, press <tt class="docutils literal"><span class="pre">&lt;Control&gt;-P</span></tt> (previous) and <tt class="docutils literal"><span class="pre">&lt;Control&gt;-N</span></tt> (next).
+<tt class="docutils literal"><span class="pre">&lt;Control&gt;-D</span></tt> exits a session, which discards this history.</p>
+</div>
+<div class="section" id="first-example">
+<h2><a class="toc-backref" href="#id5">1.1.4&nbsp;&nbsp;&nbsp;First Example</a></h2>
+<blockquote class="epigraph">
+<div class="line-block">
+<div class="line">And, as imagination bodies forth</div>
+<div class="line">The forms of things to unknown, and the poet's pen</div>
+<div class="line">Turns them to shapes, and gives to airy nothing</div>
+<div class="line">A local habitation and a name.</div>
+</div>
+<p class="attribution">&mdash;William Shakespeare, A Midsummer-Night's Dream</p>
+</blockquote>
+<p>To give Python the introduction it deserves, we will begin with an example that
+uses several language features.  In the next section, we will have to start from
+scratch and build up the language piece by piece. Think of this section as a
+sneak preview of powerful features to come.</p>
+<p>Python has built-in support for a wide range of common programming activities,
+like manipulating text, displaying graphics, and communicating over the
+Internet.  The import statement</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; from urllib.request import urlopen
+</pre>
+<p>loads functionality for accessing data on the Internet. In particular, it makes
+available a function called <tt class="docutils literal">urlopen</tt>, which can access the content at a
+uniform resource locator (URL), which is a location of something on the
+Internet.</p>
+<p><strong>Statements &amp; Expressions</strong>. Python code consists of statements and
+expressions. Broadly, computer programs consist of instructions to either</p>
+<ol class="arabic simple">
+<li>Compute some value</li>
+<li>Carry out some action</li>
+</ol>
+<p>Statements typically describe actions. When the Python interpreter executes
+a statement, it carries out the corresponding action. On the other hand,
+expressions typically describe computations that yield values. When Python
+evaluates an expression, it computes its value. This chapter introduces several
+types of statements and expressions.</p>
+<p>The assignment statement</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; shakespeare = urlopen('http://inst.eecs.berkeley.edu/~cs61a/fa11/shakespeare.txt')
+</pre>
+<p>associates the name <tt class="docutils literal">shakespeare</tt> with the value of the expression that
+follows.  That expression applies the <tt class="docutils literal">urlopen</tt> function to a URL that
+contains the complete text of William Shakespeare's 37 plays, all in a single
+text document.</p>
+<p><strong>Functions</strong>. Functions encapsulate logic that manipulates data. A web address
+is a piece of data, and the text of Shakespeare's plays is another. The
+process by which the former leads to the latter may be complex, but we can apply
+that process using only a simple expression because that complexity is tucked
+away within a function. Functions are the primary topic of this chapter.</p>
+<p>Another assignment statement</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; words = set(shakespeare.read().decode().split())
+</pre>
+<p>associates the name <tt class="docutils literal">words</tt> to the set of all unique words that appear in
+Shakespeare's plays, all 33,721 of them.  The chain of commands to
+<tt class="docutils literal">read</tt>, <tt class="docutils literal">decode</tt>, and <tt class="docutils literal">split</tt>, each operate on an intermediate
+computational entity: data is read from the opened URL, that data is decoded
+into text, and that text is split into words.  All of those words are placed in
+a <tt class="docutils literal">set</tt>.</p>
+<p><strong>Objects</strong>. A set is a type of object, one that supports set operations like
+computing intersections and testing membership. An object seamlessly bundles
+together data and the logic that manipulates that data, in a way that hides the
+complexity of both. Objects are the primary topic of Chapter 2.</p>
+<p>The expression</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; {w for w in words if len(w) &gt;= 5 and w[::-1] in words}
+{'madam', 'stink', 'leets', 'rever', 'drawer', 'stops', 'sessa',
+'repaid', 'speed', 'redder', 'devil', 'minim', 'spots', 'asses',
+'refer', 'lived', 'keels', 'diaper', 'sleek', 'steel', 'leper',
+'level', 'deeps', 'repel', 'reward', 'knits'}
+</pre>
+<p>is a compound expression that evaluates to the set of Shakespearian
+words that appear both forward and in reverse.  The cryptic notation
+<tt class="docutils literal"><span class="pre">w[::-1]</span></tt> enumerates each letter in a word, but the <tt class="docutils literal"><span class="pre">-1</span></tt> says to
+step backwards (<tt class="docutils literal">::</tt> here means that the positions of the first and
+last characters to enumerate are defaulted.)  When you enter an
+expression in an interactive session, Python prints its value on the
+following line, as shown.</p>
+<p><strong>Interpreters</strong>. Evaluating compound expressions requires a precise procedure
+that interprets code in a predictable way. A program that implements such a
+procedure, evaluating compound expressions and statements, is called an
+interpreter. The design and implementation of interpreters is the primary topic
+of Chapter 3.</p>
+<p>When compared with other computer programs, interpreters for programming
+languages are unique in their generality. Python was not designed with
+Shakespeare or palindromes in mind. However, its great flexibility allowed us
+to process a large amount of text with only a few lines of code.</p>
+<p>In the end, we will find that all of these core concepts are closely related:
+functions are objects, objects are functions, and interpreters are instances of
+both. However, developing a clear understanding of each of these concepts and
+their role in organizing code is critical to mastering the art of programming.</p>
+</div>
+<div class="section" id="practical-guidance-errors">
+<h2><a class="toc-backref" href="#id6">1.1.5&nbsp;&nbsp;&nbsp;Practical Guidance: Errors</a></h2>
+<p>Python is waiting for your command.  You are encouraged to experiment with the
+language, even though you may not yet know its full vocabulary and structure.
+However, be prepared for errors.  While computers are tremendously fast and
+flexible, they are also extremely rigid. The nature of computers is described in
+<a class="reference external" href="http://www.stanford.edu/class/cs101/code-introduction.html">Stanford's introductory course</a> as</p>
+<blockquote class="epigraph">
+<p>The fundamental equation of computers is: <tt class="docutils literal">computer = powerful + stupid</tt></p>
+<p>Computers are very powerful, looking at volumes of data very quickly.
+Computers can perform billions of operations per second, where each operation
+is pretty simple.</p>
+<p>Computers are also shockingly stupid and fragile. The operations that they can
+do are extremely rigid, simple, and mechanical. The computer lacks anything
+like real insight .. it's nothing like the HAL 9000 from the movies. If
+nothing else, you should not be intimidated by the computer as if it's some
+sort of brain. It's very mechanical underneath it all.</p>
+<p>Programming is about a person using their real insight to build something
+useful, constructed out of these teeny, simple little operations that the
+computer can do.</p>
+<p class="attribution">&mdash;Francisco Cai and Nick Parlante, Stanford CS101</p>
+</blockquote>
+<p>The rigidity of computers will immediately become apparent as you experiment
+with the Python interpreter: even the smallest spelling and formatting changes
+will cause unexpected outputs and errors.</p>
+<p>Learning to interpret errors and diagnose the cause of unexpected errors is
+called <em>debugging</em>. Some guiding principles of debugging are:</p>
+<ol class="arabic simple">
+<li><strong>Test incrementally</strong>: Every well-written program is composed of small,
+modular components that can be tested individually. Test everything you
+write as soon as possible to catch errors early and gain confidence in your
+components.</li>
+<li><strong>Isolate errors</strong>: An error in the output of a compound program, expression,
+or statement can typically be attributed to a particular modular component.
+When trying to diagnose a problem, trace the error to the smallest fragment
+of code you can before trying to correct it.</li>
+<li><strong>Check your assumptions</strong>: Interpreters do carry out your instructions to
+the letter --- no more and no less. Their output is unexpected when the
+behavior of some code does not match what the programmer believes (or
+assumes) that behavior to be. Know your assumptions, then focus your
+debugging effort on verifying that your assumptions actually hold.</li>
+<li><strong>Consult others</strong>: You are not alone!  If you don't understand an error
+message, ask a friend, instructor, or search engine. If you have isolated an
+error, but can't figure out how to correct it, ask someone else to take a
+look. A lot of valuable programming knowledge is shared in the context of
+team problem solving.</li>
+</ol>
+<p>Incremental testing, modular design, precise assumptions, and teamwork are
+themes that persist throughout this course. Hopefully, they will also persist
+throughout your computer science career.</p>
+</div>
+</div>
+<div class="section" id="the-elements-of-programming">
+<h1><a class="toc-backref" href="#id7">1.2&nbsp;&nbsp;&nbsp;The Elements of Programming</a></h1>
+<p>A programming language is more than just a means for instructing a computer to
+perform tasks. The language also serves as a framework within which we organize
+our ideas about processes. Programs serve to communicate those ideas among the
+members of a programming community. Thus, programs must be written for people
+to read, and only incidentally for machines to execute.</p>
+<p>When we describe a language, we should pay particular attention to the means
+that the language provides for combining simple ideas to form more complex
+ideas. Every powerful language has three mechanisms for accomplishing this:</p>
+<ul class="simple">
+<li><strong>primitive expressions and statements</strong>, which represent the simplest
+building blocks that the language provides,</li>
+<li><strong>means of combination</strong>, by which compound elements are built from simpler
+ones, and</li>
+<li><strong>means of abstraction</strong>, by which compound elements can be named and
+manipulated as units.</li>
+</ul>
+<p>In programming, we deal with two kinds of elements: functions and data. (Soon
+we will discover that they are really not so distinct.) Informally, data is
+stuff that we want to manipulate, and functions describe the rules for
+manipulating the data. Thus, any powerful programming language should
+be able to describe primitive data and primitive functions and should have
+methods for combining and abstracting both functions and data.</p>
+<div class="section" id="expressions">
+<h2><a class="toc-backref" href="#id8">1.2.1&nbsp;&nbsp;&nbsp;Expressions</a></h2>
+<p>Having experimented with the full Python interpreter, we now must start anew,
+methodically developing the Python language piece by piece. Be patient if the
+examples seem simplistic --- more exciting material is soon to come.</p>
+<p>We begin with primitive expressions. One kind of primitive expression is a
+number. More precisely, the expression that you type consists of the numerals
+that represent the number in base 10.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; 42
+42
+</pre>
+<p>Expressions representing numbers may be combined with mathematical operators
+to form a compound expression, which the interpreter will evaluate:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; -1 - -1
+0
+&gt;&gt;&gt; 1/2 + 1/4 + 1/8 + 1/16 + 1/32 + 1/64 + 1/128
+0.9921875
+</pre>
+<p>These mathematical expressions use <em>infix</em> notation, where the <em>operator</em>
+(e.g., <tt class="docutils literal">+</tt>, <tt class="docutils literal">-</tt>, <tt class="docutils literal">*</tt>, or <tt class="docutils literal">/</tt>) appears in between the <em>operands</em>
+(numbers). Python includes many ways to form compound expressions. Rather than
+attempt to enumerate them all immediately, we will introduce new expression
+forms as we go, along with the language features that they support.</p>
+</div>
+<div class="section" id="call-expressions">
+<h2><a class="toc-backref" href="#id9">1.2.2&nbsp;&nbsp;&nbsp;Call Expressions</a></h2>
+<p>The most important kind of compound expression is a <em>call expression</em>, which
+applies a function to some arguments. Recall from algebra that the mathematical
+notion of a function is a mapping from some input arguments to an output value.
+For instance, the <tt class="docutils literal">max</tt> function maps its inputs to a single output, which is
+the largest of the inputs.  A function in Python is more than just an
+input-output mapping; it describes a computational process. However, the way in
+which Python expresses function application is the same as in mathematics.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; max(7.5, 9.5)
+9.5
+</pre>
+<p>This call expression has subexpressions: the operator precedes parentheses, which
+enclose a comma-delimited list of operands. The operator must be a function.
+The operands can be any values; in this case they are numbers. When this call
+expression is evaluated, we say that the function <tt class="docutils literal">max</tt> is <em>called</em> with
+arguments 7.5 and 9.5, and <em>returns</em> a value of 9.5.</p>
+<p>The order of the arguments in a call expression matters. For instance, the
+function <tt class="docutils literal">pow</tt> raises its first argument to the power of its second argument.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; pow(100, 2)
+10000
+&gt;&gt;&gt; pow(2, 100)
+1267650600228229401496703205376
+</pre>
+<p>Function notation has several advantages over the mathematical convention of
+infix notation. First, functions may take an arbitrary number of arguments:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; max(1, -2, 3, -4)
+3
+</pre>
+<p>No ambiguity can arise, because the function name always precedes its
+arguments.</p>
+<p>Second, function notation extends in a straightforward way to <em>nested</em>
+expressions, where the elements are themselves compound expressions. In nested
+call expressions, unlike compound infix expressions, the structure of the
+nesting is entirely explicit in the parentheses.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; max(min(1, -2), min(pow(3, 5), -4))
+-2
+</pre>
+<p>There is no limit (in principle) to the depth of such nesting and to the overall
+complexity of the expressions that the Python interpreter can evaluate.
+However, humans quickly get confused by multi-level nesting. An important role
+for you as a programmer is to structure expressions so that they remain
+interpretable by yourself, your programming partners, and others who may read
+your code in the future.</p>
+<p>Finally, mathematical notation has a great variety of forms:  multiplication
+appears between terms, exponents appear as superscripts, division as a
+horizontal bar, and a square root as a roof with slanted siding. Some of this
+notation is very hard to type! However, all of this complexity can be unified
+via the notation of call expressions. While Python supports common mathematical
+operators using infix notation (like <tt class="docutils literal">+</tt> and <tt class="docutils literal">-</tt>), any operator can be
+expressed as a function with a name.</p>
+</div>
+<div class="section" id="importing-library-functions">
+<h2><a class="toc-backref" href="#id10">1.2.3&nbsp;&nbsp;&nbsp;Importing Library Functions</a></h2>
+<p>Python defines a very large number of functions, including the operator
+functions mentioned in the preceding section, but does not make their names
+available by default, so as to avoid complete chaos. Instead, it organizes the
+functions and other quantities that it knows about into modules, which together
+comprise the Python Library. To use these elements, one imports them. For
+example, the <tt class="docutils literal">math</tt> module provides a variety of familiar mathematical
+functions:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; from math import sqrt, exp
+&gt;&gt;&gt; sqrt(256)
+16.0
+&gt;&gt;&gt; exp(1)
+2.718281828459045
+</pre>
+<p>and the <tt class="docutils literal">operator</tt> module provides access to functions corresponding to infix
+operators:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; from operator import add, sub, mul
+&gt;&gt;&gt; add(14, 28)
+42
+&gt;&gt;&gt; sub(100, mul(7, add(8, 4)))
+16
+</pre>
+<p>An <tt class="docutils literal">import</tt> statement designates a module name (e.g., <tt class="docutils literal">operator</tt> or
+<tt class="docutils literal">math</tt>), and then lists the named attributes of that module to import (e.g.,
+<tt class="docutils literal">sqrt</tt> or <tt class="docutils literal">exp</tt>).</p>
+<p>The <a class="reference external" href="http://docs.python.org/py3k/library/index.html">Python 3 Library Docs</a> list the functions defined by each module, such as
+the <a class="reference external" href="http://docs.python.org/py3k/library/math.html">math module</a>. However, this documentation is written for developers who
+know the whole language well. For now, you may find that experimenting with a
+function tells you more about its behavior than reading the documemtation.  As
+you become familiar with the Python language and vocabulary, this documentation
+will become a valuable reference source.</p>
+</div>
+<div class="section" id="names-and-the-environment">
+<h2><a class="toc-backref" href="#id11">1.2.4&nbsp;&nbsp;&nbsp;Names and the Environment</a></h2>
+<p>A critical aspect of a programming language is the means it provides for using
+names to refer to computational objects. If a value has been given a name, we
+say that the name <em>binds</em> to the value.</p>
+<p>In Python, we can establish new bindings using the assignment statement, which
+contains a name to the left of <tt class="docutils literal">=</tt> and a value to the right:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; radius = 10
+&gt;&gt;&gt; radius
+10
+&gt;&gt;&gt; 2 * radius
+20
+</pre>
+<p>Names are also bound via <tt class="docutils literal">import</tt> statements.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; from math import pi
+&gt;&gt;&gt; pi * 71 / 223
+1.0002380197528042
+</pre>
+<p>We can also assign multiple values to multiple names in a single statement,
+where names and expressions are separated by commas.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; area, circumference = pi * radius * radius, 2 * pi * radius
+&gt;&gt;&gt; area
+314.1592653589793
+&gt;&gt;&gt; circumference
+62.83185307179586
+</pre>
+<p>The <tt class="docutils literal">=</tt> symbol is called the <em>assignment</em> operator in Python (and many other
+languages). Assignment is Python's simplest means of <em>abstraction</em>, for it
+allows us to use simple names to refer to the results of compound operations,
+such as the <tt class="docutils literal">area</tt> computed above. In this way, complex programs are
+constructed by building, step by step, computational objects of increasing
+complexity.</p>
+<p>The possibility of binding names to values and later retrieving those values by
+name means that the interpreter must maintain some sort of memory that keeps
+track of the names, values, and bindings. This memory is called an
+<em>environment</em>.</p>
+<p>Names can also be bound to functions.  For instance, the name <tt class="docutils literal">max</tt> is bound
+to the max function we have been using. Functions, unlike numbers, are tricky to
+render as text, so Python prints an identifying description instead, when asked
+to print a function:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; max
+&lt;built-in function max&gt;
+</pre>
+<p>We can use assignment statements to give new names to existing functions.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; f = max
+&gt;&gt;&gt; f
+&lt;built-in function max&gt;
+&gt;&gt;&gt; f(3, 4)
+4
+</pre>
+<p>And successive assignment statements can rebind a name to a new value.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; f = 2
+&gt;&gt;&gt; f
+2
+</pre>
+<p>In Python, the names bound via assignment are often called <em>variable names</em>
+because they can be bound to a variety of different values in the course of
+executing a program.</p>
+</div>
+<div class="section" id="evaluating-nested-expressions">
+<h2><a class="toc-backref" href="#id12">1.2.5&nbsp;&nbsp;&nbsp;Evaluating Nested Expressions</a></h2>
+<p>One of our goals in this chapter is to isolate issues about thinking
+procedurally. As a case in point, let us consider that, in evaluating nested
+call expressions, the interpreter is itself following a procedure.</p>
+<p>To evaluate a call expression, Python will do the following:</p>
+<ol class="arabic simple">
+<li>Evaluate the operator and operand subexpressions, then</li>
+<li>Apply the function that is the value of the operator subexpression to the
+arguments that are the values of the operand subexpressions.</li>
+</ol>
+<p>Even this simple procedure illustrates some important points about processes in
+general. The first step dictates that in order to accomplish the evaluation
+process for a call expression we must first evaluate other expressions. Thus,
+the evaluation procedure is <em>recursive</em> in nature; that is, it includes, as one
+of its steps, the need to invoke the rule itself.</p>
+<p>For example, evaluating</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; mul(add(2, mul(4, 6)), add(3, 5))
+208
+</pre>
+<p>requires that this evaluation procedure be applied four times. If we draw each
+expression that we evaluate, we can visualize the hierarchical structure of this
+process.</p>
+<div class="figure">
+<img alt="img/expression_tree.png" src="img/expression_tree.png" />
+</div>
+<p>This illustration is called an <em>expression tree</em>.  In computer science, trees
+grow from the top down.  The objects at each point in a tree are called nodes;
+in this case, they are expressions paired with their values.</p>
+<p>Evaluating its root, the full expression, requires first evaluating the branches
+that are its subexpressions.  The leaf expressions (that is, nodes with no
+branches stemming from them) represent either functions or numbers. The interior
+nodes have two parts: the call expression to which our evaluation rule is
+applied, and the result of that expression.  Viewing evaluation in terms of this
+tree, we can imagine that the values of the operands percolate upward, starting
+from the terminal nodes and then combining at higher and higher levels.</p>
+<p>Next, observe that the repeated application of the first step brings us to the
+point where we need to evaluate, not call expressions, but primitive expressions
+such as numerals (e.g., <tt class="docutils literal">2</tt>) and names (e.g., <tt class="docutils literal">add</tt>). We take care of the
+primitive cases by stipulating that</p>
+<ul class="simple">
+<li>A numeral evaluates to the number it names,</li>
+<li>A name evaluates to the value associated with that name in the current
+environment.</li>
+</ul>
+<p>Notice the important role of an environment in determining the meaning of the
+symbols in expressions. In Python, it is meaningless to speak of the value of an
+expression such as</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; add(x, 1)
+</pre>
+<p>without specifying any information about the environment that would provide a
+meaning for the name <tt class="docutils literal">x</tt> (or even for the name <tt class="docutils literal">add</tt>). Environments provide
+the context in which evaluation takes place, which plays an important role in
+our understanding of program execution.</p>
+<p>This evaluation procedure does not suffice to evaluate all Python code, only
+call expressions, numerals, and names. For instance, it does not handle
+assignment statements.  Executing</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; x = 3
+</pre>
+<p>does not return a value nor evaluate a function on some arguments, since the
+purpose of assignment is instead to bind a name to a value.  In general,
+statements are not evaluated but <em>executed</em>; they do not produce a value but
+instead make some change. Each type of statement or expression has its own
+evaluation or execution procedure, which we will introduce incrementally as we
+proceed.</p>
+<p>A pedantic note: when we say that &quot;a numeral evaluates to a number,&quot; we actually
+mean that the Python interpreter evaluates a numeral to a number.  It is the
+interpreter which endows meaning to the programming language.  Given that the
+interpreter is a fixed program that always behaves consistently, we can loosely
+say that numerals (and expressions) themselves evaluate to values in the context
+of Python programs.</p>
+</div>
+<div class="section" id="function-diagrams">
+<h2><a class="toc-backref" href="#id13">1.2.6&nbsp;&nbsp;&nbsp;Function Diagrams</a></h2>
+<p>As we continue to develop a formal model of evaluation, we will find that
+diagramming the internal state of the interpreter helps us track the progress of
+our evaluation procedure. An essential part of these diagrams is a
+representation of a function.</p>
+<p><strong>Pure functions.</strong> Functions have some input (their arguments) and return some
+output (the result of applying them).  The built-in function</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; abs(-2)
+2
+</pre>
+<p>can be depicted as a small machine that takes input and produces output.</p>
+<div class="figure">
+<img alt="img/function_abs.png" src="img/function_abs.png" />
+</div>
+<p>The function <tt class="docutils literal">abs</tt> is <em>pure</em>. Pure functions have the property that applying
+them has no effects beyond returning a value.</p>
+<p><strong>Non-pure functions.</strong> In addition to returning a value, applying a non-pure
+function can generate <em>side effects</em>, which make some change to the state of the
+interpreter or computer. A common side effect is to generate additional output
+beyond the return value, using the <tt class="docutils literal">print</tt> function.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; print(-2)
+-2
+&gt;&gt;&gt; print(1, 2, 3)
+1 2 3
+</pre>
+<p>While <tt class="docutils literal">print</tt> and <tt class="docutils literal">abs</tt> may appear to be similar in these examples, they
+work in fundamentally different ways. The value that <tt class="docutils literal">print</tt> returns is
+always <tt class="docutils literal">None</tt>, a special Python value that represents nothing. The
+interactive Python interpreter does not automatically print the value <tt class="docutils literal">None</tt>.
+In the case of <tt class="docutils literal">print</tt>, the function itself is printing output as a side
+effect of being called.</p>
+<div class="figure">
+<img alt="img/function_print.png" src="img/function_print.png" />
+</div>
+<p>A nested expression of calls to <tt class="docutils literal">print</tt> highlights the non-pure character of
+the function.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; print(print(1), print(2))
+1
+2
+None None
+</pre>
+<p>If you find this output to be unexpected, draw an expression tree to clarify why
+evaluating this expression produces this peculiar output.</p>
+<p>Be careful with <tt class="docutils literal">print</tt>!  The fact that it returns <tt class="docutils literal">None</tt> means that it
+<em>should not</em> be the expression in an assignment statement.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; two = print(2)
+2
+&gt;&gt;&gt; print(two)
+None
+</pre>
+<p><strong>Signatures.</strong> Functions differ in the number of arguments that they are
+allowed to take. To track these requirements, we draw each function in a way that
+shows the function name and names of its arguments. The function <tt class="docutils literal">abs</tt> takes
+only one argument called <tt class="docutils literal">number</tt>; providing more or fewer will result in an
+error. The function <tt class="docutils literal">print</tt> can take an arbitrary number of arguments, hence
+its rendering as <tt class="docutils literal"><span class="pre">print(...)</span></tt>.  A description of the arguments that a function
+can take is called the function's <em>signature</em>.</p>
+</div>
+</div>
+<div class="section" id="defining-new-functions">
+<h1><a class="toc-backref" href="#id14">1.3&nbsp;&nbsp;&nbsp;Defining New Functions</a></h1>
+<p>We have identified in Python some of the elements that must appear in any
+powerful programming language:</p>
+<ol class="arabic simple">
+<li>Numbers and arithmetic operations are built-in data and functions.</li>
+<li>Nested function application provides a means of combining operations.</li>
+<li>Binding names to values provides a limited means of abstraction.</li>
+</ol>
+<p>Now we will learn about <em>function definitions</em>, a much more powerful abstraction
+technique by which a name can be bound to compound operation, which can then be
+referred to as a unit.</p>
+<p>We begin by examining how to express the idea of &quot;squaring.&quot; We might say, &quot;To
+square something, multiply it by itself.&quot; This is expressed in Python as</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def square(x):
+        return mul(x, x)
+</pre>
+<p>which defines a new function that has been given the name <tt class="docutils literal">square</tt>.
+This user-defined function is not built into the interpreter. It represents the
+compound operation of multiplying something by itself. The <tt class="docutils literal">x</tt> in this
+definition is called a <em>formal parameter</em>, which provides a name for the thing
+to be multiplied. The definition creates this user-defined function and
+associates it with the name <tt class="docutils literal">square</tt>.</p>
+<p>Function definitions consist of a <tt class="docutils literal">def</tt> statement that indicates a <tt class="docutils literal">&lt;name&gt;</tt>
+and a list of named <tt class="docutils literal">&lt;formal parameters&gt;</tt>, then a <tt class="docutils literal">return</tt> statement, called
+the function body, that specifies the <tt class="docutils literal">&lt;return expression&gt;</tt> of the function,
+which is an expression to be evaluated whenever the function is applied.</p>
+<blockquote>
+<dl class="docutils">
+<dt><tt class="docutils literal">def <span class="pre">&lt;name&gt;(&lt;formal</span> <span class="pre">parameters&gt;):</span></tt></dt>
+<dd><tt class="docutils literal">return &lt;return expression&gt;</tt></dd>
+</dl>
+</blockquote>
+<p>The second line <em>must</em> be indented!  Convention dictates that we indent with
+four spaces, rather than a tab. The return expression is not evaluated right
+away; it is stored as part of the newly defined function and evaluated only when
+the function is eventually applied. (Soon, we will see that the indented
+region can span multiple lines.)</p>
+<p>Having defined <tt class="docutils literal">square</tt>, we can apply it with a call expression:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; square(21)
+441
+&gt;&gt;&gt; square(add(2, 5))
+49
+&gt;&gt;&gt; square(square(3))
+81
+</pre>
+<p>We can also use <tt class="docutils literal">square</tt> as a building block in defining other functions. For
+example, we can easily define a function <tt class="docutils literal">sum_squares</tt> that, given any two
+numbers as arguments, returns the sum of their squares:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def sum_squares(x, y):
+        return add(square(x), square(y))
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; sum_squares(3, 4)
+25
+</pre>
+<p>User-defined functions are used in exactly the same way as built-in functions.
+Indeed, one cannot tell from the definition of <tt class="docutils literal">sum_squares</tt> whether
+<tt class="docutils literal">square</tt> is built into the interpreter, imported from a module, or defined by
+the user.</p>
+<div class="section" id="environments">
+<h2><a class="toc-backref" href="#id15">1.3.1&nbsp;&nbsp;&nbsp;Environments</a></h2>
+<p>Our subset of Python is now complex enough that the meaning of programs is
+non-obvious. What if a formal parameter has the same name as a built-in
+function?  Can two functions share names without confusion?  To resolve such
+questions, we must describe environments in more detail.</p>
+<p>An environment in which an expression is evaluated consists of a sequence of
+<em>frames</em>, depicted as boxes. Each frame contains <em>bindings</em>, which associate a
+name with its corresponding value. There is a single <em>global</em> frame that
+contains name bindings for all built-in functions (only <tt class="docutils literal">abs</tt> and <tt class="docutils literal">max</tt> are
+shown).  We indicate the global frame with a globe symbol.</p>
+<div class="figure">
+<img alt="img/global_frame.png" src="img/global_frame.png" />
+</div>
+<p>Assignment and import statements add entries to the first frame of the current
+environment. So far, our environment consists only of the global frame.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; from math import pi
+&gt;&gt;&gt; tau = 2 * pi
+</pre>
+<div class="figure">
+<img alt="img/global_frame_assignment.png" src="img/global_frame_assignment.png" />
+</div>
+<p>A <tt class="docutils literal">def</tt> statement also binds a name to the function created by the definition.
+The resulting environment after defining <tt class="docutils literal">square</tt> appears below:</p>
+<div class="figure">
+<img alt="img/global_frame_def.png" src="img/global_frame_def.png" />
+</div>
+<p>These <em>environment diagrams</em> show the bindings of the current
+environment, along with the values (which are not part of any frame) to which
+names are bound. Notice that the name of a function is repeated, once in the
+frame, and once as part of the function itself. This repetition is intentional:
+many different names may refer to the same function, but that function itself
+has only one intrinsic name.  However, looking up the value for a name in an
+environment only inspects name bindings.  The intrinsic name of a function
+<strong>does not</strong> play a role in looking up names. In the example we saw earlier,</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; f = max
+&gt;&gt;&gt; f
+&lt;built-in function max&gt;
+</pre>
+<p>The name <em>max</em> is the intrinsic name of the function, and that's what you see
+printed as the value for <tt class="docutils literal">f</tt>.  In addition, both the names <tt class="docutils literal">max</tt> and <tt class="docutils literal">f</tt>
+are bound to that same function in the global environment.</p>
+<p>As we proceed to introduce additional features of Python, we will have to extend
+these diagrams.  Every time we do, we will list the new features that our
+diagrams can express.</p>
+<p><strong>New environment Features:</strong> Assignment and user-defined function definition.</p>
+</div>
+<div class="section" id="calling-user-defined-functions">
+<h2><a class="toc-backref" href="#id16">1.3.2&nbsp;&nbsp;&nbsp;Calling User-Defined Functions</a></h2>
+<p>To evaluate a call expression whose operator names a user-defined function, the
+Python interpreter follows a process similar to the one for evaluating
+expressions with a built-in operator function. That is, the interpreter
+evaluates the operand expressions, and then applies the named function to the
+resulting arguments.</p>
+<p>The act of applying a user-defined function introduces a second <em>local</em> frame,
+which is only accessible to that function. To apply a user-defined function to
+some arguments:</p>
+<ol class="arabic simple">
+<li>Bind the arguments to the names of the function's formal parameters in a new
+<em>local</em> frame.</li>
+<li>Evaluate the body of the function in the environment beginning at that frame
+and ending at the global frame.</li>
+</ol>
+<p>The environment in which the body is evaluated consists of two frames: first the
+local frame that contains argument bindings, then the global frame that contains
+everything else. Each instance of a function application has its own independent
+local frame.</p>
+<div class="figure">
+<img alt="img/evaluate_square.png" src="img/evaluate_square.png" />
+</div>
+<p>This figure includes two different aspects of the Python interpreter: the
+current environment, and a part of the expression tree related to the current
+line of code being evaluated. We have depicted the evaluation of a call
+expression that has a user-defined function (in blue) as a two-part rounded
+rectangle. Dotted arrows indicate which environment is used to evaluate the
+expression in each part.</p>
+<ul class="simple">
+<li>The top half shows the call expression being evaluated. This call expression
+is not internal to any function, so it is evaluated in the global environment.
+Thus, any names within it (such as <tt class="docutils literal">square</tt>) are looked up in the global
+frame.</li>
+<li>The bottom half shows the body of the <tt class="docutils literal">square</tt> function.  Its return
+expression is evaluated in the new environment introduced by step 1 above,
+which binds the name of <tt class="docutils literal">square</tt>'s formal parameter <tt class="docutils literal">x</tt> to the value of
+its argument, <tt class="docutils literal"><span class="pre">-2</span></tt>.</li>
+</ul>
+<p>The order of frames in an environment affects the value returned by looking up a
+name in an expression. We stated previously that a name is evaluated to the
+value associated with that name in the current environment. We can now be more
+precise:</p>
+<ul class="simple">
+<li>A name evaluates to the value bound to that name in the earliest frame of
+the current environment in which that name is found.</li>
+</ul>
+<p>Our conceptual framework of environments, names, and functions constitutes a
+<em>model of evaluation</em>; while some mechanical details are still unspecified
+(e.g., how a binding is implemented), our model does precisely and correctly
+describe how the interpreter evaluates call expressions. In Chapter 3 we shall
+see how this model can serve as a blueprint for implementing a working
+interpreter for a programming language.</p>
+<p><strong>New environment Feature:</strong> Function application.</p>
+</div>
+<div class="section" id="example-calling-a-user-defined-function">
+<h2><a class="toc-backref" href="#id17">1.3.3&nbsp;&nbsp;&nbsp;Example: Calling a User-Defined Function</a></h2>
+<p>Let us again consider our two simple definitions:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; from operator import add, mul
+&gt;&gt;&gt; def square(x):
+        return mul(x, x)
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def sum_squares(x, y):
+        return add(square(x), square(y))
+</pre>
+<div class="figure">
+<img alt="img/evaluate_sum_squares_0.png" src="img/evaluate_sum_squares_0.png" />
+</div>
+<p>And the process that evaluates the following call expression:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; sum_squares(5, 12)
+169
+</pre>
+<p>Python first evaluates the name <tt class="docutils literal">sum_squares</tt>, which is bound to a
+user-defined function in the global frame. The primitive numeric expressions 5
+and 12 evaluate to the numbers they represent.</p>
+<p>Next, Python applies <tt class="docutils literal">sum_squares</tt>, which introduces a local frame that binds x
+to 5 and y to 12.</p>
+<div class="figure">
+<img alt="img/evaluate_sum_squares_1.png" src="img/evaluate_sum_squares_1.png" />
+</div>
+<p>In this diagram, the local frame points to its successor, the global frame. All
+local frames must point to a predecessor, and these links define the sequence
+of frames that is the current environment.</p>
+<p>The body of <tt class="docutils literal">sum_squares</tt> contains this call expression:</p>
+<pre class="literal-block">
+   add     (  square(x)  ,  square(y)  )
+ ________     _________     _________
+&quot;operator&quot;   &quot;operand 0&quot;   &quot;operand 1&quot;
+</pre>
+<p>All three subexpressions are evalauted in the current environment, which begins
+with the frame labeled <em>sum_squares</em>.  The operator subexpression <tt class="docutils literal">add</tt> is a
+name found in the global frame, bound to the built-in function for addition. The
+two operand subexpressions must be evaluated in turn, before addition is
+applied.  Both operands are evaluated in the current environment beginning with
+the frame labeled <tt class="docutils literal">sum_squares</tt>.  In the following environment diagrams, we
+will call this frame <tt class="docutils literal">A</tt> and replace arrows pointing to this frame with the
+label <tt class="docutils literal">A</tt> as well.</p>
+<p>In <tt class="docutils literal">operand 0</tt>, <tt class="docutils literal">square</tt> names a user-defined function in the global frame,
+while <tt class="docutils literal">x</tt> names the number 5 in the local frame. Python applies <tt class="docutils literal">square</tt> to
+5 by introducing yet another local frame that binds x to 5.</p>
+<div class="figure">
+<img alt="img/evaluate_sum_squares_2.png" src="img/evaluate_sum_squares_2.png" />
+</div>
+<p>Using this local frame, the body expression <tt class="docutils literal">mul(x, x)</tt> evaluates to 25.</p>
+<p>Our evaluation procedure now turns to <tt class="docutils literal">operand 1</tt>, for which <tt class="docutils literal">y</tt> names the
+number 12. Python evaluates the body of <tt class="docutils literal">square</tt> again, this time introducing
+yet another local environment frame that binds <tt class="docutils literal">x</tt> to 12. Hence, <tt class="docutils literal">operand
+1</tt> evaluates to 144.</p>
+<div class="figure">
+<img alt="img/evaluate_sum_squares_3.png" src="img/evaluate_sum_squares_3.png" />
+</div>
+<p>Finally, applying addition to the arguments 25 and 144 yields a final value for
+the body of <tt class="docutils literal">sum_squares</tt>: 169.</p>
+<p>This figure, while complex, serves to illustrate many of the fundamental ideas
+we have developed so far.  Names are bound to values, which spread
+across many local frames that all precede a single global frame that contains
+shared names.  Expressions are tree-structured, and the environment must be
+augmented each time a subexpression contains a call to a user-defined function.</p>
+<p>All of this machinery exists to ensure that names resolve to the correct values
+at the correct points in the expression tree.  This example illustrates why our
+model requires the complexity that we have introduced. All three local frames
+contain a binding for the name <tt class="docutils literal">x</tt>, but that name is bound to different values
+in different frames.  Local frames keep these names separate.</p>
+</div>
+<div class="section" id="local-names">
+<h2><a class="toc-backref" href="#id18">1.3.4&nbsp;&nbsp;&nbsp;Local Names</a></h2>
+<p>One detail of a function's implementation that should not affect the function's
+behavior is the implementer's choice of names for the function's formal
+parameters. Thus, the following functions should provide the same behavior:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def square(x):
+        return mul(x, x)
+&gt;&gt;&gt; def square(y):
+        return mul(y, y)
+</pre>
+<p>This principle -- that the meaning of a function should be independent of the
+parameter names chosen by its author -- has important consequences for
+programming languages. The simplest consequence is that the parameter names of a
+function must remain local to the body of the function.</p>
+<p>If the parameters were not local to the bodies of their respective functions,
+then the parameter <tt class="docutils literal">x</tt> in <tt class="docutils literal">square</tt> could be confused with the parameter <tt class="docutils literal">x</tt> in
+<tt class="docutils literal">sum_squares</tt>. Critically, this is not the case: the binding for <tt class="docutils literal">x</tt> in
+different local frames are unrelated. Our model of computation is carefully
+designed to ensure this independence.</p>
+<p>We say that the <em>scope</em> of a local name is limited to the body of the
+user-defined function that defines it. When a name is no longer accessible, it
+is out of scope. This scoping behavior isn't a new fact about our model; it is a
+consequence of the way environments work.</p>
+</div>
+<div class="section" id="practical-guidance-choosing-names">
+<h2><a class="toc-backref" href="#id19">1.3.5&nbsp;&nbsp;&nbsp;Practical Guidance: Choosing Names</a></h2>
+<p>The interchangeabily of names does not imply that formal parameter names do not
+matter at all. To the contrary, well-chosen function and parameter names are
+essential for the human interpretability of function definitions!</p>
+<p>The following guidelines are adapted from the <a class="reference external" href="http://www.python.org/dev/peps/pep-0008">style guide for Python code</a>,
+which serves as a guide for all (non-rebellious) Python programmers. A shared
+set of conventions smooths communication among members of a programming
+community. As a side effect of following these conventions, you will find that
+your code becomes more internally consistent.</p>
+<ol class="arabic simple">
+<li>Function names should be lowercase, with words separated by underscores.
+Descriptive names are encouraged.</li>
+<li>Function names typically evoke operations applied to arguments by the
+interpreter (e.g., <tt class="docutils literal">print</tt>, <tt class="docutils literal">add</tt>, <tt class="docutils literal">square</tt>) or the name of the
+quantity that results (e.g., <tt class="docutils literal">max</tt>, <tt class="docutils literal">abs</tt>, <tt class="docutils literal">sum</tt>).</li>
+<li>Parameter names should be lowercase, with words separated by underscores.
+Single-word names are preferred.</li>
+<li>Parameter names should evoke the role of the parameter in the function, not
+just the type of value that is allowed.</li>
+<li>Single letter parameter names are acceptable when their role is obvious, but
+never use &quot;l&quot; (lowercase ell), &quot;O&quot; (capital oh), or &quot;I&quot; (capital i) to avoid
+confusion with numerals.</li>
+</ol>
+<p>Review these guidelines periodically as you write programs, and soon your names
+will be delightfully Pythonic.</p>
+</div>
+<div class="section" id="functions-as-abstractions">
+<h2><a class="toc-backref" href="#id20">1.3.6&nbsp;&nbsp;&nbsp;Functions as Abstractions</a></h2>
+<p>Though it is very simple, <tt class="docutils literal">sum_squares</tt> exemplifies the most powerful
+property of user-defined functions. The function <tt class="docutils literal">sum_squares</tt> is defined in
+terms of the function <tt class="docutils literal">square</tt>, but relies only on the relationship that
+<tt class="docutils literal">square</tt> defines between its input arguments and its output values.</p>
+<p>We can write <tt class="docutils literal">sum_squares</tt> without concerning ourselves with <em>how</em> to square
+a number. The details of how the square is computed can be suppressed, to be
+considered at a later time. Indeed, as far as <tt class="docutils literal">sum_squares</tt> is concerned,
+<tt class="docutils literal">square</tt> is not a particular function body, but rather an abstraction of a
+function, a so-called functional abstraction. At this level of abstraction, any
+function that computes the square is equally good.</p>
+<p>Thus, considering only the values they return, the following two functions for
+squaring a number should be indistinguishable. Each takes a numerical argument
+and produces the square of that number as the value.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def square(x):
+        return mul(x, x)
+&gt;&gt;&gt; def square(x):
+        return mul(x, x-1) + x
+</pre>
+<p>In other words, a function definition should be able to suppress details. The
+users of the function may not have written the function themselves, but may have
+obtained it from another programmer as a &quot;black box&quot;. A user should not need to
+know how the function is implemented in order to use it. The Python Library has
+this property. Many developers use the functions defined there, but few ever
+inspect their implementation. In fact, many implementations of Python Library
+functions are not written in Python at all, but instead in the C language.</p>
+</div>
+<div class="section" id="operators">
+<h2><a class="toc-backref" href="#id21">1.3.7&nbsp;&nbsp;&nbsp;Operators</a></h2>
+<p>Mathematical operators (like + and -) provided our first example of a method of
+combination, but we have yet to define an evaluation procedure for expressions
+that contain these operators.</p>
+<p>Python expressions with infix operators each have their own evaluation procedures,
+but you can often think of them as short-hand for call expressions. When you see</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; 2 + 3
+5
+</pre>
+<p>simply consider it to be short-hand for</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; add(2, 3)
+5
+</pre>
+<p>Infix notation can be nested, just like call expressions. Python applies the
+normal mathematical rules of operator precedence, which dictate how to interpret
+a compound expression with multiple operators.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; 2 + 3 * 4 + 5
+19
+</pre>
+<p>evaluates to the same result as</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; add(add(2, mul(3, 4)) , 5)
+19
+</pre>
+<p>The nesting in the call expression is more explicit than the operator
+version. Python also allows subexpression grouping with parentheses, to
+override the normal precedence rules or make the nested structure of an
+expression more explicit.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; (2 + 3) * (4 + 5)
+45
+</pre>
+<p>evaluates to the same result as</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; mul(add(2, 3), add(4, 5))
+45
+</pre>
+<p>You should feel free to use these operators and parentheses in your programs.
+Idiomatic Python prefers operators over call expressions for simple mathematical
+operations.</p>
+</div>
+</div>
+<div class="section" id="practical-guidance-the-art-of-the-function">
+<h1><a class="toc-backref" href="#id22">1.4&nbsp;&nbsp;&nbsp;Practical Guidance: The Art of the Function</a></h1>
+<p>Functions are an essential ingredient of all programs, large and small, and
+serve as our primary medium to express computational processes in a programming
+language. So far, we have discussed the formal properties of functions and how
+they are applied. We now turn to the topic of what makes a good function.
+Fundamentally, the qualities of good functions all reinforce the idea that
+functions are abstractions.</p>
+<ul class="simple">
+<li>Each function should have exactly one job. That job should be identifiable
+with a short name and characterizable in a single line of text. Functions
+that perform multiple jobs in sequence should be divided into multiple
+functions.</li>
+<li><em>Don't repeat yourself</em> is a central tenet of software engineering. The
+so-called DRY principle states that multiple fragments of code should not
+describe redundant logic. Instead, that logic should be implemented once,
+given a name, and applied multiple times. If you find yourself copying and
+pasting a block of code, you have probably found an opportunity for functional
+abstraction.</li>
+<li>Functions should be defined generally. Squaring is not in the Python Library
+precisely because it is a special case of the <tt class="docutils literal">pow</tt> function, which raises
+numbers to arbitrary powers.</li>
+</ul>
+<p>These guidelines improve the readability of code, reduce the number of errors,
+and often minimize the total amount of code written. Decomposing a complex task
+into concise functions is a skill that takes experience to master. Fortunately,
+Python provides several features to support your efforts.</p>
+<div class="section" id="docstrings">
+<h2><a class="toc-backref" href="#id23">1.4.1&nbsp;&nbsp;&nbsp;Docstrings</a></h2>
+<p>A function definition will often include documentation describing the function,
+called a <em>docstring</em>, which must be indented along with the function body.
+Docstrings are conventionally triple quoted. The first line describes the job
+of the function in one line. The following lines can describe arguments and
+clarify the behavior of the function:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; def pressure(v, t, n):
+        &quot;&quot;&quot;Compute the pressure in pascals of an ideal gas.
+
+        Applies the ideal gas law: http://en.wikipedia.org/wiki/Ideal_gas_law
+
+        v -- volume of gas, in cubic meters
+        t -- absolute temperature in degrees kelvin
+        n -- particles of gas
+        &quot;&quot;&quot;
+        k = 1.38e-23  # Boltzmann's constant
+        return n * k * t / v
+</pre>
+<p>When you call <tt class="docutils literal">help</tt> with the name of a function as an argument, you see its
+docstring (type <tt class="docutils literal">q</tt> to quit Python help).</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; help(pressure)
+</pre>
+<p>When writing Python programs, include docstrings for all but the simplest
+functions. Remember, code is written only once, but often read many times. The
+Python docs include <a class="reference external" href="http://www.python.org/dev/peps/pep-0257/">docstring guidelines</a> that maintain consistency across
+different Python projects.</p>
+</div>
+<div class="section" id="default-argument-values">
+<h2><a class="toc-backref" href="#id24">1.4.2&nbsp;&nbsp;&nbsp;Default Argument Values</a></h2>
+<p>A consequence of defining general functions is the introduction of additional
+arguments. Functions with many arguments can be awkward to call and difficult to
+read.</p>
+<p>In Python, we can provide default values for the arguments of a function. When
+calling that function, arguments with default values are optional. If they are
+not provided, then the default value is bound to the formal parameter name
+instead. For instance, if an application commonly computes pressure for one mole
+of particles, this value can be provided as a default:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; k_b=1.38e-23  # Boltzmann's constant
+&gt;&gt;&gt; def pressure(v, t, n=6.022e23):
+        &quot;&quot;&quot;Compute the pressure in pascals of an ideal gas.
+
+        v -- volume of gas, in cubic meters
+        t -- absolute temperature in degrees kelvin
+        n -- particles of gas (default: one mole)
+        &quot;&quot;&quot;
+        return n * k_b * t / v
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; pressure(1, 273.15)
+2269.974834
+</pre>
+<p>Here, <tt class="docutils literal">pressure</tt> is defined to take three arguments, but only two are
+provided in the call expression that follows.  In this case, the value for
+<tt class="docutils literal">n</tt> is taken from the <tt class="docutils literal">def</tt> statement defaults (which looks like an
+assignment to <tt class="docutils literal">n</tt>, although as this discussion suggests, it is more of a
+conditional assignment.)</p>
+<p>As a guideline, most data values used in a function's body should be expressed
+as default values to named arguments, so that they are easy to inspect and can
+be changed by the function caller.  Some values that never change, like the
+fundamental constant <tt class="docutils literal">k_b</tt>, can be defined in the global frame.</p>
+</div>
+</div>
+<div class="section" id="control">
+<h1><a class="toc-backref" href="#id25">1.5&nbsp;&nbsp;&nbsp;Control</a></h1>
+<p>The expressive power of the functions that we can define at this point
+is very limited, because we have not introduced a way to make tests
+and to perform different operations depending on the result of a test.
+<em>Control statements</em> will give us this capacity.  Control statements
+differ fundamentally from the expressions that we have studied so far.
+They deviate from the strict evaluation of subexpressions from left to
+write, and get their name from the fact that they control what the
+interpreter should do next, possibly based on the values of
+expressions.</p>
+<div class="section" id="statements">
+<h2><a class="toc-backref" href="#id26">1.5.1&nbsp;&nbsp;&nbsp;Statements</a></h2>
+<p>So far, we have primarily considered how to evaluate expressions. However, we
+have seen three kinds of statements: assignment, <tt class="docutils literal">def</tt>, and <tt class="docutils literal">return</tt>
+statements. These lines of Python code are not themselves expressions, although
+they all contain expressions as components.</p>
+<p>To emphasize that the value of a statement is irrelevant (or nonexistant),
+we describe statements as being <em>executed</em>  rather than evaluated. Each statement
+describes some change to the interpreter state, and executing a statement
+applies that change. As we have seen for <tt class="docutils literal">return</tt> and assignment statements,
+executing statements can involve evaluating subexpressions contained within
+them.</p>
+<p>Expressions can also be executed as statements, in which case they are
+evaluated, but their value is discarded. Executing a pure function has no
+effect, but executing a non-pure function can cause effects as a consequence of
+function application.</p>
+<p>Consider, for instance,</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def square(x):
+        mul(x, x) # Watch out! This call doesn't return a value.
+</pre>
+<p>This is valid Python, but probably not what was intended.  The body of the
+function consists of an expression.  An expression by itself is a valid
+statement, but the effect of the statement is that the <tt class="docutils literal">mul</tt> function is
+called, and the result is discarded.  If you want to do something with the
+result of an expression, you need to say so: you might store it with an
+assignment statement, or return it with a return statement:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def square(x):
+        return mul(x, x)
+</pre>
+<p>Sometimes it does make sense to have a function whose body is an expression,
+when a non-pure function like <tt class="docutils literal">print</tt> is called.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def print_square(x):
+        print(square(x))
+</pre>
+<p>At its highest level, the Python interpreter's job is to execute programs,
+composed of statements. However, much of the interesting work of computation
+comes from evaluating expressions. Statements govern the relationship among
+different expressions in a program and what happens to their results.</p>
+</div>
+<div class="section" id="compound-statements">
+<h2><a class="toc-backref" href="#id27">1.5.2&nbsp;&nbsp;&nbsp;Compound Statements</a></h2>
+<p>In general, Python code is a sequence of statements. A simple statement is a
+single line that doesn't end in a colon. A compound statement is so called
+because  it is composed of other statements (simple and compound). Compound
+statements typically span multiple lines and start with a one-line header ending
+in a colon, which identifies the type of statement. Together, a header and an
+indented suite of statements is called a clause.  A compound statement consists
+of one or more clauses:</p>
+<pre class="literal-block">
+&lt;header&gt;:
+    &lt;statement&gt;
+    &lt;statement&gt;
+    ...
+&lt;separating header&gt;:
+    &lt;statement&gt;
+    &lt;statement&gt;
+    ...
+...
+</pre>
+<p>We can understand the statements we have already introduced in these terms.</p>
+<ul class="simple">
+<li>Expressions, return statements, and assignment statements are simple statements.</li>
+<li>A <tt class="docutils literal">def</tt> statement is a compound statement. The suite that follows the
+<tt class="docutils literal">def</tt> header defines the function body.</li>
+</ul>
+<p>Specialized evaluation rules for each kind of header dictate when and if the
+statements in its suite are executed. We say that the header controls its suite.
+For example, in the case of <tt class="docutils literal">def</tt> statements, we saw that the return
+expression is not evaluated immediately, but instead stored for later use when
+the defined function is eventually applied.</p>
+<p>We can also understand multi-line programs now.</p>
+<ul class="simple">
+<li>To execute a sequence of statements, execute the first statement. If that
+statement does not redirect control, then proceed to execute the rest of the
+sequence of statements, if any remain.</li>
+</ul>
+<p>This definition exposes the essential structure of a recursively defined
+<em>sequence</em>: a sequence can be decomposed into its first element and the rest of
+its elements. The &quot;rest&quot; of a sequence of statements is itself a sequence of
+statements!  Thus, we can recursively apply this execution rule. This view of
+sequences as recursive data structures will appear again in later chapters.</p>
+<p>The important consequence of this rule is that statements are executed in order,
+but later statements may never be reached, because of redirected control.</p>
+<p><strong>Practical Guidance.</strong> When indenting a suite, all lines must be indented the
+same amount and in the same way (spaces, not tabs).  Any variation in
+indentation will cause an error.</p>
+</div>
+<div class="section" id="defining-functions-ii-local-assignment">
+<h2><a class="toc-backref" href="#id28">1.5.3&nbsp;&nbsp;&nbsp;Defining Functions II: Local Assignment</a></h2>
+<p>Originally, we stated that the body of a user-defined function consisted only of
+a <tt class="docutils literal">return</tt> statement with a single return expression. In fact, functions can
+define a sequence of operations that extends beyond a single expression. The
+structure of compound Python statements naturally allows us to extend our
+concept of a function body to multiple statements.</p>
+<p>Whenever a user-defined function is applied, the sequence of clauses in the
+suite of its definition is executed in a local environment. A <tt class="docutils literal">return</tt>
+statement redirects control: the process of function application terminates
+whenever the first <tt class="docutils literal">return</tt> statement is executed, and the value of the
+<tt class="docutils literal">return</tt> expression is the returned value of the function being applied.</p>
+<p>Thus, assignment statements can now appear within a function body.
+For instance, this function returns the absolute difference between two
+quantities as a percentage of the first, using a two-step calculation:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def percent_difference(x, y):
+        difference = abs(x-y)
+        return 100 * difference / x
+&gt;&gt;&gt; percent_difference(40, 50)
+25.0
+</pre>
+<p>The effect of an assignment statement is to bind a name to a value in the
+<em>first</em> frame of the current environment. As a consequence, assignment
+statements within a function body cannot affect the global frame.  The fact that
+functions can only manipulate their local environment is critical to creating
+<em>modular</em> programs, in which pure functions interact only via the values they
+take and return.</p>
+<p>Of course, the <tt class="docutils literal">percent_difference</tt> function could be written as a single
+expression, as shown below, but the return expression is more complex.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def percent_difference(x, y):
+        return 100 * abs(x-y) / x
+</pre>
+<p>So far, local assignment hasn't increased the expressive power of our function
+definitions. It will do so, when combined with the control statements below. In
+addition, local assignment also plays a critical role in clarifying the meaning
+of complex expressions by assigning names to intermediate quantities.</p>
+<p><strong>New environment Feature:</strong> Local assignment.</p>
+</div>
+<div class="section" id="conditional-statements">
+<h2><a class="toc-backref" href="#id29">1.5.4&nbsp;&nbsp;&nbsp;Conditional Statements</a></h2>
+<p>Python has a built-in function for computing absolute values.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; abs(-2)
+2
+</pre>
+<p>We would like to be able to implement such a function ourselves, but we cannot
+currently define a function that has a test and a choice. We would like to
+express that if <tt class="docutils literal">x</tt> is positive, <tt class="docutils literal">abs(x)</tt> returns <tt class="docutils literal">x</tt>. Furthermore, if
+<tt class="docutils literal">x</tt> is 0, <tt class="docutils literal">abs(x)</tt> returns 0. Otherwise, <tt class="docutils literal">abs(x)</tt> returns <tt class="docutils literal"><span class="pre">-x</span></tt>. In
+Python, we can express this choice with a conditional statement.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def absolute_value(x):
+        &quot;&quot;&quot;Compute abs(x).&quot;&quot;&quot;
+        if x &gt; 0:
+            return x
+        elif x == 0:
+            return 0
+        else:
+            return -x
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; absolute_value(-2) == abs(-2)
+True
+</pre>
+<p>This implementation of <tt class="docutils literal">absolute_value</tt> raises several important issues.</p>
+<p><strong>Conditional statements</strong>. A conditional statement in Python consist of a series of
+headers and suites: a required <tt class="docutils literal">if</tt> clause, an optional sequence of <tt class="docutils literal">elif</tt>
+clauses, and finally an optional <tt class="docutils literal">else</tt> clause:</p>
+<pre class="literal-block">
+if &lt;expression&gt;:
+    &lt;suite&gt;
+elif &lt;expression&gt;:
+    &lt;suite&gt;
+else:
+    &lt;suite&gt;
+</pre>
+<p>When executing a conditional statement, each clause is considered in order.</p>
+<ol class="arabic simple">
+<li>Evaluate the header's expression.</li>
+<li>If it is a true value, execute the suite. Then, skip over all subsequent
+clauses in the conditional statement.</li>
+</ol>
+<p>If the <tt class="docutils literal">else</tt> clause is reached (which only happens if all <tt class="docutils literal">if</tt> and <tt class="docutils literal">elif</tt>
+expressions evaluate to false values), its suite is executed.</p>
+<p><strong>Boolean contexts</strong>. Above, the execution procedures mention &quot;a false value&quot;
+and &quot;a true value.&quot; The expressions inside the header statements of conditional
+blocks are said to be in <em>boolean contexts</em>: their truth values matter to
+control flow, but otherwise their values can never be assigned or returned.
+Python includes several false values, including 0, <tt class="docutils literal">None</tt>, and the <em>boolean</em>
+value <tt class="docutils literal">False</tt>.  All other numbers are true values. In Chapter 2, we will see
+that every native data type in Python has both true and false values.</p>
+<p><strong>Boolean values</strong>. Python has two boolean values, called <tt class="docutils literal">True</tt> and
+<tt class="docutils literal">False</tt>. Boolean values represent truth values in logical expressions.  The
+built-in comparison operations, <tt class="docutils literal">&gt;, &lt;, &gt;=, &lt;=, ==, !=</tt>, return these values.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; 4 &lt; 2
+False
+&gt;&gt;&gt; 5 &gt;= 5
+True
+</pre>
+<p>This second example reads &quot;5 is greater than or equal to 5&quot;, and corresponds to
+the function <tt class="docutils literal">ge</tt> in the <tt class="docutils literal">operator</tt> module.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; 0 == -0
+True
+</pre>
+<p>This final example reads &quot;0 equals -0&quot;, and corresponds to <tt class="docutils literal">eq</tt> in the
+<tt class="docutils literal">operator</tt> module. Notice that Python distinguishes assignment (<tt class="docutils literal">=</tt>) from
+equality testing (<tt class="docutils literal">==</tt>), a convention shared across many programming
+languages.</p>
+<p><strong>Boolean operators</strong>. Three basic logical operators are also built into Python:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; True and False
+False
+&gt;&gt;&gt; True or False
+True
+&gt;&gt;&gt; not False
+True
+</pre>
+<p>Logical expressions have corresponding evaluation procedures. These procedures
+exploit the fact that the truth value of a logical expression can sometimes be
+determined without evaluating all of its subexpressions, a feature called
+<em>short-circuiting</em>.</p>
+<p>To evaluate the expression <tt class="docutils literal">&lt;left&gt; and &lt;right&gt;</tt>:</p>
+<ol class="arabic simple">
+<li>Evaluate the subexpression <tt class="docutils literal">&lt;left&gt;</tt>.</li>
+<li>If the result is a false value <tt class="docutils literal">v</tt>, then the expression evaluates to <tt class="docutils literal">v</tt>.</li>
+<li>Otherwise, the expression evaluates to the value of the subexpression
+<tt class="docutils literal">&lt;right&gt;</tt>.</li>
+</ol>
+<p>To evaluate the expression <tt class="docutils literal">&lt;left&gt; or &lt;right&gt;</tt>:</p>
+<ol class="arabic simple">
+<li>Evaluate the subexpression <tt class="docutils literal">&lt;left&gt;</tt>.</li>
+<li>If the result is a true value <tt class="docutils literal">v</tt>, then the expression evaluates to <tt class="docutils literal">v</tt>.</li>
+<li>Otherwise, the expression evaluates to the value of the subexpression
+<tt class="docutils literal">&lt;right&gt;</tt>.</li>
+</ol>
+<p>To evaluate the expression <tt class="docutils literal">not &lt;exp&gt;</tt>:</p>
+<ol class="arabic simple">
+<li>Evaluate <tt class="docutils literal">&lt;exp&gt;</tt>; The value is <tt class="docutils literal">True</tt> if the result is a false value, and
+<tt class="docutils literal">False</tt> otherwise.</li>
+</ol>
+<p>These values, rules, and operators provide us with a way to combine the results
+of tests.  Functions that perform tests and return boolean values typically
+begin with <tt class="docutils literal">is</tt>, not followed by an underscore (e.g., <tt class="docutils literal">isfinite</tt>,
+<tt class="docutils literal">isdigit</tt>, <tt class="docutils literal">isinstance</tt>, etc.).</p>
+</div>
+<div class="section" id="iteration">
+<h2><a class="toc-backref" href="#id30">1.5.5&nbsp;&nbsp;&nbsp;Iteration</a></h2>
+<p>In addition to selecting which statements to execute, control statements are
+used to express repetition. If each line of code we wrote were only executed once,
+programming would be a very unproductive exercise. Only through repeated
+execution of statements do we unlock the potential of computers to make us
+powerful. We have already seen one form of repetition: a function can be applied
+many times, although it is only defined once. Iterative control structures are
+another mechanism for executing the same statements many times.</p>
+<p>Consider the sequence of Fibonacci numbers, in which each number is the sum of
+the preceding two:</p>
+<pre class="literal-block">
+0, 1, 1, 2, 3, 5, 8, 13, 21, ...
+</pre>
+<p>Each value is constructed by repeatedly applying the sum-previous-two rule. To
+build up the nth value, we need to track how many values we've created (<tt class="docutils literal">k</tt>),
+along with the kth value (<tt class="docutils literal">curr</tt>) and its predecessor (<tt class="docutils literal">pred</tt>), like so:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def fib(n):
+        &quot;&quot;&quot;Compute the nth Fibonacci number, for n &gt;= 2.&quot;&quot;&quot;
+        pred, curr = 0, 1   # Fibonacci numbers
+        k = 2               # Position of curr in the sequence
+        while k &lt; n:
+            pred, curr = curr, pred + curr  # Re-bind pred and curr
+            k = k + 1                       # Re-bind k
+        return curr
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; fib(8)
+13
+</pre>
+<p>Remember that commas seperate multiple names and values in an assignment
+statement.  The line:</p>
+<pre class="literal-block">
+pred, curr = curr, pred + curr
+</pre>
+<p>has the effect of rebinding the name <tt class="docutils literal">pred</tt> to the value of <tt class="docutils literal">curr</tt>, and
+simultanously rebinding <tt class="docutils literal">curr</tt> to the value of <tt class="docutils literal">pred + curr</tt>.  All of the
+expressions to the right of <tt class="docutils literal">=</tt> are evaluated before any rebinding takes
+place.</p>
+<p>A <tt class="docutils literal">while</tt> clause contains a header expression followed by a suite:</p>
+<pre class="literal-block">
+while &lt;expression&gt;:
+    &lt;suite&gt;
+</pre>
+<p>To execute a <tt class="docutils literal">while</tt> clause:</p>
+<ol class="arabic simple">
+<li>Evaluate the header's expression.</li>
+<li>If it is a true value, execute the suite, then return to step 1.</li>
+</ol>
+<p>In step 2, the entire suite of the <tt class="docutils literal">while</tt> clause is executed before the
+header expression is evaluated again.</p>
+<p>In order to prevent the suite of a <tt class="docutils literal">while</tt> clause from being executed
+indefinitely, the suite should always change the state of the environment in
+each pass.</p>
+<p>A <tt class="docutils literal">while</tt> statement that does not terminate is called an infinite loop.  Press
+<tt class="docutils literal"><span class="pre">&lt;Control&gt;-C</span></tt> to force Python to stop looping.</p>
+</div>
+<div class="section" id="practical-guidance-testing">
+<h2><a class="toc-backref" href="#id31">1.5.6&nbsp;&nbsp;&nbsp;Practical Guidance: Testing</a></h2>
+<p>Testing a function is the act of verifying that the function's behavior
+matches expectations. Our language of functions is now sufficiently complex that
+we need to start testing our implementations.</p>
+<p>A <em>test</em> is a mechanism for systematically performing this verification.  Tests
+typically take the form of another function that contains one or more sample
+calls to the function being tested. The returned value is then verified against
+an expected result. Unlike most functions, which are meant to be general, tests
+involve selecting and validating calls with specific argument values.  Tests
+also serve as documentation: they demonstrate how to call a function, and what
+argument values are appropriate.</p>
+<p>Note that we have also used the word &quot;test&quot; as a technical term for the
+expression in the header of an <tt class="docutils literal">if</tt> or <tt class="docutils literal">while</tt> statement.  It should be
+clear from context when we use the word &quot;test&quot; to denote an expression, and when
+we use it to denote a verification mechanism.</p>
+<p><strong>Assertions.</strong>  Programmers use <tt class="docutils literal">assert</tt> statements to verify expectations,
+such as the output of a function being tested. An <tt class="docutils literal">assert</tt> statement has an
+expression in a boolean context, followed by a quoted line of text (single or
+double quotes are both fine, but be consistent) that will be displayed if the
+expression evaluates to a false value.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; assert fib(8) == 13, 'The 8th Fibonacci number should be 13'
+</pre>
+<p>When the expression being asserted evaluates to a true value, executing an
+assert statement has no effect. When it is a false value, <tt class="docutils literal">assert</tt> causes an
+error that halts execution.</p>
+<p>A test function for <tt class="docutils literal">fib</tt> should test several arguments, including extreme
+values of <tt class="docutils literal">n</tt>.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def fib_test():
+        assert fib(2) == 1, 'The 2nd Fibonacci number should be 1'
+        assert fib(3) == 1, 'The 3nd Fibonacci number should be 1'
+        assert fib(50) == 7778742049, 'Error at the 50th Fibonacci number'
+</pre>
+<p>When writing Python in files, rather than directly into the interpreter, tests
+should be written in the same file or a neighboring file with the suffix
+<tt class="docutils literal">_test.py</tt>.</p>
+<p><strong>Doctests.</strong> Python provides a convenient method for placing simple tests
+directly in the docstring of a function. The first line of a docstring should
+contain a one-line description of the function, followed by a blank line.  A
+detailed description of arguments and behavior may follow. In addition, the
+docstring may include a sample interactive session that calls the function:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; def sum_naturals(n):
+        &quot;&quot;&quot;Return the sum of the first n natural numbers
+
+        &gt;&gt;&gt; sum_naturals(10)
+        55
+        &gt;&gt;&gt; sum_naturals(100)
+        5050
+        &quot;&quot;&quot;
+        total, k = 0, 1
+        while k &lt;= n:
+          total, k = total + k, k + 1
+        return total
+</pre>
+<p>Then, the interaction can be verified via the <a class="reference external" href="http://docs.python.org/py3k/library/doctest.html">doctest module</a>. Below, the
+<tt class="docutils literal">globals</tt> function returns a representation of the global environment, which
+the interpreter needs in order to evaluate expressions.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; from doctest import run_docstring_examples
+&gt;&gt;&gt; run_docstring_examples(sum_naturals, globals())
+</pre>
+<p>When writing Python in files, all doctests in a file can be run by starting
+Python with the doctest command line option:</p>
+<pre class="literal-block">
+python3 -m doctest &lt;python_source_file&gt;
+</pre>
+<p>The key to effective testing is to write (and run) tests immediately after (or
+even before) implementing new functions.  A test that applies a single function
+is called a <em>unit test</em>.  Exhaustive unit testing is a hallmark of good program
+design.</p>
+</div>
+</div>
+<div class="section" id="higher-order-functions">
+<h1><a class="toc-backref" href="#id32">1.6&nbsp;&nbsp;&nbsp;Higher-Order Functions</a></h1>
+<p>We have seen that functions are, in effect, abstractions that describe compound
+operations independent of the particular values of their arguments. In <tt class="docutils literal">square</tt>,</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def square(x):
+        return x * x
+</pre>
+<p>we are not talking about the square of a particular number, but rather about a
+method for obtaining the square of any number. Of course we could get along
+without ever defining this function, by always writing expressions such as</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; 3 * 3
+9
+&gt;&gt;&gt; 5 * 5
+25
+</pre>
+<p>and never mentioning <tt class="docutils literal">square</tt> explicitly. This practice would suffice for
+simple computations like <tt class="docutils literal">square</tt>, but would become arduous for more complex
+examples. In general, lacking function definition would put us at the
+disadvantage of forcing us to work always at the level of the particular
+operations that happen to be primitives in the language (multiplication, in this
+case) rather than in terms of higher-level operations. Our programs would be
+able to compute squares, but our language would lack the ability to express the
+concept of squaring. One of the things we should demand from a powerful
+programming language is the ability to build abstractions by assigning names to
+common patterns and then to work in terms of the abstractions directly.
+Functions provide this ability.</p>
+<p>As we will see in the following examples, there are common programming patterns
+that recur in code, but are used with a number of different functions. These
+patterns can also be abstracted, by giving them names.</p>
+<p>To express certain general patterns as named concepts, we will need to construct
+functions that can accept other functions as arguments or return functions as
+values. Functions that manipulate functions are called higher-order functions.
+This section shows how higher-order functions can serve as powerful abstraction
+mechanisms, vastly increasing the expressive power of our language.</p>
+<div class="section" id="functions-as-arguments">
+<h2><a class="toc-backref" href="#id33">1.6.1&nbsp;&nbsp;&nbsp;Functions as Arguments</a></h2>
+<p>Consider the following three functions, which all compute summations. The first,
+<tt class="docutils literal">sum_naturals</tt>, computes the sum of natural numbers up to <tt class="docutils literal">n</tt>:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def sum_naturals(n):
+        total, k = 0, 1
+        while k &lt;= n:
+            total, k = total + k, k + 1
+        return total
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; sum_naturals(100)
+5050
+</pre>
+<p>The second, <tt class="docutils literal">sum_cubes</tt>, computes the sum of the cubes of natural numbers up
+to <tt class="docutils literal">n</tt>.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def sum_cubes(n):
+        total, k = 0, 1
+        while k &lt;= n:
+            total, k = total + pow(k, 3), k + 1
+        return total
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; sum_cubes(100)
+25502500
+</pre>
+<p>The third, <tt class="docutils literal">pi_sum</tt>, computes the sum of terms in the series</p>
+<div class="figure">
+<img alt="img/pi_sum.png" src="img/pi_sum.png" />
+</div>
+<p>which converges to pi very slowly.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def pi_sum(n):
+        total, k = 0, 1
+        while k &lt;= n:
+            total, k = total + 8 / (k * (k + 2)), k + 4
+        return total
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; pi_sum(100)
+3.121594652591009
+</pre>
+<p>These three functions clearly share a common underlying pattern. They are for
+the most part identical, differing only in name, the function of <tt class="docutils literal">k</tt> used to
+compute the term to be added, and the function that provides the next value of
+<tt class="docutils literal">k</tt>. We could generate each of the functions by filling in slots in the same
+template:</p>
+<pre class="literal-block">
+def &lt;name&gt;(n):
+    total, k = 0, 1
+    while k &lt;= n:
+        total, k = total + &lt;term&gt;(k), &lt;next&gt;(k)
+    return total
+</pre>
+<p>The presence of such a common pattern is strong evidence that there is a useful
+abstraction waiting to be brought to the surface. Each of these functions is a
+summation of terms. As program designers, we would like our language to be
+powerful enough so that we can write a function that expresses the concept of
+summation itself rather than only functions that compute particular sums. We
+can do so readily in Python by taking the common template shown above and
+transforming the &quot;slots&quot; into formal parameters:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def summation(n, term, next):
+        total, k = 0, 1
+        while k &lt;= n:
+            total, k = total + term(k), next(k)
+        return total
+</pre>
+<p>Notice that <tt class="docutils literal">summation</tt> takes as its arguments the upper bound <tt class="docutils literal">n</tt> together
+with the functions <tt class="docutils literal">term</tt> and <tt class="docutils literal">next</tt>. We can use <tt class="docutils literal">summation</tt> just as we
+would any function, and it expresses summations succinctly:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def cube(k):
+        return pow(k, 3)
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def successor(k):
+        return k + 1
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def sum_cubes(n):
+        return summation(n, cube, successor)
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; sum_cubes(3)
+36
+</pre>
+<p>Using an <tt class="docutils literal">identity</tt> function that returns its argument, we can also sum
+integers.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def identity(k):
+        return k
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def sum_naturals(n):
+        return summation(n, identity, successor)
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; sum_naturals(10)
+55
+</pre>
+<p>We can also define <tt class="docutils literal">pi_sum</tt> piece by piece, using our <tt class="docutils literal">summation</tt>
+abstraction to combine components.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def pi_term(k):
+        denominator = k * (k + 2)
+        return 8 / denominator
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def pi_next(k):
+        return k + 4
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def pi_sum(n):
+        return summation(n, pi_term, pi_next)
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; pi_sum(1e6)
+3.1415906535898936
+</pre>
+</div>
+<div class="section" id="functions-as-general-methods">
+<h2><a class="toc-backref" href="#id34">1.6.2&nbsp;&nbsp;&nbsp;Functions as General Methods</a></h2>
+<p>We introduced user-defined functions as a mechanism for abstracting patterns of
+numerical operations so as to make them independent of the particular numbers
+involved. With higher-order functions, we begin to see a more powerful kind of
+abstraction: some functions express general methods of computation, independent
+of the particular functions they call.</p>
+<p>Despite this conceptual extension of what a function means, our environment
+model of how to evaluate a call expression extends gracefully to the case of
+higher-order functions, without change. When a user-defined function is applied
+to some arguments, the formal parameters are bound to the values of those
+arguments (which may be functions) in a new local frame.</p>
+<p>Consider the following example, which implements a general method for iterative
+improvement and uses it to compute the <a class="reference external" href="http://www.geom.uiuc.edu/~demo5337/s97b/art.htm">golden ratio</a>. An iterative improvement
+algorithm begins with a <tt class="docutils literal">guess</tt> of a solution to an equation. It repeatedly
+applies an <tt class="docutils literal">update</tt> function to improve that guess, and applies a <tt class="docutils literal">test</tt> to
+check whether the current <tt class="docutils literal">guess</tt> is &quot;close enough&quot; to be considered correct.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def iter_improve(update, test, guess=1):
+        while not test(guess):
+            guess = update(guess)
+        return guess
+</pre>
+<p>The <tt class="docutils literal">test</tt> function typically checks whether two functions,
+<tt class="docutils literal">f</tt> and <tt class="docutils literal">g</tt>, are near to each other for the value <tt class="docutils literal">guess</tt>.
+Testing whether <tt class="docutils literal">f(x)</tt> is near to <tt class="docutils literal">g(x)</tt> is again a general method
+of computation.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def near(x, f, g):
+        return approx_eq(f(x), g(x))
+</pre>
+<p>A common way to test for approximate equality in programs is to compare the
+absolute value of the difference between numbers to a small tolerance value.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def approx_eq(x, y, tolerance=1e-5):
+        return abs(x - y) &lt; tolerance
+</pre>
+<p>The golden ratio, often called phi, is a number that appears frequently in
+nature, art, and architecture. It can be computed via <tt class="docutils literal">iter_improve</tt> using the
+<tt class="docutils literal">golden_update</tt>, and it converges when its successor is equal to its square.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def golden_update(guess):
+        return 1/guess + 1
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def golden_test(guess):
+        return near(guess, square, successor)
+</pre>
+<p>At this point, we have added several bindings to the global frame.  The
+depictions of function values are abbreviated for clarity.</p>
+<div class="figure">
+<img alt="img/iter_improve_global.png" src="img/iter_improve_global.png" />
+</div>
+<p>Calling <tt class="docutils literal">iter_improve</tt> with the arguments <tt class="docutils literal">golden_update</tt> and
+<tt class="docutils literal">golden_test</tt> will compute an approximation to the golden ratio.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; iter_improve(golden_update, golden_test)
+1.6180371352785146
+</pre>
+<p>By tracing through the steps of our evaluation procedure, we can see how this
+result is computed. First, a local frame for <tt class="docutils literal">iter_improve</tt> is constructed
+with bindings for <tt class="docutils literal">update</tt>, <tt class="docutils literal">test</tt>, and <tt class="docutils literal">guess</tt>. In the body of
+<tt class="docutils literal">iter_improve</tt>, the name <tt class="docutils literal">test</tt> is bound to <tt class="docutils literal">golden_test</tt>, which is
+called on the initial value of <tt class="docutils literal">guess</tt>. In turn, <tt class="docutils literal">golden_test</tt> calls
+<tt class="docutils literal">near</tt>, creating a third local frame that binds the formal parameters <tt class="docutils literal">f</tt>
+and <tt class="docutils literal">g</tt> to <tt class="docutils literal">square</tt> and <tt class="docutils literal">successor</tt>.</p>
+<div class="figure">
+<img alt="img/iter_improve_apply.png" src="img/iter_improve_apply.png" />
+</div>
+<p>Completing the evaluation of <tt class="docutils literal">near</tt>, we see that the <tt class="docutils literal">golden_test</tt> is
+<tt class="docutils literal">False</tt> because 1 is not close to 2. Hence, evaluation proceeds with the
+suite of the <tt class="docutils literal">while</tt> clause, and this mechanical process repeats several
+times.</p>
+<p>This extended example illustrates two related big ideas in computer science.
+First, naming and functions allow us to abstract away a vast amount of
+complexity. While each function definition has been trivial, the computational
+process set in motion by our evaluation procedure appears quite intricate, and
+we didn't even illustrate the whole thing. Second, it is only by virtue of the
+fact that we have an extremely general evaluation procedure that small
+components can be composed into complex processes. Understanding that procedure
+allows us to validate and inspect the process we have created.</p>
+<p>As always, our new general method <tt class="docutils literal">iter_improve</tt> needs a test to check its
+correctness. The golden ratio can provide such a test, because it also has an
+exact closed-form solution, which we can compare to this iterative result.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; phi = 1/2 + pow(5, 1/2)/2
+&gt;&gt;&gt; def near_test():
+        assert near(phi, square, successor), 'phi * phi is not near phi + 1'
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def iter_improve_test():
+        approx_phi = iter_improve(golden_update, golden_test)
+        assert approx_eq(phi, approx_phi), 'phi differs from its approximation'
+</pre>
+<p><strong>New environment Feature:</strong> Higher-order functions.</p>
+<p><strong>Extra for experts.</strong> We left out a step in the justification of our test. For what
+range of tolerance values <tt class="docutils literal">e</tt> can you prove that if <tt class="docutils literal">near(x, square,
+successor)</tt> is true with <tt class="docutils literal">tolerance</tt> value <tt class="docutils literal">e</tt>, then <tt class="docutils literal">approx_eq(phi, x)</tt>
+is true with the same tolerance?</p>
+</div>
+<div class="section" id="defining-functions-iii-nested-definitions">
+<h2><a class="toc-backref" href="#id35">1.6.3&nbsp;&nbsp;&nbsp;Defining Functions III: Nested Definitions</a></h2>
+<p>The above examples demonstrate how the ability to pass functions as arguments
+significantly enhances the expressive power of our programming language. Each
+general concept or equation maps onto its own short function. One negative
+consequence of this approach to programming is that the global frame becomes
+cluttered with names of small functions. Another problem is that we are
+constrained by particular function signatures: the <tt class="docutils literal">update</tt> argument to
+<tt class="docutils literal">iter_improve</tt> must take exactly one argument. In Python, nested function
+definitions address both of these problems, but require us to amend our
+environment model slightly.</p>
+<p>Let's consider a new problem: computing the square root of a number. Repeated
+application of the following update converges to the square root of <tt class="docutils literal">x</tt>:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def average(x, y):
+        return (x + y)/2
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def sqrt_update(guess, x):
+        return average(guess, x/guess)
+</pre>
+<p>This two-argument update function is incompatible with <tt class="docutils literal">iter_improve</tt>, and it
+just provides an intermediate value; we really only care about taking square
+roots in the end. The solution to both of these issues is to place function
+definitions inside the body of other definitions.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def square_root(x):
+        def update(guess):
+            return average(guess, x/guess)
+        def test(guess):
+            return approx_eq(square(guess), x)
+        return iter_improve(update, test)
+</pre>
+<p>Like local assignment, local <tt class="docutils literal">def</tt> statements only affect the current local
+frame. These functions are only in scope while <tt class="docutils literal">square_root</tt> is being
+evaluated. Consistent with our evaluation procedure, these local <tt class="docutils literal">def</tt>
+statements don't even get evaluated until <tt class="docutils literal">square_root</tt> is called.</p>
+<p><strong>Lexical scope.</strong> Locally defined functions also have access to the name
+bindings in the scope in which they are defined. In this example,
+<tt class="docutils literal">update</tt> refers to the name <tt class="docutils literal">x</tt>, which is a formal parameter of its
+enclosing function <tt class="docutils literal">square_root</tt>. This discipline of sharing names among
+nested definitions is called <em>lexical scoping</em>. Critically, the inner functions
+have access to the names in the environment where they are defined (not where
+they are called).</p>
+<p>We require two extensions to our environment model to enable lexical scoping.</p>
+<ol class="arabic simple">
+<li>Each user-defined function has an associated environment: the environment in
+which it was defined.</li>
+<li>When a user-defined function is called, its local frame extends the
+environment associated with the function.</li>
+</ol>
+<p>Previous to <tt class="docutils literal">square_root</tt>, all functions were defined in the global environment,
+and so they were all associated with the global environment.  When we evaluate
+the first two clauses of <tt class="docutils literal">square_root</tt>, we create functions that are
+associated with a local environment. In the call</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; square_root(256)
+16.00000000000039
+</pre>
+<p>the environment first adds a local frame for <tt class="docutils literal">square_root</tt> and evaluates the
+<tt class="docutils literal">def</tt> statements for <tt class="docutils literal">update</tt> and <tt class="docutils literal">test</tt> (only <tt class="docutils literal">update</tt> is shown).</p>
+<div class="figure">
+<img alt="img/square_root.png" src="img/square_root.png" />
+</div>
+<p>Subsequently, the name <tt class="docutils literal">update</tt> resolves to this newly defined function, which
+is passed as an argument to <tt class="docutils literal">iter_improve</tt>. Within the body of
+<tt class="docutils literal">iter_improve</tt>, we must apply our <tt class="docutils literal">update</tt> function to the initial <tt class="docutils literal">guess</tt>
+of 1. This final application creates an environment for <tt class="docutils literal">update</tt> that begins
+with a local frame containing only <tt class="docutils literal">g</tt>, but with the preceding frame for
+<tt class="docutils literal">square_root</tt> still containing a binding for <tt class="docutils literal">x</tt>.</p>
+<div class="figure">
+<img alt="img/square_root_update.png" src="img/square_root_update.png" />
+</div>
+<p>The most crucial part of this evaluation procedure is the transfer of an
+environment associated with a function to the local frame in which that function
+is evaluated. This transfer is highlighted by the blue arrows in this diagram.</p>
+<p>In this way, the body of <tt class="docutils literal">update</tt> can resolve a value for <tt class="docutils literal">x</tt>. Hence, we
+realize two key advantages of lexical scoping in Python.</p>
+<ul class="simple">
+<li>The names of a local function do not interfere with names external to the
+function in which it is defined, because the local function name will be bound
+in the current local environment in which it is defined, rather than the
+global environment.</li>
+<li>A local function can access the environment of the enclosing function. This is
+because the body of the local function is evaluated in an environment that
+extends the evaluation environment in which it is defined.</li>
+</ul>
+<p>The <tt class="docutils literal">update</tt> function carries with it some data: the values referenced in the
+environment in which it was defined. Because they enclose information in this
+way, locally defined functions are often called <em>closures</em>.</p>
+<p><strong>New environment Feature:</strong> Local function definition.</p>
+</div>
+<div class="section" id="functions-as-returned-values">
+<h2><a class="toc-backref" href="#id36">1.6.4&nbsp;&nbsp;&nbsp;Functions as Returned Values</a></h2>
+<p>We can achieve even more expressive power in our programs by creating functions
+whose returned values are themselves functions. An important feature of
+lexically scoped programming languages is that locally defined functions keep
+their associated environment when they are returned.  The following example
+illustrates the utility of this feature.</p>
+<p>With many simple functions defined, function <em>composition</em> is a natural method
+of combination to include in our programming language. That is, given two
+functions <tt class="docutils literal">f(x)</tt> and <tt class="docutils literal">g(x)</tt>, we might want to define <tt class="docutils literal">h(x) = f(g(x))</tt>. We
+can define function composition using our existing tools:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def compose1(f, g):
+        def h(x):
+            return f(g(x))
+        return h
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; add_one_and_square = compose1(square, successor)
+&gt;&gt;&gt; add_one_and_square(12)
+169
+</pre>
+<p>The <tt class="docutils literal">1</tt> in <tt class="docutils literal">compose1</tt> indicates that the composed functions and returned result
+all take <tt class="docutils literal">1</tt> argument. This naming convention isn't enforced by the
+interpreter; the <tt class="docutils literal">1</tt> is just part of the function name.</p>
+<p>At this point, we begin to observe the benefits of our investment in a rich
+model of computation. No modifications to our environment model are required to
+support our ability to return functions in this way.</p>
+</div>
+<div class="section" id="lambda-expressions">
+<h2><a class="toc-backref" href="#id37">1.6.5&nbsp;&nbsp;&nbsp;Lambda Expressions</a></h2>
+<p>So far, every time we want to define a new function, we need to give it a name.
+But for other types of expressions, we don’t need to associate intermediate
+products with a name. That is, we can compute <tt class="docutils literal">a*b + c*d</tt> without having to
+name the subexpressions <tt class="docutils literal">a*b</tt> or <tt class="docutils literal">c*d</tt>, or the full expression. In Python,
+we can create function values on the fly using <tt class="docutils literal">lambda</tt> expressions, which
+evaluate to unnamed functions. A lambda expression evaluates to a function that
+has a single return expression as its body. Assignment and control statements
+are not allowed.</p>
+<p>Lambda expressions are limited: They are only useful for simple, one-line
+functions that evaluate and return a single expression. In those special cases
+where they apply, lambda expressions can be quite expressive.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def compose1(f,g):
+        return lambda x: f(g(x))
+</pre>
+<p>We can understand the structure of a <tt class="docutils literal">lambda</tt> expression by constructing a
+corresponding English sentence:</p>
+<pre class="literal-block">
+     lambda            x            :          f(g(x))
+&quot;A function that    takes x    and returns     f(g(x))&quot;
+</pre>
+<p>Some programmers find that using unnamed functions from lambda expressions
+is shorter and more direct. However, compound <tt class="docutils literal">lambda</tt> expressions are
+notoriously illegible, despite their brevity.  The following definition is
+correct, but some programmers have trouble understanding it quickly.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; compose1 = lambda f,g: lambda x: f(g(x))
+</pre>
+<p>In general, Python style prefers explicit <tt class="docutils literal">def</tt> statements to lambda
+expressions, but allows them in cases where a simple function is needed as an
+argument or return value.</p>
+<p>Such stylistic rules are merely guidelines; you can program any way you wish.
+However, as you write programs, think about the audience of people who might
+read your program one day.  If you can make your program easier to interpret,
+you will do those people a favor.</p>
+<p>The term <em>lambda</em> is a historical accident resulting from the incompatibility of
+written mathematical notation and the constraints of early type-setting
+systems.</p>
+<blockquote class="epigraph">
+<p>It may seem perverse to use lambda to introduce a procedure/function.
+The notation goes back to Alonzo Church, who in the 1930's started with a
+&quot;hat&quot; symbol; he wrote the square function as &quot;ŷ . y × y&quot;. But frustrated
+typographers moved the hat to the left of the parameter and changed it to a
+capital lambda: &quot;Λy . y × y&quot;; from there the capital lambda was changed to
+lowercase, and now we see &quot;λy . y × y&quot; in math books and
+<tt class="docutils literal">(lambda (y) (* y y))</tt> in Lisp.</p>
+<p class="attribution">&mdash;Peter Norvig (norvig.com/lispy2.html)</p>
+</blockquote>
+<p>Despite their unusual etymology, <tt class="docutils literal">lambda</tt> expressions and the corresponding
+formal language for function application, the <em>lambda calculus</em>, are fundamental
+computer science concepts shared far beyond the Python programming community.
+We will revisit this topic when we study the design of interpreters in Chapter
+3.</p>
+</div>
+<div class="section" id="example-newton-s-method">
+<h2><a class="toc-backref" href="#id38">1.6.6&nbsp;&nbsp;&nbsp;Example: Newton's Method</a></h2>
+<p>This final extended example shows how function values, local defintions, and
+lambda expressions can work together to express general ideas concisely.</p>
+<p>Newton's method is a classic iterative approach to finding the arguments of a
+mathematical function that yield a return value of 0. These values are called
+<em>roots</em> of a single-argument mathematical function. Finding a root of a function
+is often equivalent to solving a related math problem.</p>
+<ul class="simple">
+<li>The square root of 16 is the value <tt class="docutils literal">x</tt> such that: <tt class="docutils literal">square(x) - 16 = 0</tt></li>
+<li>The log base 2 of 32 (i.e., the exponent to which we would raise 2 to get 32)
+is the value <tt class="docutils literal">x</tt> such that: <tt class="docutils literal">pow(2, x) - 32 = 0</tt></li>
+</ul>
+<p>Thus, a general method for finding roots will also provide us an algorithm to
+compute square roots and logarithms. Moreover, the equations for which we want
+to compute roots only contain simpler operations: multiplication and
+exponentiation.</p>
+<p>A comment before we proceed: it is easy to take for granted the fact that we
+know how to compute square roots and logarithms. Not just Python, but your
+phone, your pocket calculator, and perhaps even your watch can do so for you.
+However, part of learning computer science is understanding how quantities
+like these can be computed, and the general approach presented here is
+applicable to solving a large class of equations beyond those built into Python.</p>
+<p>Before even beginning to understand Newton's method, we can start programming;
+this is the power of functional abstractions. We simply translate our previous
+statements into code.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def square_root(a):
+        return find_root(lambda x: square(x) - a)
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def logarithm(a, base=2):
+        return find_root(lambda x: pow(base, x) - a)
+</pre>
+<p>Of course, we cannot apply any of these functions until we define <em>find_root</em>,
+and so we need to understand how Newton's method works.</p>
+<p>Newton's method is also an iterative improvement algorithm: it improves a guess
+of the root for any function that is <em>differentiable</em>. Notice that both of our
+functions of interest change smoothly; graphing <tt class="docutils literal">x</tt> versus <tt class="docutils literal">f(x)</tt> for</p>
+<ul class="simple">
+<li><tt class="docutils literal">f(x) = square(x) - 16</tt> (light curve)</li>
+<li><tt class="docutils literal">f(x) = pow(2, x) - 32</tt> (dark curve)</li>
+</ul>
+<p>on a 2-dimensional plane shows that both functions produce a smooth curve
+without kinks that crosses <tt class="docutils literal">0</tt> at the appropriate point.</p>
+<div class="figure">
+<img alt="img/curves.png" src="img/curves.png" />
+</div>
+<p>Because they are smooth (differentiable), these curves can be approximated by a
+line at any point.  Newton's method follows these linear approximations to find
+function roots.</p>
+<p>Imagine a line through the point <tt class="docutils literal">(x, f(x))</tt> that has the same slope as the
+curve for function <tt class="docutils literal">f(x)</tt> at that point. Such a line is called the <em>tangent</em>,
+and its slope is called the <em>derivative</em> of <tt class="docutils literal">f</tt> at <tt class="docutils literal">x</tt>.</p>
+<p>This line's slope is the ratio of the change in function value to the change in
+function argument. Hence, translating <tt class="docutils literal">x</tt> by <tt class="docutils literal">f(x)</tt> divided by the slope will
+give the argument value at which this tangent line touches 0.</p>
+<div class="figure">
+<img alt="img/newton.png" src="img/newton.png" />
+</div>
+<p>Our Newton update expresses the computational process of following this tangent
+line to 0. We approximate the derivative of the function by computing its slope
+over a very small interval.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def approx_derivative(f, x, delta=1e-5):
+        df = f(x + delta) - f(x)
+        return df/delta
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def newton_update(f):
+        def update(x):
+            return x - f(x) / approx_derivative(f, x)
+        return update
+</pre>
+<p>Finally, we can define the <tt class="docutils literal">find_root</tt> function in terms of <tt class="docutils literal">newton_update</tt>,
+our iterative improvement algorithm, and a test to see if <tt class="docutils literal">f(x)</tt> is near 0. We
+supply a larger initial guess to improve performance for <tt class="docutils literal">logarithm</tt>.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def find_root(f, initial_guess=10):
+        def test(x):
+            return approx_eq(f(x), 0)
+        return iter_improve(newton_update(f), test, initial_guess)
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; square_root(16)
+4.000000000026422
+&gt;&gt;&gt; logarithm(32, 2)
+5.000000094858201
+</pre>
+<p>As you experiment with Newton's method, be aware that it will not always
+converge. The initial guess of <tt class="docutils literal">iter_improve</tt> must be sufficiently close to
+the root, and various conditions about the function must be met. Despite this
+shortcoming, Newton's method is a powerful general computational method for
+solving differentiable equations. In fact, very fast algorithms for logarithms
+and large integer division employ variants of the technique.</p>
+</div>
+<div class="section" id="abstractions-and-first-class-functions">
+<h2><a class="toc-backref" href="#id39">1.6.7&nbsp;&nbsp;&nbsp;Abstractions and First-Class Functions</a></h2>
+<p>We began this section with the observation that user-defined functions are a
+crucial abstraction mechanism, because they permit us to express general methods
+of computing as explicit elements in our programming language. Now we've seen
+how higher-order functions permit us to manipulate these general methods to
+create further abstractions.</p>
+<p>As programmers, we should be alert to opportunities to identify the underlying
+abstractions in our programs, to build upon them, and generalize them to
+create more powerful abstractions. This is not to say that one should always
+write programs in the most abstract way possible; expert programmers know how to
+choose the level of abstraction appropriate to their task. But it is important
+to be able to think in terms of these abstractions, so that we can be ready to
+apply them in new contexts. The significance of higher-order functions is that
+they enable us to represent these abstractions explicitly as elements in our
+programming language, so that they can be handled just like other computational
+elements.</p>
+<p>In general, programming languages impose restrictions on the ways in which
+computational elements can be manipulated. Elements with the fewest restrictions
+are said to have first-class status. Some of the &quot;rights and privileges&quot; of
+first-class elements are:</p>
+<ol class="arabic simple">
+<li>They may be bound to names.</li>
+<li>They may be passed as arguments to functions.</li>
+<li>They may be returned as the results of functions.</li>
+<li>They may be included in data structures.</li>
+</ol>
+<p>Python awards functions full first-class status, and the resulting gain in
+expressive power is enormous.  Control structures, on the other hand, do not:
+you cannot pass <tt class="docutils literal">if</tt> to a function the way you can <tt class="docutils literal">sum</tt>.</p>
+</div>
+<div class="section" id="function-decorators">
+<h2><a class="toc-backref" href="#id40">1.6.8&nbsp;&nbsp;&nbsp;Function Decorators</a></h2>
+<p>Python provides special syntax to apply higher-order functions as part of
+executing a <tt class="docutils literal">def</tt> statement, called a decorator. Perhaps the most common
+example is a trace.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def trace1(fn):
+        def wrapped(x):
+            print('-&gt; ', fn, '(', x, ')')
+            return fn(x)
+        return wrapped
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; &#64;trace1
+    def triple(x):
+        return 3 * x
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; triple(12)
+-&gt;  &lt;function triple at 0x102a39848&gt; ( 12 )
+36
+</pre>
+<p>In this example, A higher-order function <tt class="docutils literal">trace1</tt> is defined, which returns a
+function that precedes a call to its argument with a <tt class="docutils literal">print</tt> statement that
+outputs the argument. The <tt class="docutils literal">def</tt> statement for <tt class="docutils literal">triple</tt> has an
+annototation, <tt class="docutils literal">&#64;trace1</tt>, which affects the execution rule for <tt class="docutils literal">def</tt>. As
+usual, the function <tt class="docutils literal">triple</tt> is created. However, the name <tt class="docutils literal">triple</tt> is not
+bound to this function. Instead, the name <tt class="docutils literal">triple</tt> is bound to the returned
+function value of calling <tt class="docutils literal">trace1</tt> on the newly defined <tt class="docutils literal">triple</tt> function.
+In code, this decorator is equivalent to:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def triple(x):
+        return 3 * x
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; triple = trace1(triple)
+</pre>
+<p>In the projects for this course, decorators are used for tracing, as well as
+selecting which functions to call when a program is run from the command line.</p>
+<p><strong>Extra for experts.</strong> The actual rule is that the decorator symbol
+<tt class="docutils literal">&#64;</tt> may be followed by an expression (<tt class="docutils literal">&#64;trace1</tt> is just a simple
+expression consisting of a single name).  Any expression producing a
+suitable value is allowed.  For example, with a suitable definition,
+you could define a decorator <tt class="docutils literal">check_range</tt> so that decorating a
+function definition with <tt class="docutils literal">&#64;check_range(1, 10)</tt> would cause the
+function's results to be checked to make sure they are integers
+between 1 and 10.  The call <tt class="docutils literal">check_range(1,10)</tt> would return a
+function that would then be applied to the newly defined function
+before it is bound to the name in the <tt class="docutils literal">def</tt> statement. A <a class="reference external" href="http://programmingbits.pythonblogs.com/27_programmingbits/archive/50_function_decorators.html">short
+tutorial on decorators</a>
+by Ariel Ortiz gives further examples for interested students.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

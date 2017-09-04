@@ -1,0 +1,421 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.8.1: http://docutils.sourceforge.net/" />
+<title>Chapter 4: Distributed and Parallel Computing</title>
+<link rel="stylesheet" href="css/lectures.css" type="text/css" />
+
+        <script src="js/jsMath/easy/load.js"></script>
+        <link href="css/prettify.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="css/prettify.js"></script></head>
+<body onload="prettyPrint();">
+<div class="document" id="chapter-4-distributed-and-parallel-computing">
+<h1 class="title">Chapter 4: Distributed and Parallel Computing</h1>
+<!-- These notes have been placed in the public domain under the license -->
+<!-- Creative Commons Attribution-ShareAlike 3.0 -->
+<!-- http://creativecommons.org/licenses/by-sa/3.0/ -->
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="auto-toc simple">
+<li><a class="reference internal" href="#introduction" id="id1">4.1&nbsp;&nbsp;&nbsp;Introduction</a></li>
+<li><a class="reference internal" href="#distributed-computing" id="id2">4.2&nbsp;&nbsp;&nbsp;Distributed Computing</a><ul class="auto-toc">
+<li><a class="reference internal" href="#client-server-systems" id="id3">4.2.1&nbsp;&nbsp;&nbsp;Client/Server Systems</a></li>
+<li><a class="reference internal" href="#peer-to-peer-systems" id="id4">4.2.2&nbsp;&nbsp;&nbsp;Peer-to-peer Systems</a></li>
+<li><a class="reference internal" href="#modularity" id="id5">4.2.3&nbsp;&nbsp;&nbsp;Modularity</a></li>
+<li><a class="reference internal" href="#message-passing" id="id6">4.2.4&nbsp;&nbsp;&nbsp;Message Passing</a></li>
+<li><a class="reference internal" href="#messages-on-the-world-wide-web" id="id7">4.2.5&nbsp;&nbsp;&nbsp;Messages on the World Wide Web</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#parallel-computing" id="id8">4.3&nbsp;&nbsp;&nbsp;Parallel Computing</a><ul class="auto-toc">
+<li><a class="reference internal" href="#the-problem-with-shared-state" id="id9">4.3.1&nbsp;&nbsp;&nbsp;The Problem with Shared State</a></li>
+<li><a class="reference internal" href="#correctness-in-parallel-computation" id="id10">4.3.2&nbsp;&nbsp;&nbsp;Correctness in Parallel Computation</a></li>
+<li><a class="reference internal" href="#protecting-shared-state-locks-and-semaphores" id="id11">4.3.3&nbsp;&nbsp;&nbsp;Protecting Shared State: Locks and Semaphores</a></li>
+<li><a class="reference internal" href="#staying-synchronized-condition-variables" id="id12">4.3.4&nbsp;&nbsp;&nbsp;Staying Synchronized: Condition variables</a></li>
+<li><a class="reference internal" href="#deadlock" id="id13">4.3.5&nbsp;&nbsp;&nbsp;Deadlock</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h1><a class="toc-backref" href="#id1">4.1&nbsp;&nbsp;&nbsp;Introduction</a></h1>
+<p>So far, we have focused on how to create, interpret, and execute programs. In Chapter 1, we learned to use functions as a means for combination and abstraction. Chapter 2 showed us how to represent data and manipulate it with data structures and objects, and introduced us to the concept of data abstraction. In Chapter 3, we learned how computer programs are interpreted and executed. The result is that we understand how to design programs for a single processor to run.</p>
+<p>In this chapter, we turn to the problem of coordinating multiple computers and processors. First, we will look at distributed systems. These are interconnected groups of independent computers that need to communicate with each other to get a job done. They may need to coordinate to provide a service, share data, or even store data sets that are too large to fit on a single machine. We will look at different roles computers can play in distributed systems and learn about the kinds of information that computers need to exchange in order to work together.</p>
+<p>Next, we will consider concurrent computation, also known as parallel computation. Concurrent computation is when a single program is executed by multiple processors with a shared memory, all working together in parallel in order to get work done faster. Concurrency introduces new challenges, and so we will develop new techniques to manage the complexity of concurrent programs.</p>
+</div>
+<div class="section" id="distributed-computing">
+<h1><a class="toc-backref" href="#id2">4.2&nbsp;&nbsp;&nbsp;Distributed Computing</a></h1>
+<p>A distributed system is a network of autonomous computers that communicate with each other in order to achieve a goal. The computers in a distributed system are independent and do not physically share memory or processors. They  communicate with each other using <em>messages</em>, pieces of information transferred from one computer to another over a network. Messages can communicate many things: computers can tell other computers to execute a procedures with particular arguments, they can send and receive packets of data, or send signals that tell other computers to behave a certain way.</p>
+<p>Computers in a distributed system can have different roles. A computer's role depends on the goal of the system and the computer's own hardware and software properties. There are two predominant ways of organizing computers in a distributed system. The first is the client-server architecture, and the second is the peer-to-peer architecture.</p>
+<div class="section" id="client-server-systems">
+<h2><a class="toc-backref" href="#id3">4.2.1&nbsp;&nbsp;&nbsp;Client/Server Systems</a></h2>
+<p>The client-server architecture is a way to dispense a service from a central source. There is a single <em>server</em> that provides a service, and multiple <em>clients</em> that communicate with the server to consume its products. In this architecture, clients and servers have different jobs. The server's job is to respond to service requests from clients, while a client's job is to use the data provided in response in order to perform some task.</p>
+<div class="figure">
+<img alt="img/clientserver.png" src="img/clientserver.png" />
+</div>
+<p>The client-server model of communication can be traced back to the introduction of UNIX in the 1970's, but perhaps the most influential use of the model is the modern World Wide Web. An example of a client-server interaction is reading the New York Times online. When the web server at www.nytimes.com is contacted by a web browsing client (like Firefox), its job is to send back the HTML of the New York Times main page. This could involve calculating personalized content based on user account information sent by the client, and fetching appropriate advertisements. The job of the web browsing client is to render the HTML code sent by the server. This means displaying the images, arranging the content visually, showing different colors, fonts, and shapes and allowing users to interact with the rendered web page.</p>
+<p>The concepts of <em>client</em> and <em>server</em> are powerful functional abstractions. A server is simply a unit that provides a service, possibly to multiple clients simultaneously, and a client is a unit that consumes the service. The clients do not need to know the details of how the service is provided, or how the data they are receiving is stored or calculated, and the server does not need to know how the data is going to be used.</p>
+<p>On the web, we think of clients and servers as being on different machines, but even systems on a single machine can have client/server architectures. For example, signals from input devices on a computer need to be generally available to programs running on the computer. The programs are clients, consuming mouse and keyboard input data. The operating system's device drivers are the servers, taking in physical signals and serving them up as usable input.</p>
+<p>A drawback of client-server systems is that the server is a single point of failure. It is the only component with the ability to dispense the service. There can be any number of clients, which are interchangeable and can come and go as necessary. If the server goes down, however, the system stops working. Thus, the functional abstraction created by the client-server architecture also makes it vulnerable to failure.</p>
+<p>Another drawback of client-server systems is that resources become scarce if there are too many clients. Clients increase the demand on the system without contributing any computing resources. Client-server systems cannot shrink and grow with changing demand.</p>
+</div>
+<div class="section" id="peer-to-peer-systems">
+<h2><a class="toc-backref" href="#id4">4.2.2&nbsp;&nbsp;&nbsp;Peer-to-peer Systems</a></h2>
+<p>The client-server model is appropriate for service-oriented situations. However, there are other computational goals for which a more equal division of labor is a better choice. The term <em>peer-to-peer</em> is used to describe distributed systems in which labor is divided among all the components of the system. All the computers send and receive data, and they all contribute some processing power and memory. As a distributed system increases in size, its capacity of computational resources increases. In a peer-to-peer system, all components of the system contribute some processing power and memory to a distributed computation.</p>
+<p>Division of labor among <em>all</em> participants is the identifying characteristic of a peer-to-peer system. This means that peers need to be able to communicate with each other reliably. In order to make sure that messages reach their intended destinations, peer-to-peer systems need to have an organized network structure. The components in these systems cooperate to maintain enough information about the locations of other components to send messages to intended destinations.</p>
+<p>In some peer-to-peer systems, the job of maintaining the health of the network is taken on by a set of specialized components. Such systems are not pure peer-to-peer systems, because they have different types of components that serve different functions. The components that support a peer-to-peer network act like scaffolding: they help the network stay connected, they maintain information about the locations of different computers, and they help newcomers take their place within their neighborhood.</p>
+<p>The most common applications of peer-to-peer systems are data transfer and data storage. For data transfer, each computer in the system contributes to send data over the network. If the destination computer is in a particular computer's neighborhood, that computer helps send data along. For data storage, the data set may be too large to fit on any single computer, or too valuable to store on just a single computer. Each computer stores a small portion of the data, and there may be multiple copies of the same data spread over different computers. When a computer fails, the data that was on it can be restored from other copies and put back when a replacement arrives.</p>
+<p>Skype, the voice- and video-chat service, is an example of a data transfer application with a peer-to-peer architecture. When two people on different computers are having a Skype conversation, their communications are broken up into packets of 1s and 0s and transmitted through a peer-to-peer network.  This network is composed of other people whose computers are signed into Skype. Each computer knows the location of a few other computers in its neighborhood. A computer helps send a packet to its destination by passing it on a neighbor, which passes it on to some other neighbor, and so on, until the packet reaches its intended destination. Skype is not a pure peer-to-peer system. A scaffolding network of <em>supernodes</em> is responsible for logging-in and logging-out users, maintaining information about the locations of their computers, and modifying the network structure to deal with users entering and leaving.</p>
+</div>
+<div class="section" id="modularity">
+<h2><a class="toc-backref" href="#id5">4.2.3&nbsp;&nbsp;&nbsp;Modularity</a></h2>
+<p>The two architectures we have just considered -- peer-to-peer and client-server -- are designed to enforce <em>modularity</em>. Modularity is the idea that the components of a system should be black boxes with respect to each other. It should not matter how a component implements its behavior, as long as it upholds an <em>interface</em>: a specification for what outputs will result from inputs.</p>
+<p>In chapter 2, we encountered interfaces in the context of dispatch functions and object-oriented programming. There, interfaces took the form of specifying the messages that objects should take, and how they should behave in response to them. For example, in order to uphold the &quot;representable as strings&quot; interface, an object must be able to respond to the <tt class="docutils literal">__repr__</tt> and <tt class="docutils literal">__str__</tt> messages, and output appropriate strings in response. How the generation of those strings is implemented is not part of the interface.</p>
+<p>In distributed systems, we must consider program design that involves multiple computers, and so we extend this notion of an interface from objects and messages to full programs. An interface specifies the inputs that should be accepted and the outputs that should be returned in response to inputs. Interfaces are everywhere in the real world, and we often take them for granted. A familiar example is TV remotes. You can buy many different brands of remote for a modern TV, and they will all work. The only commonality between them is the &quot;TV remote&quot; interface.  A piece of electronics obeys the &quot;TV remote&quot; interface as long as it sends the correct signals to your TV (the output) in response to when you press the power, volume, channel, or whatever other buttons (the input).</p>
+<p>Modularity gives a system many advantages, and is a property of thoughtful system design. First, a modular system is easy to understand. This makes it easier to change and expand. Second, if something goes wrong with the system, only the defective components need to be replaced. Third, bugs or malfunctions are easy to localize. If the output of a component doesn't match the specifications of its interface, even though the inputs are correct, then that component is the source of the malfunction.</p>
+</div>
+<div class="section" id="message-passing">
+<h2><a class="toc-backref" href="#id6">4.2.4&nbsp;&nbsp;&nbsp;Message Passing</a></h2>
+<p>In distributed systems, components communicate with each other using message passing. A message has three essential parts: the sender, the recipient, and the content. The sender needs to be specified so that the recipient knows which component sent the message, and where to send replies. The recipient needs to be specified so that any computers who are helping send the message know where to direct it. The content of the message is the most variable. Depending on the function of the overall system, the content can be a piece of data, a signal, or instructions for the remote computer to evaluate a function with some arguments.</p>
+<p>This notion of message passing is closely related to the message passing technique from Chapter 2, in which dispatch functions or dictionaries responded to string-valued messages.  Within a program, the sender and receiver are identified by the rules of evaluation.  In a distributed system however, the sender and receiver must be explicitly encoded in the message. Within a program, it is convenient to use strings to control the behavior of the dispatch function. In a distributed system, messages may need to be sent over a network, and may need to hold many different kinds of signals as 'data', so they are not always encoded as strings. In both cases, however, messages serve the same function. Different components (dispatch functions or computers) exchange them in order to achieve a goal that requires coordinating multiple modular components.</p>
+<p>At a high level, message contents can be complex data structures, but at a low level, messages are simply streams of 1s and 0s sent over a network. In order to be usable, all messages sent over a network must be formatted according to a consistent <em>message protocol</em>.</p>
+<p>A <strong>message protocol</strong> is a set of rules for encoding and decoding messages. Many message protocols specify that a message conform to a particular format, in which certain bits have a consistent meaning. A fixed format implies fixed encoding and decoding rules to generate and read that format. All the components in the distributed system must understand the protocol in order to communicate with each other. That way, they know which part of the message corresponds to which information.</p>
+<p>Message protocols are not particular programs or software libraries.  Instead, they are rules that can be applied by a variety of programs, even written in different programming languages.  As a result, computers with vastly different software systems can participate in the same distributed system, simply by conforming to the message protocols that govern the system.</p>
+</div>
+<div class="section" id="messages-on-the-world-wide-web">
+<h2><a class="toc-backref" href="#id7">4.2.5&nbsp;&nbsp;&nbsp;Messages on the World Wide Web</a></h2>
+<p><strong>HTTP</strong> (short for Hypertext Transfer Protocol) is the message protocol that supports the world wide web. It specifies the format of messages exchanged between a web browser and a web server. All web browsers use the HTTP format to request pages from a web server, and all web servers use the HTTP format to send back their responses.</p>
+<p>When you type in a URL into your web browser, say <a class="reference external" href="http://en.wikipedia.org/wiki/UC_Berkeley">http://en.wikipedia.org/wiki/UC_Berkeley</a> , you are in fact telling your browser that it must request the page &quot;wiki/UC_Berkeley&quot; from the server called &quot;en.wikipedia.org&quot; using the &quot;http&quot; protocol. The sender of the message is your computer, the recipient is en.wikipedia.org, and the format of the message content is:</p>
+<pre class="literal-block">
+GET /wiki/UC_Berkeley HTTP/1.1
+</pre>
+<p>The first word is the type of the request, the next word is the resource that is requested, and after that is the name of the protocol (HTTP) and the version (1.1). (There are another types of requests, such as PUT, POST, and HEAD, that web browsers can also use).</p>
+<p>The server sends back a reply. This time, the sender is en.wikipedia.org, the recipient is your computer, and the format of the message content is a header, followed by data:</p>
+<pre class="literal-block">
+HTTP/1.1 200 OK
+Date: Mon, 23 May 2011 22:38:34 GMT
+Server: Apache/1.3.3.7 (Unix) (Red-Hat/Linux)
+Last-Modified: Wed, 08 Jan 2011 23:11:55 GMT
+Content-Type: text/html; charset=UTF-8
+
+... web page content ...
+</pre>
+<p>On the first line, the words &quot;200 OK&quot;  mean that there were no errors. The subsequent lines of the header give information about the server, the date, and the type of content being sent back. The header is separated from the actual content of the web page by a blank line.</p>
+<p>If you have typed in a wrong web address, or clicked on a broken link, you may have seen a message like this error:</p>
+<pre class="literal-block">
+404 Error File Not Found
+</pre>
+<p>It means that the server sent back an HTTP header that started like this:</p>
+<pre class="literal-block">
+HTTP/1.1 404 Not Found
+</pre>
+<p>A fixed set of response codes is a common feature of a message protocol. Designers of protocols attempt to anticipate common messages that will be sent via the protocol and assign fixed codes to reduce transmission size and establish a common message semantics.  In the HTTP protocol, the 200 response code indicates success, while 404 indicates an error that a resource was not found.  A variety of other <a class="reference external" href="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes">response codes</a> exist in the HTTP 1.1 standard as well.</p>
+<p>HTTP is a fixed format for communication, but it allows arbitrary web pages to be transmitted. Other protocols like this on the internet are XMPP, a popular protocol for instant messages, and FTP, a protocol for downloading and uploading files between client and server.</p>
+</div>
+</div>
+<div class="section" id="parallel-computing">
+<h1><a class="toc-backref" href="#id8">4.3&nbsp;&nbsp;&nbsp;Parallel Computing</a></h1>
+<p>Computers get faster and faster every year. In 1965, Intel co-founder Gordon Moore made a prediction about how much faster computers would get with time. Based on only five data points, he extrapolated that the number of transistors that could inexpensively be fit onto a chip would double every two years. Almost 50 years later, his prediction, now called Moore's law, remains startlingly accurate.</p>
+<p>Despite this explosion in speed, computers aren't able to keep up with the scale of data becoming available. By some estimates, advances in gene sequencing technology will make gene-sequence data available more quickly than processors are getting faster. In other words, for genetic data, computers are become less and less able to cope with the scale of processing problems each year, even though the computers themselves are getting faster.</p>
+<p>To circumvent physical and mechanical constraints on individual processor speed, manufacturers are turning to another solution: multiple processors. If two, or three, or more processors are available, then many programs can be executed more quickly. While one processor is doing one aspect of some computation, others can work on another. All of them can share the same data, but the work will proceed in parallel.</p>
+<p>In order to be able to work together, multiple processors need to be able to share information with each other. This is accomplished using a shared-memory environment. The variables, objects, and data structures in that environment are accessible to all the processes.The role of a processor in computation is to carry out the evaluation and execution rules of a programming language.  In a shared memory model, different processes may execute different statements, but any statement can affect the shared environment.</p>
+<div class="section" id="the-problem-with-shared-state">
+<h2><a class="toc-backref" href="#id9">4.3.1&nbsp;&nbsp;&nbsp;The Problem with Shared State</a></h2>
+<p>Sharing state between multiple processes creates problems that a single-process environments do not have. To understand why, let us look the following simple calculation:</p>
+<pre class="literal-block">
+x = 5
+x = square(x)
+x = x + 1
+</pre>
+<p>The value of x is time-dependent. At first, it is 5, then, some time later, it is 25, and then finally, it is 26. In a single-process environment, this time-dependence is is not a problem. The value of <tt class="docutils literal">x</tt> at the end is always 26. The same cannot be said, however, if multiple processes exist. Suppose we executed the last 2 lines of above code in parallel: one processor executes  <tt class="docutils literal">x = square(x)</tt> and the other executes <tt class="docutils literal">x = x+1</tt>. Each of these assignment statements involves looking up the value currently bound to <tt class="docutils literal">x</tt>, then updating that binding with a new value. Let us assume that since <tt class="docutils literal">x</tt> is shared, only a single process will read or write it at a time.  Even so, the order of the reads and writes may vary.  For instance, the example below shows a series of steps for each of two processes, <tt class="docutils literal">P1</tt> and <tt class="docutils literal">P2</tt>. Each step is a part of the evaluation process described briefly, and time proceeds from top to bottom:</p>
+<pre class="literal-block">
+P1                    P2
+read x: 5
+                      read x: 5
+calculate 5*5: 25     calculate 5+1: 6
+write 25 -&gt; x
+                      write x-&gt; 6
+</pre>
+<p>In this order, the final value of <tt class="docutils literal">x</tt> is 6. If we do not coordinate the two processes, we could have another order with a different result:</p>
+<pre class="literal-block">
+P1                    P2
+                      read x: 5
+read x: 5             calculate 5+1: 6
+calculate 5*5: 25     write x-&gt;6
+write 25 -&gt; x
+</pre>
+<p>In this ordering, <tt class="docutils literal">x</tt> would be 25. In fact, there are multiple possibilities depending on the order in which the processes execute their lines. The final value of <tt class="docutils literal">x</tt> could end up being 5, 25, or the intended value, 26.</p>
+<p>The preceding example is trivial. <tt class="docutils literal">square(x)</tt> and <tt class="docutils literal">x = x + 1</tt> are simple calculations that are fast. We don't lose much time by forcing one to go after the other. But what about situations in which parallelization is essential? An example of such a situation is banking. At any given time, there may be thousands of people wanting to make transactions with their bank accounts: they may want to swipe their cards at shops, deposit checks, transfer money, or pay bills. Even a single account may have multiple transactions active at the same time.</p>
+<p>Let us look at how the <tt class="docutils literal">make_withdraw</tt> function from Chapter 2, modified below to print the balance after updating it rather than return it. We are interested in how this function will perform in a concurrent situation.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; def make_withdraw(balance):
+        def withdraw(amount):
+            nonlocal balance
+            if amount &gt; balance:
+                print('Insufficient funds')
+            else:
+                balance = balance - amount
+                print(balance)
+        return withdraw
+</pre>
+<p>Now imagine that we create an account with $10 in it.  Let us think about what happens if we withdraw too much money from the account.  If we do these transactions in order, we receive an insufficient funds message.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; w = make_withdraw(10)
+&gt;&gt;&gt; w(8)
+2
+&gt;&gt;&gt; w(7)
+'Insufficient funds'
+</pre>
+<p>In parallel, however, there can be many different outcomes. One possibility
+appears below:</p>
+<pre class="literal-block">
+P1: w(8)                        P2: w(7)
+read balance: 10
+read amount: 8                  read balance: 10
+8 &gt; 10: False                   read amount: 7
+if False                        7 &gt; 10: False
+10 - 8: 2                       if False
+write balance -&gt; 2              10 - 7: 3
+read balance: 2                 write balance -&gt; 3
+print 2                         read balance: 3
+                                print 3
+</pre>
+<p>This particular example gives an incorrect outcome of 3. It is as if the <tt class="docutils literal">w(8)</tt> transaction never happened! Other possible outcomes are 2, and <tt class="docutils literal">'Insufficient funds'</tt>. The source of the problems are the following: if <tt class="docutils literal">P2</tt> reads <tt class="docutils literal">balance</tt> before <tt class="docutils literal">P1</tt> has written to <tt class="docutils literal">balance</tt> (or vice versa), <tt class="docutils literal">P2</tt>'s state is <em>inconsistent</em>. The value of <tt class="docutils literal">balance</tt> that <tt class="docutils literal">P2</tt> has read is obsolete, and <tt class="docutils literal">P1</tt> is going to change it. <tt class="docutils literal">P2</tt> doesn't know that and will overwrite it with an inconsistent value.</p>
+<p>These example shows that parallelizing code is not as easy as dividing up the lines between multiple processors and having them be executed. The order in which variables are read and written matters.</p>
+<p>A tempting way to enforce correctness is to stipulate that no two programs that modify shared data can run at the same time. For banking, unfortunately, this would mean that only one transaction could proceed at a time, since all transactions modify shared data. Intuitively, we understand that there should be no problem allowing 2 different people to perform transactions on completely separate accounts simultaneously. Somehow, those two operations do not interfere with each other the same way that simultaneous operations on the same account interfere with each other. Moreover, there is no harm in letting processes run concurrently when they are not reading or writing.</p>
+</div>
+<div class="section" id="correctness-in-parallel-computation">
+<h2><a class="toc-backref" href="#id10">4.3.2&nbsp;&nbsp;&nbsp;Correctness in Parallel Computation</a></h2>
+<p>There are two criteria for correctness in parallel computation environments. The first is that the outcome should always be the same. The second is that the outcome should be the same as if the code was executed in serial.</p>
+<p>The first condition says that we must avoid the variability shown in the previous section, in which interleaving the reads and writes in different ways produces different results. In the example in which we withdrew <tt class="docutils literal">w(8)</tt> and  <tt class="docutils literal">w(7)</tt> from a $10 account, this condition says that we must always return the same answer independent of the order in which <tt class="docutils literal">P1</tt>'s and <tt class="docutils literal">P2</tt>'s instructions are executed. Somehow, we must write our programs in such a way that, no matter how they are interleaved with each other, they should always produce the same result.</p>
+<p>The second condition pins down which of the many possible outcomes is correct. In the example in which we evaluated <tt class="docutils literal">w(7)</tt> and <tt class="docutils literal">w(8)</tt> from a $10 account, this condition says that the result must always come out to be <tt class="docutils literal">Insufficient funds</tt>, and not 2 or 3.</p>
+<p>Problems arise in parallel computation when one process influences another during <strong>critical sections</strong> of a program. These are sections of code that need to be executed as if they were a single instruction, but are actually made up of smaller statements. A program's execution is conducted as a series of <strong>atomic</strong> hardware instructions, which are instructions that cannot be broken in to smaller units or interrupted because of the design of the processor. In order to behave correctly in concurrent situations, the critical sections in a programs code need to be have <em>atomicity</em> -- a guarantee that they will not be interrupted by any other code.</p>
+<p>To enforce the atomicity of critical sections in a program's code under concurrency , there need to be ways to force processes to either <em>serialize</em> or <em>synchronize</em> with each other at important times. Serialization means that only one process runs at a time -- that they temporarily act as if they were being executed in serial. Synchronization takes two forms. The first is <strong>mutual exclusion</strong>, processes taking turns to access a variable, and the second is <strong>conditional synchronization</strong>, processes waiting until a condition is satisfied (such as other processes having finished their task) before continuing. This way, when one program is about to enter a critical section, the other processes can wait until it finishes, and then proceed safely.</p>
+</div>
+<div class="section" id="protecting-shared-state-locks-and-semaphores">
+<h2><a class="toc-backref" href="#id11">4.3.3&nbsp;&nbsp;&nbsp;Protecting Shared State: Locks and Semaphores</a></h2>
+<p>All the methods for synchronization and serialization that we will discuss in this section use the same underlying idea. They use variables in shared state as <em>signals</em> that all the processes understand and respect. This is the same philosophy that allows computers in a distributed system to work together -- they coordinate with each other by passing messages according to a protocol that every participant understands and respects.</p>
+<p>These mechanisms are not physical barriers that come down to protect shared state. Instead they are based on mutual understanding. It is the same sort of mutual understanding that allows traffic going in multiple directions to safely use an intersection. There are no physical walls that stop cars from crashing into each other, just respect for rules that say red means &quot;stop&quot;, and green means &quot;go&quot;. Similarly, there is really nothing protecting those shared variables except that the processes are programmed only to access them when a particular signal indicates that it is their turn.</p>
+<p><strong>Locks</strong>.  Locks, also known as <em>mutexes</em> (short for mutual exclusions), are shared objects that are commonly used to signal that shared state is being read or modified. Different programming languages implement locks in different ways, but in Python, a process can try to acquire &quot;ownership&quot; of a lock using the <tt class="docutils literal">acquire()</tt> method, and then <tt class="docutils literal">release()</tt> it some time later when it is done using the shared variables. While a lock is acquired by a process, any other process that tries to perform the <tt class="docutils literal">acquire()</tt> action will automatically be made to wait until the lock becomes free. This way, only one process can acquire a lock at a time.</p>
+<p>For a lock to protect a particular set of variables, all the processes need to be programmed to follow a rule: no process will access any of the shared variables unless it owns that particular lock. In effect, all the processes need to &quot;wrap&quot; their manipulation of the shared variables in <tt class="docutils literal">acquire()</tt> and <tt class="docutils literal">release()</tt> statements for that lock.</p>
+<p>We can apply this concept to the bank balance example. The critical section in that example was the set of operations starting when <tt class="docutils literal">balance</tt> was read to when <tt class="docutils literal">balance</tt> was written. We saw that problems occurred if more than one process was in this section at the same time. To protect the critical section, we will use a lock. We will call this lock <tt class="docutils literal">balance_lock</tt> (although we could call it anything we liked). In order for the lock to actually protect the section, we must make sure to <tt class="docutils literal">acquire()</tt> the lock before trying to entering the section, and <tt class="docutils literal">release()</tt> the lock afterwards, so that others can have their turn.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; from threading import Lock
+&gt;&gt;&gt; def make_withdraw(balance):
+        balance_lock = Lock()
+        def withdraw(amount):
+            nonlocal balance
+            # try to acquire the lock
+            balance_lock.acquire()
+            # once successful, enter the critical section
+            if amount &gt; balance:
+                print(&quot;Insufficient funds&quot;)
+            else:
+                balance = balance - amount
+                print(balance)
+            # upon exiting the critical section, release the lock
+            balance_lock.release()
+</pre>
+<p>If we set up the same situation as before:</p>
+<pre class="literal-block">
+w = make_withdraw(10)
+</pre>
+<p>And now execute <tt class="docutils literal">w(8)</tt> and <tt class="docutils literal">w(7)</tt> in parallel:</p>
+<pre class="literal-block">
+P1                                  P2
+acquire balance_lock: ok
+read balance: 10                    acquire balance_lock: wait
+read amount: 8                      wait
+8 &gt; 10: False                       wait
+if False                            wait
+10 - 8: 2                           wait
+write balance -&gt; 2                  wait
+read balance: 2                     wait
+print 2                             wait
+release balance_lock                wait
+                                    acquire balance_lock:ok
+                                    read balance: 2
+                                    read amount: 7
+                                    7 &gt; 2: True
+                                    if True
+                                    print 'Insufficient funds'
+                                    release balance_lock
+</pre>
+<p>We see that it is impossible for two processes to be in the critical section at the same time. The instant one process acquires balance_lock, the other one has to wait until that processes <em>finishes</em> its critical section before it can even start.</p>
+<p>Note that the program will not terminate unless <tt class="docutils literal">P1</tt> releases <tt class="docutils literal">balance_lock</tt>. If it does not release <tt class="docutils literal">balance_lock</tt>, <tt class="docutils literal">P2</tt> will never be able to acquire it and will be stuck waiting forever. Forgetting to release acquired locks is a common error in parallel programming.</p>
+<p><strong>Semaphores</strong>.  Semaphores are signals used to protect access to limited resources. They are similar to locks, except that they can be acquired multiple times up to a limit. They are like elevators that can only carry a certain number of people. Once the limit has been reached, a process must wait to use the resource until another process releases the semaphore and it can acquire it.</p>
+<p>For example, suppose there are many processes that need to read data from a central database server. The server may crash if too many processes access it at once, so it is a good idea to limit the number of connections. If the database can only support <em>N=2</em> connections at once, we can set up a semaphore with value <em>N=2</em>.</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; from threading import Semaphore
+&gt;&gt;&gt; db_semaphore = Semaphore(2) # set up the semaphore
+&gt;&gt;&gt; database = []
+&gt;&gt;&gt; def insert(data):
+        db_semaphore.acquire() # try to acquire the semaphore
+        database.append(data)  # if successful, proceed
+        db_semaphore.release() # release the semaphore
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; insert(7)
+&gt;&gt;&gt; insert(8)
+&gt;&gt;&gt; insert(9)
+</pre>
+<p>The semaphore will work as intended if all the processes are programmed to only access the database if they can acquire the semaphore. Once <em>N=2</em> processes have acquired the semaphore, any other processes will wait until one of them has released the semaphore, and then try to acquire it before accessing the database:</p>
+<pre class="literal-block">
+P1                          P2                           P3
+acquire db_semaphore: ok    acquire db_semaphore: wait   acquire db_semaphore: ok
+read data: 7                wait                         read data: 9
+append 7 to database        wait                         append 9 to database
+release db_semaphore: ok    acquire db_semaphore: ok     release db_semaphore: ok
+                            read data: 8
+                            append 8 to database
+                            release db_semaphore: ok
+</pre>
+<p>A semaphore with value 1 behaves like a lock.</p>
+</div>
+<div class="section" id="staying-synchronized-condition-variables">
+<h2><a class="toc-backref" href="#id12">4.3.4&nbsp;&nbsp;&nbsp;Staying Synchronized: Condition variables</a></h2>
+<p>Condition variables are useful when a parallel computation is composed of a series of steps. A process can use a condition variable to signal it has finished its particular step. Then, the other processes that were waiting for the signal can start their work. An example of a computation that needs to proceed in steps a sequence of large-scale vector computations. In computational biology, web-scale computations, and image processing and graphics, it is common to have very large (million-element) vectors and matrices. Imagine the following computation:</p>
+<div class="figure">
+<img alt="img/vector-math1.png" src="img/vector-math1.png" style="height: 100px;" />
+</div>
+<p>We may choose to parallelize each step by breaking up the matrices and vectors into range of rows, and assigning each range to a separate thread. As an example of the above computation, imagine the following simple values:</p>
+<div class="figure">
+<img alt="img/vector-math2.png" src="img/vector-math2.png" style="height: 100px;" />
+</div>
+<p>We will assign first half (in this case the first row) to one thread, and the second half (second row) to another thread:</p>
+<div class="figure">
+<img alt="img/vector-math3.png" src="img/vector-math3.png" style="height: 100px;" />
+</div>
+<p>In pseudocode, the computation is:</p>
+<pre class="literal-block">
+def do_step_1(index):
+  A[index] = B[index] + C[index]
+
+def do_step_2(index):
+        V[index] = M[index] . A
+</pre>
+<p>Process 1 does:</p>
+<pre class="literal-block">
+do_step_1(1)
+do_step_2(1)
+</pre>
+<p>And process 2 does:</p>
+<pre class="literal-block">
+do_step_1(2)
+do_step_2(2)
+</pre>
+<p>If allowed to proceed without synchronization, the following inconsistencies could result:</p>
+<pre class="literal-block">
+P1                          P2
+read B1: 2
+read C1: 0
+calculate 2+0: 2
+write 2 -&gt; A1               read B2: 0
+read M1: (1 2)              read C2: 5
+read A: (2 0)               calculate 5+0: 5
+calculate (1 2).(2 0): 2    write 5 -&gt; A2
+write 2 -&gt; V1               read M2: (1 2)
+                            read A: (2 5)
+                            calculate (1 2).(2 5):12
+                            write 12 -&gt; V2
+</pre>
+<p>The problem is that V should not be computed until all the elements of A have been computed. However, P1 finishes <tt class="docutils literal">A = B+C</tt> and moves on to <tt class="docutils literal">V = MA</tt> before all the elements of A have been computed. It therefore uses an inconsistent value of A when multiplying by M.</p>
+<p>We can use a condition variable to solve this problem.</p>
+<p><strong>Condition variables</strong> are objects that act as signals that a condition has been satisfied. They are commonly used to coordinate processes that need to wait for something to happen before continuing. Processes that need the condition to be satisfied can make themselves wait on a condition variable until some other process modifies it to tell them to proceed.</p>
+<p>In Python, any number of processes can signal that they are waiting for a condition using the <tt class="docutils literal">condition.wait()</tt> method. After calling this method, they automatically wait until some other process calls the <tt class="docutils literal">condition.notify()</tt> or <tt class="docutils literal">condition.notifyAll()</tt> function. The <tt class="docutils literal">notify()</tt> method wakes up just one process, and leaves the others waiting. The <tt class="docutils literal">notifyAll()</tt> method wakes up all the waiting processes. Each of these is useful in different situations.</p>
+<p>Since condition variables are usually associated with shared variables that determine whether or not the condition is true, they are offer <tt class="docutils literal">acquire()</tt> and <tt class="docutils literal">release()</tt> methods. These methods should be used when modifying variables that could change the status of the condition. Any process wishing to signal a change in the condition must first get access to it using <tt class="docutils literal">acquire()</tt>.</p>
+<p>In our example, the condition that must be met before advancing to the second step is that both processes must have finished the first step.  We can keep track of the number of processes that have finished a step, and whether or not the condition has been met, by introducing the following 2 variables:</p>
+<pre class="literal-block">
+step1_finished = 0
+start_step2 = Condition()
+</pre>
+<p>We will insert a <tt class="docutils literal"><span class="pre">start_step_2().wait()</span></tt> at the beginning of <tt class="docutils literal">do_step_2</tt>. Each process will increment <tt class="docutils literal">step1_finished</tt> when it finishes Step 1, but we will only signal the condition when <tt class="docutils literal">step_1_finished = 2</tt>. The following pseudocode illustrates this:</p>
+<pre class="literal-block">
+step1_finished = 0
+start_step2 = Condition()
+
+def do_step_1(index):
+  A[index] = B[index] + C[index]
+  # access the shared state that determines the condition status
+  start_step2.acquire()
+  step1_finished += 1
+  if(step1_finished == 2): # if the condition is met
+        start_step2.notifyAll() # send the signal
+  #release access to shared state
+  start_step2.release()
+
+def do_step_2(index):
+  # wait for the condition
+  start_step2.wait()
+  V[index] = M[index] . A
+</pre>
+<p>With the introduction of this condition, both processes enter Step 2 together as follows::</p>
+<pre class="literal-block">
+P1                            P2
+read B1: 2
+read C1: 0
+calculate 2+0: 2
+write 2 -&gt; A1                 read B2: 0
+acquire start_step2: ok       read C2: 5
+write 1 -&gt; step1_finished     calculate 5+0: 5
+step1_finished == 2: false    write 5-&gt; A2
+release start_step2: ok       acquire start_step2: ok
+start_step2: wait             write 2-&gt; step1_finished
+wait                          step1_finished == 2: true
+wait                          notifyAll start_step_2: ok
+start_step2: ok               start_step2:ok
+read M1: (1 2)                read M2: (1 2)
+read A:(2 5)
+calculate (1 2). (2 5): 12    read A:(2 5)
+write 12-&gt;V1                  calculate (1 2). (2 5): 12
+                              write 12-&gt;V2
+</pre>
+<p>Upon entering <tt class="docutils literal">do_step_2</tt>, P1 has to wait on <tt class="docutils literal">start_step_2</tt> until P2 increments <tt class="docutils literal">step1_finished</tt>, finds that it equals 2, and signals the condition.</p>
+</div>
+<div class="section" id="deadlock">
+<h2><a class="toc-backref" href="#id13">4.3.5&nbsp;&nbsp;&nbsp;Deadlock</a></h2>
+<p>While synchronization methods are effective for protecting shared state, they come with a catch. Because they cause processes to wait on each other, they are vulnerable to <strong>deadlock</strong>, a situation in which two or more processes are stuck, waiting for each other to finish. We have already mentioned how forgetting to release a lock can cause a process to get stuck  indefinitely. But even if there are the correct number of <tt class="docutils literal">acquire()</tt> and <tt class="docutils literal">release()</tt> calls, programs can still reach deadlock.</p>
+<p>The source of deadlock is a <strong>circular wait</strong>, illustrated below. No process can continue because it is waiting for other processes that are waiting for it to complete.</p>
+<div class="figure">
+<img alt="img/deadlock.png" src="img/deadlock.png" />
+</div>
+<p>As an example, we will set up a deadlock with two processes. Suppose there are two locks, <tt class="docutils literal">x_lock</tt> and <tt class="docutils literal">y_lock</tt>, and they are used as follows:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; x_lock = Lock()
+&gt;&gt;&gt; y_lock = Lock()
+&gt;&gt;&gt; x = 1
+&gt;&gt;&gt; y = 0
+&gt;&gt;&gt; def compute():
+        x_lock.acquire()
+        y_lock.acquire()
+        y = x + y
+        x = x * x
+        y_lock.release()
+        x_lock.release()
+</pre>
+<pre class="doctest-block">
+&gt;&gt;&gt; def anti_compute():
+        y_lock.acquire()
+        x_lock.acquire()
+        y = y - x
+        x = sqrt(x)
+        x_lock.release()
+        y_lock.release()
+</pre>
+<p>If <tt class="docutils literal">compute()</tt> and <tt class="docutils literal">anti_compute()</tt> are executed in parallel, and happen to interleave with each other as follows:</p>
+<pre class="literal-block">
+P1                          P2
+acquire x_lock: ok          acquire y_lock: ok
+acquire y_lock: wait        acquire x_lock: wait
+wait                        wait
+wait                        wait
+wait                        wait
+...                         ...
+</pre>
+<p>the resulting situation is a deadlock. <tt class="docutils literal">P1</tt> and <tt class="docutils literal">P2</tt> are each holding on to one lock, but they need both in order to proceed. <tt class="docutils literal">P1</tt> is waiting for <tt class="docutils literal">P2</tt> to release <tt class="docutils literal">y_lock</tt>, and <tt class="docutils literal">P2</tt> is waiting for <tt class="docutils literal">P1</tt> to release <tt class="docutils literal">x_lock</tt>. As a result, neither can proceed.</p>
+</div>
+</div>
+</div>
+</body>
+</html>
