@@ -32,3 +32,6 @@ perl -i -pe 's/\\\\\(/\$/g' $OUT
 perl -i -pe 's/\\\\\)/\$/g' $OUT
 perl -i -pe 's/\\\\\\\[/\$\$/g' $OUT
 perl -i -pe 's/\\\\\\\]/\$\$\n/g' $OUT
+
+# Fix up code blocks
+./deindent_codeblocks.py $OUT $OUT
