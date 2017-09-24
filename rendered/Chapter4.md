@@ -1,20 +1,7 @@
-Contents
 
--   [4.1   Introduction](#introduction)
--   [4.2   Distributed Computing](#distributed-computing)
-    -   [4.2.1   Client/Server Systems](#client-server-systems)
-    -   [4.2.2   Peer-to-peer Systems](#peer-to-peer-systems)
-    -   [4.2.3   Modularity](#modularity)
-    -   [4.2.4   Message Passing](#message-passing)
-    -   [4.2.5   Messages on the World Wide Web](#messages-on-the-world-wide-web)
--   [4.3   Parallel Computing](#parallel-computing)
-    -   [4.3.1   The Problem with Shared State](#the-problem-with-shared-state)
-    -   [4.3.2   Correctness in Parallel Computation](#correctness-in-parallel-computation)
-    -   [4.3.3   Protecting Shared State: Locks and Semaphores](#protecting-shared-state-locks-and-semaphores)
-    -   [4.3.4   Staying Synchronized: Condition variables](#staying-synchronized-condition-variables)
-    -   [4.3.5   Deadlock](#deadlock)
+[[table-of-contents]]
 
-# [4.1   Introduction](#id1)
+# 4.1 Introduction
 
 So far, we have focused on how to create, interpret, and execute programs. In Chapter 1, we learned to use functions as a means for combination and abstraction. Chapter 2 showed us how to represent data and manipulate it with data structures and objects, and introduced us to the concept of data abstraction. In Chapter 3, we learned how computer programs are interpreted and executed. The result is that we understand how to design programs for a single processor to run.
 
@@ -22,13 +9,13 @@ In this chapter, we turn to the problem of coordinating multiple computers and p
 
 Next, we will consider concurrent computation, also known as parallel computation. Concurrent computation is when a single program is executed by multiple processors with a shared memory, all working together in parallel in order to get work done faster. Concurrency introduces new challenges, and so we will develop new techniques to manage the complexity of concurrent programs.
 
-# [4.2   Distributed Computing](#id2)
+# 4.2 Distributed Computing
 
 A distributed system is a network of autonomous computers that communicate with each other in order to achieve a goal. The computers in a distributed system are independent and do not physically share memory or processors. They communicate with each other using *messages*, pieces of information transferred from one computer to another over a network. Messages can communicate many things: computers can tell other computers to execute a procedures with particular arguments, they can send and receive packets of data, or send signals that tell other computers to behave a certain way.
 
 Computers in a distributed system can have different roles. A computer's role depends on the goal of the system and the computer's own hardware and software properties. There are two predominant ways of organizing computers in a distributed system. The first is the client-server architecture, and the second is the peer-to-peer architecture.
 
-## [4.2.1   Client/Server Systems](#id3)
+## 4.2.1 Client/Server Systems
 
 The client-server architecture is a way to dispense a service from a central source. There is a single *server* that provides a service, and multiple *clients* that communicate with the server to consume its products. In this architecture, clients and servers have different jobs. The server's job is to respond to service requests from clients, while a client's job is to use the data provided in response in order to perform some task.
 
@@ -44,7 +31,7 @@ A drawback of client-server systems is that the server is a single point of fail
 
 Another drawback of client-server systems is that resources become scarce if there are too many clients. Clients increase the demand on the system without contributing any computing resources. Client-server systems cannot shrink and grow with changing demand.
 
-## [4.2.2   Peer-to-peer Systems](#id4)
+## 4.2.2 Peer-to-peer Systems
 
 The client-server model is appropriate for service-oriented situations. However, there are other computational goals for which a more equal division of labor is a better choice. The term *peer-to-peer* is used to describe distributed systems in which labor is divided among all the components of the system. All the computers send and receive data, and they all contribute some processing power and memory. As a distributed system increases in size, its capacity of computational resources increases. In a peer-to-peer system, all components of the system contribute some processing power and memory to a distributed computation.
 
@@ -56,7 +43,7 @@ The most common applications of peer-to-peer systems are data transfer and data 
 
 Skype, the voice- and video-chat service, is an example of a data transfer application with a peer-to-peer architecture. When two people on different computers are having a Skype conversation, their communications are broken up into packets of 1s and 0s and transmitted through a peer-to-peer network. This network is composed of other people whose computers are signed into Skype. Each computer knows the location of a few other computers in its neighborhood. A computer helps send a packet to its destination by passing it on a neighbor, which passes it on to some other neighbor, and so on, until the packet reaches its intended destination. Skype is not a pure peer-to-peer system. A scaffolding network of *supernodes* is responsible for logging-in and logging-out users, maintaining information about the locations of their computers, and modifying the network structure to deal with users entering and leaving.
 
-## [4.2.3   Modularity](#id5)
+## 4.2.3 Modularity
 
 The two architectures we have just considered -- peer-to-peer and client-server -- are designed to enforce *modularity*. Modularity is the idea that the components of a system should be black boxes with respect to each other. It should not matter how a component implements its behavior, as long as it upholds an *interface*: a specification for what outputs will result from inputs.
 
@@ -66,7 +53,7 @@ In distributed systems, we must consider program design that involves multiple c
 
 Modularity gives a system many advantages, and is a property of thoughtful system design. First, a modular system is easy to understand. This makes it easier to change and expand. Second, if something goes wrong with the system, only the defective components need to be replaced. Third, bugs or malfunctions are easy to localize. If the output of a component doesn't match the specifications of its interface, even though the inputs are correct, then that component is the source of the malfunction.
 
-## [4.2.4   Message Passing](#id6)
+## 4.2.4 Message Passing
 
 In distributed systems, components communicate with each other using message passing. A message has three essential parts: the sender, the recipient, and the content. The sender needs to be specified so that the recipient knows which component sent the message, and where to send replies. The recipient needs to be specified so that any computers who are helping send the message know where to direct it. The content of the message is the most variable. Depending on the function of the overall system, the content can be a piece of data, a signal, or instructions for the remote computer to evaluate a function with some arguments.
 
@@ -78,7 +65,7 @@ A **message protocol** is a set of rules for encoding and decoding messages. Man
 
 Message protocols are not particular programs or software libraries. Instead, they are rules that can be applied by a variety of programs, even written in different programming languages. As a result, computers with vastly different software systems can participate in the same distributed system, simply by conforming to the message protocols that govern the system.
 
-## [4.2.5   Messages on the World Wide Web](#id7)
+## 4.2.5 Messages on the World Wide Web
 
 **HTTP** (short for Hypertext Transfer Protocol) is the message protocol that supports the world wide web. It specifies the format of messages exchanged between a web browser and a web server. All web browsers use the HTTP format to request pages from a web server, and all web servers use the HTTP format to send back their responses.
 
@@ -120,7 +107,7 @@ A fixed set of response codes is a common feature of a message protocol. Designe
 
 HTTP is a fixed format for communication, but it allows arbitrary web pages to be transmitted. Other protocols like this on the internet are XMPP, a popular protocol for instant messages, and FTP, a protocol for downloading and uploading files between client and server.
 
-# [4.3   Parallel Computing](#id8)
+# 4.3 Parallel Computing
 
 Computers get faster and faster every year. In 1965, Intel co-founder Gordon Moore made a prediction about how much faster computers would get with time. Based on only five data points, he extrapolated that the number of transistors that could inexpensively be fit onto a chip would double every two years. Almost 50 years later, his prediction, now called Moore's law, remains startlingly accurate.
 
@@ -130,7 +117,7 @@ To circumvent physical and mechanical constraints on individual processor speed,
 
 In order to be able to work together, multiple processors need to be able to share information with each other. This is accomplished using a shared-memory environment. The variables, objects, and data structures in that environment are accessible to all the processes.The role of a processor in computation is to carry out the evaluation and execution rules of a programming language. In a shared memory model, different processes may execute different statements, but any statement can affect the shared environment.
 
-## [4.3.1   The Problem with Shared State](#id9)
+## 4.3.1 The Problem with Shared State
 
 Sharing state between multiple processes creates problems that a single-process environments do not have. To understand why, let us look the following simple calculation:
 
@@ -168,26 +155,29 @@ The preceding example is trivial. `square(x)` and `x = x + 1` are simple calcula
 Let us look at how the `make_withdraw` function from Chapter 2, modified below to print the balance after updating it rather than return it. We are interested in how this function will perform in a concurrent situation.
 
 ``` {.python}
->>> def make_withdraw(balance):
-        def withdraw(amount):
-            nonlocal balance
-            if amount > balance:
-                print('Insufficient funds')
-            else:
-                balance = balance - amount
-                print(balance)
-        return withdraw
+def make_withdraw(balance):
+    def withdraw(amount):
+        nonlocal balance
+        if amount > balance:
+            print('Insufficient funds')
+        else:
+            balance = balance - amount
+            print(balance)
+    return withdraw
 ```
 
 Now imagine that we create an account with \$10 in it. Let us think about what happens if we withdraw too much money from the account. If we do these transactions in order, we receive an insufficient funds message.
 
 ``` {.python}
->>> w = make_withdraw(10)
->>> w(8)
-2
->>> w(7)
-'Insufficient funds'
+w = make_withdraw(10)
+w(8)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
+
+``` {.python}
+w(7)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'Insufficient funds'</code></pre></div></html>
 
 In parallel, however, there can be many different outcomes. One possibility appears below:
 
@@ -210,7 +200,7 @@ These example shows that parallelizing code is not as easy as dividing up the li
 
 A tempting way to enforce correctness is to stipulate that no two programs that modify shared data can run at the same time. For banking, unfortunately, this would mean that only one transaction could proceed at a time, since all transactions modify shared data. Intuitively, we understand that there should be no problem allowing 2 different people to perform transactions on completely separate accounts simultaneously. Somehow, those two operations do not interfere with each other the same way that simultaneous operations on the same account interfere with each other. Moreover, there is no harm in letting processes run concurrently when they are not reading or writing.
 
-## [4.3.2   Correctness in Parallel Computation](#id10)
+## 4.3.2 Correctness in Parallel Computation
 
 There are two criteria for correctness in parallel computation environments. The first is that the outcome should always be the same. The second is that the outcome should be the same as if the code was executed in serial.
 
@@ -222,7 +212,7 @@ Problems arise in parallel computation when one process influences another durin
 
 To enforce the atomicity of critical sections in a program's code under concurrency , there need to be ways to force processes to either *serialize* or *synchronize* with each other at important times. Serialization means that only one process runs at a time -- that they temporarily act as if they were being executed in serial. Synchronization takes two forms. The first is **mutual exclusion**, processes taking turns to access a variable, and the second is **conditional synchronization**, processes waiting until a condition is satisfied (such as other processes having finished their task) before continuing. This way, when one program is about to enter a critical section, the other processes can wait until it finishes, and then proceed safely.
 
-## [4.3.3   Protecting Shared State: Locks and Semaphores](#id11)
+## 4.3.3 Protecting Shared State: Locks and Semaphores
 
 All the methods for synchronization and serialization that we will discuss in this section use the same underlying idea. They use variables in shared state as *signals* that all the processes understand and respect. This is the same philosophy that allows computers in a distributed system to work together -- they coordinate with each other by passing messages according to a protocol that every participant understands and respects.
 
@@ -235,21 +225,21 @@ For a lock to protect a particular set of variables, all the processes need to b
 We can apply this concept to the bank balance example. The critical section in that example was the set of operations starting when `balance` was read to when `balance` was written. We saw that problems occurred if more than one process was in this section at the same time. To protect the critical section, we will use a lock. We will call this lock `balance_lock` (although we could call it anything we liked). In order for the lock to actually protect the section, we must make sure to `acquire()` the lock before trying to entering the section, and `release()` the lock afterwards, so that others can have their turn.
 
 ``` {.python}
->>> from threading import Lock
->>> def make_withdraw(balance):
-        balance_lock = Lock()
-        def withdraw(amount):
-            nonlocal balance
-            # try to acquire the lock
-            balance_lock.acquire()
-            # once successful, enter the critical section
-            if amount > balance:
-                print("Insufficient funds")
-            else:
-                balance = balance - amount
-                print(balance)
-            # upon exiting the critical section, release the lock
-            balance_lock.release()
+from threading import Lock
+def make_withdraw(balance):
+    balance_lock = Lock()
+    def withdraw(amount):
+        nonlocal balance
+        # try to acquire the lock
+        balance_lock.acquire()
+        # once successful, enter the critical section
+        if amount > balance:
+            print("Insufficient funds")
+        else:
+            balance = balance - amount
+            print(balance)
+        # upon exiting the critical section, release the lock
+        balance_lock.release()
 ```
 
 If we set up the same situation as before:
@@ -290,19 +280,19 @@ Note that the program will not terminate unless `P1` releases `balance_lock`. If
 For example, suppose there are many processes that need to read data from a central database server. The server may crash if too many processes access it at once, so it is a good idea to limit the number of connections. If the database can only support *N=2* connections at once, we can set up a semaphore with value *N=2*.
 
 ``` {.python}
->>> from threading import Semaphore
->>> db_semaphore = Semaphore(2) # set up the semaphore
->>> database = []
->>> def insert(data):
-        db_semaphore.acquire() # try to acquire the semaphore
-        database.append(data)  # if successful, proceed
-        db_semaphore.release() # release the semaphore
+from threading import Semaphore
+db_semaphore = Semaphore(2) # set up the semaphore
+database = []
+def insert(data):
+    db_semaphore.acquire() # try to acquire the semaphore
+    database.append(data)  # if successful, proceed
+    db_semaphore.release() # release the semaphore
 ```
 
 ``` {.python}
->>> insert(7)
->>> insert(8)
->>> insert(9)
+insert(7)
+insert(8)
+insert(9)
 ```
 
 The semaphore will work as intended if all the processes are programmed to only access the database if they can acquire the semaphore. Once *N=2* processes have acquired the semaphore, any other processes will wait until one of them has released the semaphore, and then try to acquire it before accessing the database:
@@ -320,7 +310,7 @@ release db_semaphore: ok    acquire db_semaphore: ok     release db_semaphore: o
 
 A semaphore with value 1 behaves like a lock.
 
-## [4.3.4   Staying Synchronized: Condition variables](#id12)
+## 4.3.4 Staying Synchronized: Condition variables
 
 Condition variables are useful when a parallel computation is composed of a series of steps. A process can use a condition variable to signal it has finished its particular step. Then, the other processes that were waiting for the signal can start their work. An example of a computation that needs to proceed in steps a sequence of large-scale vector computations. In computational biology, web-scale computations, and image processing and graphics, it is common to have very large (million-element) vectors and matrices. Imagine the following computation:
 
@@ -439,7 +429,7 @@ write 12->V1                  calculate (1 2). (2 5): 12
 
 Upon entering `do_step_2`, P1 has to wait on `start_step_2` until P2 increments `step1_finished`, finds that it equals 2, and signals the condition.
 
-## [4.3.5   Deadlock](#id13)
+## 4.3.5 Deadlock
 
 While synchronization methods are effective for protecting shared state, they come with a catch. Because they cause processes to wait on each other, they are vulnerable to **deadlock**, a situation in which two or more processes are stuck, waiting for each other to finish. We have already mentioned how forgetting to release a lock can cause a process to get stuck indefinitely. But even if there are the correct number of `acquire()` and `release()` calls, programs can still reach deadlock.
 
@@ -450,27 +440,27 @@ The source of deadlock is a **circular wait**, illustrated below. No process can
 As an example, we will set up a deadlock with two processes. Suppose there are two locks, `x_lock` and `y_lock`, and they are used as follows:
 
 ``` {.python}
->>> x_lock = Lock()
->>> y_lock = Lock()
->>> x = 1
->>> y = 0
->>> def compute():
-        x_lock.acquire()
-        y_lock.acquire()
-        y = x + y
-        x = x * x
-        y_lock.release()
-        x_lock.release()
+x_lock = Lock()
+y_lock = Lock()
+x = 1
+y = 0
+def compute():
+    x_lock.acquire()
+    y_lock.acquire()
+    y = x + y
+    x = x * x
+    y_lock.release()
+    x_lock.release()
 ```
 
 ``` {.python}
->>> def anti_compute():
-        y_lock.acquire()
-        x_lock.acquire()
-        y = y - x
-        x = sqrt(x)
-        x_lock.release()
-        y_lock.release()
+def anti_compute():
+    y_lock.acquire()
+    x_lock.acquire()
+    y = y - x
+    x = sqrt(x)
+    x_lock.release()
+    y_lock.release()
 ```
 
 If `compute()` and `anti_compute()` are executed in parallel, and happen to interleave with each other as follows:

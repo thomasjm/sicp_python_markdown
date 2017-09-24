@@ -1,47 +1,7 @@
-Contents
 
--   [1.1   Introduction](#introduction)
-    -   [1.1.1   Programming in Python](#programming-in-python)
-    -   [1.1.2   Installing Python 3](#installing-python-3)
-    -   [1.1.3   Interactive Sessions](#interactive-sessions)
-    -   [1.1.4   First Example](#first-example)
-    -   [1.1.5   Practical Guidance: Errors](#practical-guidance-errors)
--   [1.2   The Elements of Programming](#the-elements-of-programming)
-    -   [1.2.1   Expressions](#expressions)
-    -   [1.2.2   Call Expressions](#call-expressions)
-    -   [1.2.3   Importing Library Functions](#importing-library-functions)
-    -   [1.2.4   Names and the Environment](#names-and-the-environment)
-    -   [1.2.5   Evaluating Nested Expressions](#evaluating-nested-expressions)
-    -   [1.2.6   Function Diagrams](#function-diagrams)
--   [1.3   Defining New Functions](#defining-new-functions)
-    -   [1.3.1   Environments](#environments)
-    -   [1.3.2   Calling User-Defined Functions](#calling-user-defined-functions)
-    -   [1.3.3   Example: Calling a User-Defined Function](#example-calling-a-user-defined-function)
-    -   [1.3.4   Local Names](#local-names)
-    -   [1.3.5   Practical Guidance: Choosing Names](#practical-guidance-choosing-names)
-    -   [1.3.6   Functions as Abstractions](#functions-as-abstractions)
-    -   [1.3.7   Operators](#operators)
--   [1.4   Practical Guidance: The Art of the Function](#practical-guidance-the-art-of-the-function)
-    -   [1.4.1   Docstrings](#docstrings)
-    -   [1.4.2   Default Argument Values](#default-argument-values)
--   [1.5   Control](#control)
-    -   [1.5.1   Statements](#statements)
-    -   [1.5.2   Compound Statements](#compound-statements)
-    -   [1.5.3   Defining Functions II: Local Assignment](#defining-functions-ii-local-assignment)
-    -   [1.5.4   Conditional Statements](#conditional-statements)
-    -   [1.5.5   Iteration](#iteration)
-    -   [1.5.6   Practical Guidance: Testing](#practical-guidance-testing)
--   [1.6   Higher-Order Functions](#higher-order-functions)
-    -   [1.6.1   Functions as Arguments](#functions-as-arguments)
-    -   [1.6.2   Functions as General Methods](#functions-as-general-methods)
-    -   [1.6.3   Defining Functions III: Nested Definitions](#defining-functions-iii-nested-definitions)
-    -   [1.6.4   Functions as Returned Values](#functions-as-returned-values)
-    -   [1.6.5   Lambda Expressions](#lambda-expressions)
-    -   [1.6.6   Example: Newton's Method](#example-newton-s-method)
-    -   [1.6.7   Abstractions and First-Class Functions](#abstractions-and-first-class-functions)
-    -   [1.6.8   Function Decorators](#function-decorators)
+[[table-of-contents]]
 
-# [1.1   Introduction](#id1)
+# 1.1 Introduction
 
 Computer science is a tremendously broad academic discipline. The areas of globally distributed systems, artificial intelligence, robotics, graphics, security, scientific computing, computer architecture, and dozens of emerging sub-fields each expand with new techniques and discoveries every year. The rapid progress of computer science has left few aspects of human life unaffected. Commerce, communication, science, art, leisure, and politics have all been reinvented as computational domains.
 
@@ -59,7 +19,7 @@ The embarkment of our intellectual journey requires no revision, nor should we e
 > 
 > —Abelson and Sussman, [SICP](http://mitpress.mit.edu/sicp) (1993)
 
-## [1.1.1   Programming in Python](#id2)
+## 1.1.1 Programming in Python
 
 > A language isn’t something you learn so much as something you join.
 > 
@@ -79,13 +39,13 @@ However, Python is a rich language with many features and uses, and we conscious
 
 The best way to get started programming in Python is to interact with the interpreter directly. This section describes how to install Python 3, initiate an interactive session with the interpreter, and start programming.
 
-## [1.1.2   Installing Python 3](#id3)
+## 1.1.2 Installing Python 3
 
 As with all great software, Python has many versions. This course will use the most recent stable version of Python 3 (currently Python 3.2). Many computers have older versions of Python installed already, but those will not suffice for this course. You should be able to use any computer for this course, but expect to install Python 3. Don't worry, Python is free.
 
 Dive Into Python 3 has detailed [installation instructions](http://diveintopython3.ep.io/installing-python.html) for all major platforms. These instructions mention Python 3.1 several times, but you're better off with Python 3.2 (although the differences are insignificant for this course). All instructional machines in the EECS department have Python 3.2 already installed.
 
-## [1.1.3   Interactive Sessions](#id4)
+## 1.1.3 Interactive Sessions
 
 In an interactive Python session, you type some Python *code* after the *prompt*, `>>>`. The Python *interpreter* reads and evaluates what you type, carrying out your various commands.
 
@@ -100,13 +60,13 @@ There are several ways to start an interactive session, and they differ in their
 In any case, if you see the Python prompt, `>>>`, then you have successfully started an interactive session. These notes depict example interactions using the prompt, followed by some input.
 
 ``` {.python}
->>> 2 + 2
-4
+2 + 2
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>4</code></pre></div></html>
 
 Controls: Each session keeps a history of what you have typed. To access that history, press `<Control>-P` (previous) and `<Control>-N` (next). `<Control>-D` exits a session, which discards this history.
 
-## [1.1.4   First Example](#id5)
+## 1.1.4 First Example
 
 > And, as imagination bodies forth
 > 
@@ -123,7 +83,7 @@ To give Python the introduction it deserves, we will begin with an example that 
 Python has built-in support for a wide range of common programming activities, like manipulating text, displaying graphics, and communicating over the Internet. The import statement
 
 ``` {.python}
->>> from urllib.request import urlopen
+from urllib.request import urlopen
 ```
 
 loads functionality for accessing data on the Internet. In particular, it makes available a function called `urlopen`, which can access the content at a uniform resource locator (URL), which is a location of something on the Internet.
@@ -138,7 +98,7 @@ Statements typically describe actions. When the Python interpreter executes a st
 The assignment statement
 
 ``` {.python}
->>> shakespeare = urlopen('http://inst.eecs.berkeley.edu/~cs61a/fa11/shakespeare.txt')
+shakespeare = urlopen('http://inst.eecs.berkeley.edu/~cs61a/fa11/shakespeare.txt')
 ```
 
 associates the name `shakespeare` with the value of the expression that follows. That expression applies the `urlopen` function to a URL that contains the complete text of William Shakespeare's 37 plays, all in a single text document.
@@ -148,7 +108,7 @@ associates the name `shakespeare` with the value of the expression that follows.
 Another assignment statement
 
 ``` {.python}
->>> words = set(shakespeare.read().decode().split())
+words = set(shakespeare.read().decode().split())
 ```
 
 associates the name `words` to the set of all unique words that appear in Shakespeare's plays, all 33,721 of them. The chain of commands to `read`, `decode`, and `split`, each operate on an intermediate computational entity: data is read from the opened URL, that data is decoded into text, and that text is split into words. All of those words are placed in a `set`.
@@ -158,12 +118,16 @@ associates the name `words` to the set of all unique words that appear in Shakes
 The expression
 
 ``` {.python}
->>> {w for w in words if len(w) >= 5 and w[::-1] in words}
-{'madam', 'stink', 'leets', 'rever', 'drawer', 'stops', 'sessa',
-'repaid', 'speed', 'redder', 'devil', 'minim', 'spots', 'asses',
-'refer', 'lived', 'keels', 'diaper', 'sleek', 'steel', 'leper',
-'level', 'deeps', 'repel', 'reward', 'knits'}
+{w for w in words if len(w) >= 5 and w[::-1] in words}
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>{'madam', 'stink', 'leets', 'rever', 'drawer', 'stops', 'sessa',
+
+'repaid', 'speed', 'redder', 'devil', 'minim', 'spots', 'asses',
+
+'refer', 'lived', 'keels', 'diaper', 'sleek', 'steel', 'leper',
+
+'level', 'deeps', 'repel', 'reward', 'knits'}
+</code></pre></div></html>
 
 is a compound expression that evaluates to the set of Shakespearian words that appear both forward and in reverse. The cryptic notation `w[::-1]` enumerates each letter in a word, but the `-1` says to step backwards (`::` here means that the positions of the first and last characters to enumerate are defaulted.) When you enter an expression in an interactive session, Python prints its value on the following line, as shown.
 
@@ -173,7 +137,7 @@ When compared with other computer programs, interpreters for programming languag
 
 In the end, we will find that all of these core concepts are closely related: functions are objects, objects are functions, and interpreters are instances of both. However, developing a clear understanding of each of these concepts and their role in organizing code is critical to mastering the art of programming.
 
-## [1.1.5   Practical Guidance: Errors](#id6)
+## 1.1.5 Practical Guidance: Errors
 
 Python is waiting for your command. You are encouraged to experiment with the language, even though you may not yet know its full vocabulary and structure. However, be prepared for errors. While computers are tremendously fast and flexible, they are also extremely rigid. The nature of computers is described in [Stanford's introductory course](http://www.stanford.edu/class/cs101/code-introduction.html) as
 
@@ -198,7 +162,7 @@ Learning to interpret errors and diagnose the cause of unexpected errors is call
 
 Incremental testing, modular design, precise assumptions, and teamwork are themes that persist throughout this course. Hopefully, they will also persist throughout your computer science career.
 
-# [1.2   The Elements of Programming](#id7)
+# 1.2 The Elements of Programming
 
 A programming language is more than just a means for instructing a computer to perform tasks. The language also serves as a framework within which we organize our ideas about processes. Programs serve to communicate those ideas among the members of a programming community. Thus, programs must be written for people to read, and only incidentally for machines to execute.
 
@@ -210,125 +174,143 @@ When we describe a language, we should pay particular attention to the means tha
 
 In programming, we deal with two kinds of elements: functions and data. (Soon we will discover that they are really not so distinct.) Informally, data is stuff that we want to manipulate, and functions describe the rules for manipulating the data. Thus, any powerful programming language should be able to describe primitive data and primitive functions and should have methods for combining and abstracting both functions and data.
 
-## [1.2.1   Expressions](#id8)
+## 1.2.1 Expressions
 
 Having experimented with the full Python interpreter, we now must start anew, methodically developing the Python language piece by piece. Be patient if the examples seem simplistic --- more exciting material is soon to come.
 
 We begin with primitive expressions. One kind of primitive expression is a number. More precisely, the expression that you type consists of the numerals that represent the number in base 10.
 
 ``` {.python}
->>> 42
 42
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>42</code></pre></div></html>
 
 Expressions representing numbers may be combined with mathematical operators to form a compound expression, which the interpreter will evaluate:
 
 ``` {.python}
->>> -1 - -1
-0
->>> 1/2 + 1/4 + 1/8 + 1/16 + 1/32 + 1/64 + 1/128
-0.9921875
+-1 - -1
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>0</code></pre></div></html>
+
+``` {.python}
+1/2 + 1/4 + 1/8 + 1/16 + 1/32 + 1/64 + 1/128
+```
+<html><div class="codeparent python"><pre class="stdout"><code>0.9921875</code></pre></div></html>
 
 These mathematical expressions use *infix* notation, where the *operator* (e.g., `+`, `-`, `*`, or `/`) appears in between the *operands* (numbers). Python includes many ways to form compound expressions. Rather than attempt to enumerate them all immediately, we will introduce new expression forms as we go, along with the language features that they support.
 
-## [1.2.2   Call Expressions](#id9)
+## 1.2.2 Call Expressions
 
 The most important kind of compound expression is a *call expression*, which applies a function to some arguments. Recall from algebra that the mathematical notion of a function is a mapping from some input arguments to an output value. For instance, the `max` function maps its inputs to a single output, which is the largest of the inputs. A function in Python is more than just an input-output mapping; it describes a computational process. However, the way in which Python expresses function application is the same as in mathematics.
 
 ``` {.python}
->>> max(7.5, 9.5)
-9.5
+max(7.5, 9.5)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>9.5</code></pre></div></html>
 
 This call expression has subexpressions: the operator precedes parentheses, which enclose a comma-delimited list of operands. The operator must be a function. The operands can be any values; in this case they are numbers. When this call expression is evaluated, we say that the function `max` is *called* with arguments 7.5 and 9.5, and *returns* a value of 9.5.
 
 The order of the arguments in a call expression matters. For instance, the function `pow` raises its first argument to the power of its second argument.
 
 ``` {.python}
->>> pow(100, 2)
-10000
->>> pow(2, 100)
-1267650600228229401496703205376
+pow(100, 2)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>10000</code></pre></div></html>
+
+``` {.python}
+pow(2, 100)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>1267650600228229401496703205376</code></pre></div></html>
 
 Function notation has several advantages over the mathematical convention of infix notation. First, functions may take an arbitrary number of arguments:
 
 ``` {.python}
->>> max(1, -2, 3, -4)
-3
+max(1, -2, 3, -4)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>3</code></pre></div></html>
 
 No ambiguity can arise, because the function name always precedes its arguments.
 
 Second, function notation extends in a straightforward way to *nested* expressions, where the elements are themselves compound expressions. In nested call expressions, unlike compound infix expressions, the structure of the nesting is entirely explicit in the parentheses.
 
 ``` {.python}
->>> max(min(1, -2), min(pow(3, 5), -4))
--2
+max(min(1, -2), min(pow(3, 5), -4))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>-2</code></pre></div></html>
 
 There is no limit (in principle) to the depth of such nesting and to the overall complexity of the expressions that the Python interpreter can evaluate. However, humans quickly get confused by multi-level nesting. An important role for you as a programmer is to structure expressions so that they remain interpretable by yourself, your programming partners, and others who may read your code in the future.
 
 Finally, mathematical notation has a great variety of forms: multiplication appears between terms, exponents appear as superscripts, division as a horizontal bar, and a square root as a roof with slanted siding. Some of this notation is very hard to type! However, all of this complexity can be unified via the notation of call expressions. While Python supports common mathematical operators using infix notation (like `+` and `-`), any operator can be expressed as a function with a name.
 
-## [1.2.3   Importing Library Functions](#id10)
+## 1.2.3 Importing Library Functions
 
 Python defines a very large number of functions, including the operator functions mentioned in the preceding section, but does not make their names available by default, so as to avoid complete chaos. Instead, it organizes the functions and other quantities that it knows about into modules, which together comprise the Python Library. To use these elements, one imports them. For example, the `math` module provides a variety of familiar mathematical functions:
 
 ``` {.python}
->>> from math import sqrt, exp
->>> sqrt(256)
-16.0
->>> exp(1)
-2.718281828459045
+from math import sqrt, exp
+sqrt(256)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>16.0</code></pre></div></html>
+
+``` {.python}
+exp(1)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>2.718281828459045</code></pre></div></html>
 
 and the `operator` module provides access to functions corresponding to infix operators:
 
 ``` {.python}
->>> from operator import add, sub, mul
->>> add(14, 28)
-42
->>> sub(100, mul(7, add(8, 4)))
-16
+from operator import add, sub, mul
+add(14, 28)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>42</code></pre></div></html>
+
+``` {.python}
+sub(100, mul(7, add(8, 4)))
+```
+<html><div class="codeparent python"><pre class="stdout"><code>16</code></pre></div></html>
 
 An `import` statement designates a module name (e.g., `operator` or `math`), and then lists the named attributes of that module to import (e.g., `sqrt` or `exp`).
 
 The [Python 3 Library Docs](http://docs.python.org/py3k/library/index.html) list the functions defined by each module, such as the [math module](http://docs.python.org/py3k/library/math.html). However, this documentation is written for developers who know the whole language well. For now, you may find that experimenting with a function tells you more about its behavior than reading the documemtation. As you become familiar with the Python language and vocabulary, this documentation will become a valuable reference source.
 
-## [1.2.4   Names and the Environment](#id11)
+## 1.2.4 Names and the Environment
 
 A critical aspect of a programming language is the means it provides for using names to refer to computational objects. If a value has been given a name, we say that the name *binds* to the value.
 
 In Python, we can establish new bindings using the assignment statement, which contains a name to the left of `=` and a value to the right:
 
 ``` {.python}
->>> radius = 10
->>> radius
-10
->>> 2 * radius
-20
+radius = 10
+radius
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>10</code></pre></div></html>
+
+``` {.python}
+2 * radius
+```
+<html><div class="codeparent python"><pre class="stdout"><code>20</code></pre></div></html>
 
 Names are also bound via `import` statements.
 
 ``` {.python}
->>> from math import pi
->>> pi * 71 / 223
-1.0002380197528042
+from math import pi
+pi * 71 / 223
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>1.0002380197528042</code></pre></div></html>
 
 We can also assign multiple values to multiple names in a single statement, where names and expressions are separated by commas.
 
 ``` {.python}
->>> area, circumference = pi * radius * radius, 2 * pi * radius
->>> area
-314.1592653589793
->>> circumference
-62.83185307179586
+area, circumference = pi * radius * radius, 2 * pi * radius
+area
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>314.1592653589793</code></pre></div></html>
+
+``` {.python}
+circumference
+```
+<html><div class="codeparent python"><pre class="stdout"><code>62.83185307179586</code></pre></div></html>
 
 The `=` symbol is called the *assignment* operator in Python (and many other languages). Assignment is Python's simplest means of *abstraction*, for it allows us to use simple names to refer to the results of compound operations, such as the `area` computed above. In this way, complex programs are constructed by building, step by step, computational objects of increasing complexity.
 
@@ -337,31 +319,34 @@ The possibility of binding names to values and later retrieving those values by 
 Names can also be bound to functions. For instance, the name `max` is bound to the max function we have been using. Functions, unlike numbers, are tricky to render as text, so Python prints an identifying description instead, when asked to print a function:
 
 ``` {.python}
->>> max
-<built-in function max>
+max
 ```
+<html><div class="codeparent python"><pre class="stdout"><code><built-in function max></code></pre></div></html>
 
 We can use assignment statements to give new names to existing functions.
 
 ``` {.python}
->>> f = max
->>> f
-<built-in function max>
->>> f(3, 4)
-4
+f = max
+f
 ```
+<html><div class="codeparent python"><pre class="stdout"><code><built-in function max></code></pre></div></html>
+
+``` {.python}
+f(3, 4)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>4</code></pre></div></html>
 
 And successive assignment statements can rebind a name to a new value.
 
 ``` {.python}
->>> f = 2
->>> f
-2
+f = 2
+f
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
 
 In Python, the names bound via assignment are often called *variable names* because they can be bound to a variety of different values in the course of executing a program.
 
-## [1.2.5   Evaluating Nested Expressions](#id12)
+## 1.2.5 Evaluating Nested Expressions
 
 One of our goals in this chapter is to isolate issues about thinking procedurally. As a case in point, let us consider that, in evaluating nested call expressions, the interpreter is itself following a procedure.
 
@@ -375,9 +360,9 @@ Even this simple procedure illustrates some important points about processes in 
 For example, evaluating
 
 ``` {.python}
->>> mul(add(2, mul(4, 6)), add(3, 5))
-208
+mul(add(2, mul(4, 6)), add(3, 5))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>208</code></pre></div></html>
 
 requires that this evaluation procedure be applied four times. If we draw each expression that we evaluate, we can visualize the hierarchical structure of this process.
 
@@ -395,7 +380,7 @@ Next, observe that the repeated application of the first step brings us to the p
 Notice the important role of an environment in determining the meaning of the symbols in expressions. In Python, it is meaningless to speak of the value of an expression such as
 
 ``` {.python}
->>> add(x, 1)
+add(x, 1)
 ```
 
 without specifying any information about the environment that would provide a meaning for the name `x` (or even for the name `add`). Environments provide the context in which evaluation takes place, which plays an important role in our understanding of program execution.
@@ -403,23 +388,23 @@ without specifying any information about the environment that would provide a me
 This evaluation procedure does not suffice to evaluate all Python code, only call expressions, numerals, and names. For instance, it does not handle assignment statements. Executing
 
 ``` {.python}
->>> x = 3
+x = 3
 ```
 
 does not return a value nor evaluate a function on some arguments, since the purpose of assignment is instead to bind a name to a value. In general, statements are not evaluated but *executed*; they do not produce a value but instead make some change. Each type of statement or expression has its own evaluation or execution procedure, which we will introduce incrementally as we proceed.
 
 A pedantic note: when we say that "a numeral evaluates to a number," we actually mean that the Python interpreter evaluates a numeral to a number. It is the interpreter which endows meaning to the programming language. Given that the interpreter is a fixed program that always behaves consistently, we can loosely say that numerals (and expressions) themselves evaluate to values in the context of Python programs.
 
-## [1.2.6   Function Diagrams](#id13)
+## 1.2.6 Function Diagrams
 
 As we continue to develop a formal model of evaluation, we will find that diagramming the internal state of the interpreter helps us track the progress of our evaluation procedure. An essential part of these diagrams is a representation of a function.
 
 **Pure functions.** Functions have some input (their arguments) and return some output (the result of applying them). The built-in function
 
 ``` {.python}
->>> abs(-2)
-2
+abs(-2)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
 
 can be depicted as a small machine that takes input and produces output.
 
@@ -430,11 +415,14 @@ The function `abs` is *pure*. Pure functions have the property that applying the
 **Non-pure functions.** In addition to returning a value, applying a non-pure function can generate *side effects*, which make some change to the state of the interpreter or computer. A common side effect is to generate additional output beyond the return value, using the `print` function.
 
 ``` {.python}
->>> print(-2)
--2
->>> print(1, 2, 3)
-1 2 3
+print(-2)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>-2</code></pre></div></html>
+
+``` {.python}
+print(1, 2, 3)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>1 2 3</code></pre></div></html>
 
 While `print` and `abs` may appear to be similar in these examples, they work in fundamentally different ways. The value that `print` returns is always `None`, a special Python value that represents nothing. The interactive Python interpreter does not automatically print the value `None`. In the case of `print`, the function itself is printing output as a side effect of being called.
 
@@ -443,26 +431,32 @@ While `print` and `abs` may appear to be similar in these examples, they work in
 A nested expression of calls to `print` highlights the non-pure character of the function.
 
 ``` {.python}
->>> print(print(1), print(2))
-1
-2
-None None
+print(print(1), print(2))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>1
+
+2
+
+None None
+</code></pre></div></html>
 
 If you find this output to be unexpected, draw an expression tree to clarify why evaluating this expression produces this peculiar output.
 
 Be careful with `print`! The fact that it returns `None` means that it *should not* be the expression in an assignment statement.
 
 ``` {.python}
->>> two = print(2)
-2
->>> print(two)
-None
+two = print(2)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
+
+``` {.python}
+print(two)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>None</code></pre></div></html>
 
 **Signatures.** Functions differ in the number of arguments that they are allowed to take. To track these requirements, we draw each function in a way that shows the function name and names of its arguments. The function `abs` takes only one argument called `number`; providing more or fewer will result in an error. The function `print` can take an arbitrary number of arguments, hence its rendering as `print(...)`. A description of the arguments that a function can take is called the function's *signature*.
 
-# [1.3   Defining New Functions](#id14)
+# 1.3 Defining New Functions
 
 We have identified in Python some of the elements that must appear in any powerful programming language:
 
@@ -475,8 +469,8 @@ Now we will learn about *function definitions*, a much more powerful abstraction
 We begin by examining how to express the idea of "squaring." We might say, "To square something, multiply it by itself." This is expressed in Python as
 
 ``` {.python}
->>> def square(x):
-        return mul(x, x)
+def square(x):
+    return mul(x, x)
 ```
 
 which defines a new function that has been given the name `square`. This user-defined function is not built into the interpreter. It represents the compound operation of multiplying something by itself. The `x` in this definition is called a *formal parameter*, which provides a name for the thing to be multiplied. The definition creates this user-defined function and associates it with the name `square`.
@@ -491,29 +485,35 @@ The second line *must* be indented! Convention dictates that we indent with four
 Having defined `square`, we can apply it with a call expression:
 
 ``` {.python}
->>> square(21)
-441
->>> square(add(2, 5))
-49
->>> square(square(3))
-81
+square(21)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>441</code></pre></div></html>
+
+``` {.python}
+square(add(2, 5))
+```
+<html><div class="codeparent python"><pre class="stdout"><code>49</code></pre></div></html>
+
+``` {.python}
+square(square(3))
+```
+<html><div class="codeparent python"><pre class="stdout"><code>81</code></pre></div></html>
 
 We can also use `square` as a building block in defining other functions. For example, we can easily define a function `sum_squares` that, given any two numbers as arguments, returns the sum of their squares:
 
 ``` {.python}
->>> def sum_squares(x, y):
-        return add(square(x), square(y))
+def sum_squares(x, y):
+    return add(square(x), square(y))
 ```
 
 ``` {.python}
->>> sum_squares(3, 4)
-25
+sum_squares(3, 4)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>25</code></pre></div></html>
 
 User-defined functions are used in exactly the same way as built-in functions. Indeed, one cannot tell from the definition of `sum_squares` whether `square` is built into the interpreter, imported from a module, or defined by the user.
 
-## [1.3.1   Environments](#id15)
+## 1.3.1 Environments
 
 Our subset of Python is now complex enough that the meaning of programs is non-obvious. What if a formal parameter has the same name as a built-in function? Can two functions share names without confusion? To resolve such questions, we must describe environments in more detail.
 
@@ -524,8 +524,8 @@ An environment in which an expression is evaluated consists of a sequence of *fr
 Assignment and import statements add entries to the first frame of the current environment. So far, our environment consists only of the global frame.
 
 ``` {.python}
->>> from math import pi
->>> tau = 2 * pi
+from math import pi
+tau = 2 * pi
 ```
 
 ![](img/global_frame_assignment.png)
@@ -537,10 +537,10 @@ A `def` statement also binds a name to the function created by the definition. T
 These *environment diagrams* show the bindings of the current environment, along with the values (which are not part of any frame) to which names are bound. Notice that the name of a function is repeated, once in the frame, and once as part of the function itself. This repetition is intentional: many different names may refer to the same function, but that function itself has only one intrinsic name. However, looking up the value for a name in an environment only inspects name bindings. The intrinsic name of a function **does not** play a role in looking up names. In the example we saw earlier,
 
 ``` {.python}
->>> f = max
->>> f
-<built-in function max>
+f = max
+f
 ```
+<html><div class="codeparent python"><pre class="stdout"><code><built-in function max></code></pre></div></html>
 
 The name *max* is the intrinsic name of the function, and that's what you see printed as the value for `f`. In addition, both the names `max` and `f` are bound to that same function in the global environment.
 
@@ -548,7 +548,7 @@ As we proceed to introduce additional features of Python, we will have to extend
 
 **New environment Features:** Assignment and user-defined function definition.
 
-## [1.3.2   Calling User-Defined Functions](#id16)
+## 1.3.2 Calling User-Defined Functions
 
 To evaluate a call expression whose operator names a user-defined function, the Python interpreter follows a process similar to the one for evaluating expressions with a built-in operator function. That is, the interpreter evaluates the operand expressions, and then applies the named function to the resulting arguments.
 
@@ -574,19 +574,19 @@ Our conceptual framework of environments, names, and functions constitutes a *mo
 
 **New environment Feature:** Function application.
 
-## [1.3.3   Example: Calling a User-Defined Function](#id17)
+## 1.3.3 Example: Calling a User-Defined Function
 
 Let us again consider our two simple definitions:
 
 ``` {.python}
->>> from operator import add, mul
->>> def square(x):
-        return mul(x, x)
+from operator import add, mul
+def square(x):
+    return mul(x, x)
 ```
 
 ``` {.python}
->>> def sum_squares(x, y):
-        return add(square(x), square(y))
+def sum_squares(x, y):
+    return add(square(x), square(y))
 ```
 
 ![](img/evaluate_sum_squares_0.png)
@@ -594,9 +594,9 @@ Let us again consider our two simple definitions:
 And the process that evaluates the following call expression:
 
 ``` {.python}
->>> sum_squares(5, 12)
-169
+sum_squares(5, 12)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>169</code></pre></div></html>
 
 Python first evaluates the name `sum_squares`, which is bound to a user-defined function in the global frame. The primitive numeric expressions 5 and 12 evaluate to the numbers they represent.
 
@@ -632,15 +632,15 @@ This figure, while complex, serves to illustrate many of the fundamental ideas w
 
 All of this machinery exists to ensure that names resolve to the correct values at the correct points in the expression tree. This example illustrates why our model requires the complexity that we have introduced. All three local frames contain a binding for the name `x`, but that name is bound to different values in different frames. Local frames keep these names separate.
 
-## [1.3.4   Local Names](#id18)
+## 1.3.4 Local Names
 
 One detail of a function's implementation that should not affect the function's behavior is the implementer's choice of names for the function's formal parameters. Thus, the following functions should provide the same behavior:
 
 ``` {.python}
->>> def square(x):
-        return mul(x, x)
->>> def square(y):
-        return mul(y, y)
+def square(x):
+    return mul(x, x)
+def square(y):
+    return mul(y, y)
 ```
 
 This principle -- that the meaning of a function should be independent of the parameter names chosen by its author -- has important consequences for programming languages. The simplest consequence is that the parameter names of a function must remain local to the body of the function.
@@ -649,7 +649,7 @@ If the parameters were not local to the bodies of their respective functions, th
 
 We say that the *scope* of a local name is limited to the body of the user-defined function that defines it. When a name is no longer accessible, it is out of scope. This scoping behavior isn't a new fact about our model; it is a consequence of the way environments work.
 
-## [1.3.5   Practical Guidance: Choosing Names](#id19)
+## 1.3.5 Practical Guidance: Choosing Names
 
 The interchangeabily of names does not imply that formal parameter names do not matter at all. To the contrary, well-chosen function and parameter names are essential for the human interpretability of function definitions!
 
@@ -663,7 +663,7 @@ The following guidelines are adapted from the [style guide for Python code](http
 
 Review these guidelines periodically as you write programs, and soon your names will be delightfully Pythonic.
 
-## [1.3.6   Functions as Abstractions](#id20)
+## 1.3.6 Functions as Abstractions
 
 Though it is very simple, `sum_squares` exemplifies the most powerful property of user-defined functions. The function `sum_squares` is defined in terms of the function `square`, but relies only on the relationship that `square` defines between its input arguments and its output values.
 
@@ -672,63 +672,63 @@ We can write `sum_squares` without concerning ourselves with *how* to square a n
 Thus, considering only the values they return, the following two functions for squaring a number should be indistinguishable. Each takes a numerical argument and produces the square of that number as the value.
 
 ``` {.python}
->>> def square(x):
-        return mul(x, x)
->>> def square(x):
-        return mul(x, x-1) + x
+def square(x):
+    return mul(x, x)
+def square(x):
+    return mul(x, x-1) + x
 ```
 
 In other words, a function definition should be able to suppress details. The users of the function may not have written the function themselves, but may have obtained it from another programmer as a "black box". A user should not need to know how the function is implemented in order to use it. The Python Library has this property. Many developers use the functions defined there, but few ever inspect their implementation. In fact, many implementations of Python Library functions are not written in Python at all, but instead in the C language.
 
-## [1.3.7   Operators](#id21)
+## 1.3.7 Operators
 
 Mathematical operators (like + and -) provided our first example of a method of combination, but we have yet to define an evaluation procedure for expressions that contain these operators.
 
 Python expressions with infix operators each have their own evaluation procedures, but you can often think of them as short-hand for call expressions. When you see
 
 ``` {.python}
->>> 2 + 3
-5
+2 + 3
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>5</code></pre></div></html>
 
 simply consider it to be short-hand for
 
 ``` {.python}
->>> add(2, 3)
-5
+add(2, 3)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>5</code></pre></div></html>
 
 Infix notation can be nested, just like call expressions. Python applies the normal mathematical rules of operator precedence, which dictate how to interpret a compound expression with multiple operators.
 
 ``` {.python}
->>> 2 + 3 * 4 + 5
-19
+2 + 3 * 4 + 5
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>19</code></pre></div></html>
 
 evaluates to the same result as
 
 ``` {.python}
->>> add(add(2, mul(3, 4)) , 5)
-19
+add(add(2, mul(3, 4)) , 5)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>19</code></pre></div></html>
 
 The nesting in the call expression is more explicit than the operator version. Python also allows subexpression grouping with parentheses, to override the normal precedence rules or make the nested structure of an expression more explicit.
 
 ``` {.python}
->>> (2 + 3) * (4 + 5)
-45
+(2 + 3) * (4 + 5)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>45</code></pre></div></html>
 
 evaluates to the same result as
 
 ``` {.python}
->>> mul(add(2, 3), add(4, 5))
-45
+mul(add(2, 3), add(4, 5))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>45</code></pre></div></html>
 
 You should feel free to use these operators and parentheses in your programs. Idiomatic Python prefers operators over call expressions for simple mathematical operations.
 
-# [1.4   Practical Guidance: The Art of the Function](#id22)
+# 1.4 Practical Guidance: The Art of the Function
 
 Functions are an essential ingredient of all programs, large and small, and serve as our primary medium to express computational processes in a programming language. So far, we have discussed the formal properties of functions and how they are applied. We now turn to the topic of what makes a good function. Fundamentally, the qualities of good functions all reinforce the idea that functions are abstractions.
 
@@ -738,7 +738,7 @@ Functions are an essential ingredient of all programs, large and small, and serv
 
 These guidelines improve the readability of code, reduce the number of errors, and often minimize the total amount of code written. Decomposing a complex task into concise functions is a skill that takes experience to master. Fortunately, Python provides several features to support your efforts.
 
-## [1.4.1   Docstrings](#id23)
+## 1.4.1 Docstrings
 
 A function definition will often include documentation describing the function, called a *docstring*, which must be indented along with the function body. Docstrings are conventionally triple quoted. The first line describes the job of the function in one line. The following lines can describe arguments and clarify the behavior of the function:
 
@@ -759,12 +759,12 @@ A function definition will often include documentation describing the function, 
 When you call `help` with the name of a function as an argument, you see its docstring (type `q` to quit Python help).
 
 ``` {.python}
->>> help(pressure)
+help(pressure)
 ```
 
 When writing Python programs, include docstrings for all but the simplest functions. Remember, code is written only once, but often read many times. The Python docs include [docstring guidelines](http://www.python.org/dev/peps/pep-0257/) that maintain consistency across different Python projects.
 
-## [1.4.2   Default Argument Values](#id24)
+## 1.4.2 Default Argument Values
 
 A consequence of defining general functions is the introduction of additional arguments. Functions with many arguments can be awkward to call and difficult to read.
 
@@ -783,19 +783,19 @@ In Python, we can provide default values for the arguments of a function. When c
 ```
 
 ``` {.python}
->>> pressure(1, 273.15)
-2269.974834
+pressure(1, 273.15)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>2269.974834</code></pre></div></html>
 
 Here, `pressure` is defined to take three arguments, but only two are provided in the call expression that follows. In this case, the value for `n` is taken from the `def` statement defaults (which looks like an assignment to `n`, although as this discussion suggests, it is more of a conditional assignment.)
 
 As a guideline, most data values used in a function's body should be expressed as default values to named arguments, so that they are easy to inspect and can be changed by the function caller. Some values that never change, like the fundamental constant `k_b`, can be defined in the global frame.
 
-# [1.5   Control](#id25)
+# 1.5 Control
 
 The expressive power of the functions that we can define at this point is very limited, because we have not introduced a way to make tests and to perform different operations depending on the result of a test. *Control statements* will give us this capacity. Control statements differ fundamentally from the expressions that we have studied so far. They deviate from the strict evaluation of subexpressions from left to write, and get their name from the fact that they control what the interpreter should do next, possibly based on the values of expressions.
 
-## [1.5.1   Statements](#id26)
+## 1.5.1 Statements
 
 So far, we have primarily considered how to evaluate expressions. However, we have seen three kinds of statements: assignment, `def`, and `return` statements. These lines of Python code are not themselves expressions, although they all contain expressions as components.
 
@@ -806,27 +806,27 @@ Expressions can also be executed as statements, in which case they are evaluated
 Consider, for instance,
 
 ``` {.python}
->>> def square(x):
-        mul(x, x) # Watch out! This call doesn't return a value.
+def square(x):
+    mul(x, x) # Watch out! This call doesn't return a value.
 ```
 
 This is valid Python, but probably not what was intended. The body of the function consists of an expression. An expression by itself is a valid statement, but the effect of the statement is that the `mul` function is called, and the result is discarded. If you want to do something with the result of an expression, you need to say so: you might store it with an assignment statement, or return it with a return statement:
 
 ``` {.python}
->>> def square(x):
-        return mul(x, x)
+def square(x):
+    return mul(x, x)
 ```
 
 Sometimes it does make sense to have a function whose body is an expression, when a non-pure function like `print` is called.
 
 ``` {.python}
->>> def print_square(x):
-        print(square(x))
+def print_square(x):
+    print(square(x))
 ```
 
 At its highest level, the Python interpreter's job is to execute programs, composed of statements. However, much of the interesting work of computation comes from evaluating expressions. Statements govern the relationship among different expressions in a program and what happens to their results.
 
-## [1.5.2   Compound Statements](#id27)
+## 1.5.2 Compound Statements
 
 In general, Python code is a sequence of statements. A simple statement is a single line that doesn't end in a colon. A compound statement is so called because it is composed of other statements (simple and compound). Compound statements typically span multiple lines and start with a one-line header ending in a colon, which identifies the type of statement. Together, a header and an indented suite of statements is called a clause. A compound statement consists of one or more clauses:
 
@@ -859,7 +859,7 @@ The important consequence of this rule is that statements are executed in order,
 
 **Practical Guidance.** When indenting a suite, all lines must be indented the same amount and in the same way (spaces, not tabs). Any variation in indentation will cause an error.
 
-## [1.5.3   Defining Functions II: Local Assignment](#id28)
+## 1.5.3 Defining Functions II: Local Assignment
 
 Originally, we stated that the body of a user-defined function consisted only of a `return` statement with a single return expression. In fact, functions can define a sequence of operations that extends beyond a single expression. The structure of compound Python statements naturally allows us to extend our concept of a function body to multiple statements.
 
@@ -868,52 +868,52 @@ Whenever a user-defined function is applied, the sequence of clauses in the suit
 Thus, assignment statements can now appear within a function body. For instance, this function returns the absolute difference between two quantities as a percentage of the first, using a two-step calculation:
 
 ``` {.python}
->>> def percent_difference(x, y):
-        difference = abs(x-y)
-        return 100 * difference / x
->>> percent_difference(40, 50)
-25.0
+def percent_difference(x, y):
+    difference = abs(x-y)
+    return 100 * difference / x
+percent_difference(40, 50)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>25.0</code></pre></div></html>
 
 The effect of an assignment statement is to bind a name to a value in the *first* frame of the current environment. As a consequence, assignment statements within a function body cannot affect the global frame. The fact that functions can only manipulate their local environment is critical to creating *modular* programs, in which pure functions interact only via the values they take and return.
 
 Of course, the `percent_difference` function could be written as a single expression, as shown below, but the return expression is more complex.
 
 ``` {.python}
->>> def percent_difference(x, y):
-        return 100 * abs(x-y) / x
+def percent_difference(x, y):
+    return 100 * abs(x-y) / x
 ```
 
 So far, local assignment hasn't increased the expressive power of our function definitions. It will do so, when combined with the control statements below. In addition, local assignment also plays a critical role in clarifying the meaning of complex expressions by assigning names to intermediate quantities.
 
 **New environment Feature:** Local assignment.
 
-## [1.5.4   Conditional Statements](#id29)
+## 1.5.4 Conditional Statements
 
 Python has a built-in function for computing absolute values.
 
 ``` {.python}
->>> abs(-2)
-2
+abs(-2)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
 
 We would like to be able to implement such a function ourselves, but we cannot currently define a function that has a test and a choice. We would like to express that if `x` is positive, `abs(x)` returns `x`. Furthermore, if `x` is 0, `abs(x)` returns 0. Otherwise, `abs(x)` returns `-x`. In Python, we can express this choice with a conditional statement.
 
 ``` {.python}
->>> def absolute_value(x):
-        """Compute abs(x)."""
-        if x > 0:
-            return x
-        elif x == 0:
-            return 0
-        else:
-            return -x
+def absolute_value(x):
+    """Compute abs(x)."""
+    if x > 0:
+        return x
+    elif x == 0:
+        return 0
+    else:
+        return -x
 ```
 
 ``` {.python}
->>> absolute_value(-2) == abs(-2)
-True
+absolute_value(-2) == abs(-2)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
 
 This implementation of `absolute_value` raises several important issues.
 
@@ -940,31 +940,40 @@ If the `else` clause is reached (which only happens if all `if` and `elif` expre
 **Boolean values**. Python has two boolean values, called `True` and `False`. Boolean values represent truth values in logical expressions. The built-in comparison operations, `>, <, >=, <=, ==, !=`, return these values.
 
 ``` {.python}
->>> 4 < 2
-False
->>> 5 >= 5
-True
+4 < 2
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>False</code></pre></div></html>
+
+``` {.python}
+5 >= 5
+```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
 
 This second example reads "5 is greater than or equal to 5", and corresponds to the function `ge` in the `operator` module.
 
 ``` {.python}
->>> 0 == -0
-True
+0 == -0
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
 
 This final example reads "0 equals -0", and corresponds to `eq` in the `operator` module. Notice that Python distinguishes assignment (`=`) from equality testing (`==`), a convention shared across many programming languages.
 
 **Boolean operators**. Three basic logical operators are also built into Python:
 
 ``` {.python}
->>> True and False
-False
->>> True or False
-True
->>> not False
-True
+True and False
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>False</code></pre></div></html>
+
+``` {.python}
+True or False
+```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
+
+``` {.python}
+not False
+```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
 
 Logical expressions have corresponding evaluation procedures. These procedures exploit the fact that the truth value of a logical expression can sometimes be determined without evaluating all of its subexpressions, a feature called *short-circuiting*.
 
@@ -986,7 +995,7 @@ To evaluate the expression `not <exp>`:
 
 These values, rules, and operators provide us with a way to combine the results of tests. Functions that perform tests and return boolean values typically begin with `is`, not followed by an underscore (e.g., `isfinite`, `isdigit`, `isinstance`, etc.).
 
-## [1.5.5   Iteration](#id30)
+## 1.5.5 Iteration
 
 In addition to selecting which statements to execute, control statements are used to express repetition. If each line of code we wrote were only executed once, programming would be a very unproductive exercise. Only through repeated execution of statements do we unlock the potential of computers to make us powerful. We have already seen one form of repetition: a function can be applied many times, although it is only defined once. Iterative control structures are another mechanism for executing the same statements many times.
 
@@ -999,20 +1008,20 @@ Consider the sequence of Fibonacci numbers, in which each number is the sum of t
 Each value is constructed by repeatedly applying the sum-previous-two rule. To build up the nth value, we need to track how many values we've created (`k`), along with the kth value (`curr`) and its predecessor (`pred`), like so:
 
 ``` {.python}
->>> def fib(n):
-        """Compute the nth Fibonacci number, for n >= 2."""
-        pred, curr = 0, 1   # Fibonacci numbers
-        k = 2               # Position of curr in the sequence
-        while k < n:
-            pred, curr = curr, pred + curr  # Re-bind pred and curr
-            k = k + 1                       # Re-bind k
-        return curr
+def fib(n):
+    """Compute the nth Fibonacci number, for n >= 2."""
+    pred, curr = 0, 1   # Fibonacci numbers
+    k = 2               # Position of curr in the sequence
+    while k < n:
+        pred, curr = curr, pred + curr  # Re-bind pred and curr
+        k = k + 1                       # Re-bind k
+    return curr
 ```
 
 ``` {.python}
->>> fib(8)
-13
+fib(8)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>13</code></pre></div></html>
 
 Remember that commas seperate multiple names and values in an assignment statement. The line:
 
@@ -1040,7 +1049,7 @@ In order to prevent the suite of a `while` clause from being executed indefinite
 
 A `while` statement that does not terminate is called an infinite loop. Press `<Control>-C` to force Python to stop looping.
 
-## [1.5.6   Practical Guidance: Testing](#id31)
+## 1.5.6 Practical Guidance: Testing
 
 Testing a function is the act of verifying that the function's behavior matches expectations. Our language of functions is now sufficiently complex that we need to start testing our implementations.
 
@@ -1051,7 +1060,7 @@ Note that we have also used the word "test" as a technical term for the expressi
 **Assertions.** Programmers use `assert` statements to verify expectations, such as the output of a function being tested. An `assert` statement has an expression in a boolean context, followed by a quoted line of text (single or double quotes are both fine, but be consistent) that will be displayed if the expression evaluates to a false value.
 
 ``` {.python}
->>> assert fib(8) == 13, 'The 8th Fibonacci number should be 13'
+assert fib(8) == 13, 'The 8th Fibonacci number should be 13'
 ```
 
 When the expression being asserted evaluates to a true value, executing an assert statement has no effect. When it is a false value, `assert` causes an error that halts execution.
@@ -1059,10 +1068,10 @@ When the expression being asserted evaluates to a true value, executing an asser
 A test function for `fib` should test several arguments, including extreme values of `n`.
 
 ``` {.python}
->>> def fib_test():
-        assert fib(2) == 1, 'The 2nd Fibonacci number should be 1'
-        assert fib(3) == 1, 'The 3nd Fibonacci number should be 1'
-        assert fib(50) == 7778742049, 'Error at the 50th Fibonacci number'
+def fib_test():
+    assert fib(2) == 1, 'The 2nd Fibonacci number should be 1'
+    assert fib(3) == 1, 'The 3nd Fibonacci number should be 1'
+    assert fib(50) == 7778742049, 'Error at the 50th Fibonacci number'
 ```
 
 When writing Python in files, rather than directly into the interpreter, tests should be written in the same file or a neighboring file with the suffix `_test.py`.
@@ -1087,8 +1096,8 @@ When writing Python in files, rather than directly into the interpreter, tests s
 Then, the interaction can be verified via the [doctest module](http://docs.python.org/py3k/library/doctest.html). Below, the `globals` function returns a representation of the global environment, which the interpreter needs in order to evaluate expressions.
 
 ``` {.python}
->>> from doctest import run_docstring_examples
->>> run_docstring_examples(sum_naturals, globals())
+from doctest import run_docstring_examples
+run_docstring_examples(sum_naturals, globals())
 ```
 
 When writing Python in files, all doctests in a file can be run by starting Python with the doctest command line option:
@@ -1099,23 +1108,26 @@ python3 -m doctest <python_source_file>
 
 The key to effective testing is to write (and run) tests immediately after (or even before) implementing new functions. A test that applies a single function is called a *unit test*. Exhaustive unit testing is a hallmark of good program design.
 
-# [1.6   Higher-Order Functions](#id32)
+# 1.6 Higher-Order Functions
 
 We have seen that functions are, in effect, abstractions that describe compound operations independent of the particular values of their arguments. In `square`,
 
 ``` {.python}
->>> def square(x):
-        return x * x
+def square(x):
+    return x * x
 ```
 
 we are not talking about the square of a particular number, but rather about a method for obtaining the square of any number. Of course we could get along without ever defining this function, by always writing expressions such as
 
 ``` {.python}
->>> 3 * 3
-9
->>> 5 * 5
-25
+3 * 3
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>9</code></pre></div></html>
+
+``` {.python}
+5 * 5
+```
+<html><div class="codeparent python"><pre class="stdout"><code>25</code></pre></div></html>
 
 and never mentioning `square` explicitly. This practice would suffice for simple computations like `square`, but would become arduous for more complex examples. In general, lacking function definition would put us at the disadvantage of forcing us to work always at the level of the particular operations that happen to be primitives in the language (multiplication, in this case) rather than in terms of higher-level operations. Our programs would be able to compute squares, but our language would lack the ability to express the concept of squaring. One of the things we should demand from a powerful programming language is the ability to build abstractions by assigning names to common patterns and then to work in terms of the abstractions directly. Functions provide this ability.
 
@@ -1123,37 +1135,37 @@ As we will see in the following examples, there are common programming patterns 
 
 To express certain general patterns as named concepts, we will need to construct functions that can accept other functions as arguments or return functions as values. Functions that manipulate functions are called higher-order functions. This section shows how higher-order functions can serve as powerful abstraction mechanisms, vastly increasing the expressive power of our language.
 
-## [1.6.1   Functions as Arguments](#id33)
+## 1.6.1 Functions as Arguments
 
 Consider the following three functions, which all compute summations. The first, `sum_naturals`, computes the sum of natural numbers up to `n`:
 
 ``` {.python}
->>> def sum_naturals(n):
-        total, k = 0, 1
-        while k <= n:
-            total, k = total + k, k + 1
-        return total
+def sum_naturals(n):
+    total, k = 0, 1
+    while k <= n:
+        total, k = total + k, k + 1
+    return total
 ```
 
 ``` {.python}
->>> sum_naturals(100)
-5050
+sum_naturals(100)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>5050</code></pre></div></html>
 
 The second, `sum_cubes`, computes the sum of the cubes of natural numbers up to `n`.
 
 ``` {.python}
->>> def sum_cubes(n):
-        total, k = 0, 1
-        while k <= n:
-            total, k = total + pow(k, 3), k + 1
-        return total
+def sum_cubes(n):
+    total, k = 0, 1
+    while k <= n:
+        total, k = total + pow(k, 3), k + 1
+    return total
 ```
 
 ``` {.python}
->>> sum_cubes(100)
-25502500
+sum_cubes(100)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>25502500</code></pre></div></html>
 
 The third, `pi_sum`, computes the sum of terms in the series
 
@@ -1162,17 +1174,17 @@ The third, `pi_sum`, computes the sum of terms in the series
 which converges to pi very slowly.
 
 ``` {.python}
->>> def pi_sum(n):
-        total, k = 0, 1
-        while k <= n:
-            total, k = total + 8 / (k * (k + 2)), k + 4
-        return total
+def pi_sum(n):
+    total, k = 0, 1
+    while k <= n:
+        total, k = total + 8 / (k * (k + 2)), k + 4
+    return total
 ```
 
 ``` {.python}
->>> pi_sum(100)
-3.121594652591009
+pi_sum(100)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>3.121594652591009</code></pre></div></html>
 
 These three functions clearly share a common underlying pattern. They are for the most part identical, differing only in name, the function of `k` used to compute the term to be added, and the function that provides the next value of `k`. We could generate each of the functions by filling in slots in the same template:
 
@@ -1187,76 +1199,76 @@ def <name>(n):
 The presence of such a common pattern is strong evidence that there is a useful abstraction waiting to be brought to the surface. Each of these functions is a summation of terms. As program designers, we would like our language to be powerful enough so that we can write a function that expresses the concept of summation itself rather than only functions that compute particular sums. We can do so readily in Python by taking the common template shown above and transforming the "slots" into formal parameters:
 
 ``` {.python}
->>> def summation(n, term, next):
-        total, k = 0, 1
-        while k <= n:
-            total, k = total + term(k), next(k)
-        return total
+def summation(n, term, next):
+    total, k = 0, 1
+    while k <= n:
+        total, k = total + term(k), next(k)
+    return total
 ```
 
 Notice that `summation` takes as its arguments the upper bound `n` together with the functions `term` and `next`. We can use `summation` just as we would any function, and it expresses summations succinctly:
 
 ``` {.python}
->>> def cube(k):
-        return pow(k, 3)
+def cube(k):
+    return pow(k, 3)
 ```
 
 ``` {.python}
->>> def successor(k):
-        return k + 1
+def successor(k):
+    return k + 1
 ```
 
 ``` {.python}
->>> def sum_cubes(n):
-        return summation(n, cube, successor)
+def sum_cubes(n):
+    return summation(n, cube, successor)
 ```
 
 ``` {.python}
->>> sum_cubes(3)
-36
+sum_cubes(3)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>36</code></pre></div></html>
 
 Using an `identity` function that returns its argument, we can also sum integers.
 
 ``` {.python}
->>> def identity(k):
-        return k
+def identity(k):
+    return k
 ```
 
 ``` {.python}
->>> def sum_naturals(n):
-        return summation(n, identity, successor)
+def sum_naturals(n):
+    return summation(n, identity, successor)
 ```
 
 ``` {.python}
->>> sum_naturals(10)
-55
+sum_naturals(10)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>55</code></pre></div></html>
 
 We can also define `pi_sum` piece by piece, using our `summation` abstraction to combine components.
 
 ``` {.python}
->>> def pi_term(k):
-        denominator = k * (k + 2)
-        return 8 / denominator
+def pi_term(k):
+    denominator = k * (k + 2)
+    return 8 / denominator
 ```
 
 ``` {.python}
->>> def pi_next(k):
-        return k + 4
+def pi_next(k):
+    return k + 4
 ```
 
 ``` {.python}
->>> def pi_sum(n):
-        return summation(n, pi_term, pi_next)
+def pi_sum(n):
+    return summation(n, pi_term, pi_next)
 ```
 
 ``` {.python}
->>> pi_sum(1e6)
-3.1415906535898936
+pi_sum(1e6)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>3.1415906535898936</code></pre></div></html>
 
-## [1.6.2   Functions as General Methods](#id34)
+## 1.6.2 Functions as General Methods
 
 We introduced user-defined functions as a mechanism for abstracting patterns of numerical operations so as to make them independent of the particular numbers involved. With higher-order functions, we begin to see a more powerful kind of abstraction: some functions express general methods of computation, independent of the particular functions they call.
 
@@ -1265,36 +1277,36 @@ Despite this conceptual extension of what a function means, our environment mode
 Consider the following example, which implements a general method for iterative improvement and uses it to compute the [golden ratio](http://www.geom.uiuc.edu/~demo5337/s97b/art.htm). An iterative improvement algorithm begins with a `guess` of a solution to an equation. It repeatedly applies an `update` function to improve that guess, and applies a `test` to check whether the current `guess` is "close enough" to be considered correct.
 
 ``` {.python}
->>> def iter_improve(update, test, guess=1):
-        while not test(guess):
-            guess = update(guess)
-        return guess
+def iter_improve(update, test, guess=1):
+    while not test(guess):
+        guess = update(guess)
+    return guess
 ```
 
 The `test` function typically checks whether two functions, `f` and `g`, are near to each other for the value `guess`. Testing whether `f(x)` is near to `g(x)` is again a general method of computation.
 
 ``` {.python}
->>> def near(x, f, g):
-        return approx_eq(f(x), g(x))
+def near(x, f, g):
+    return approx_eq(f(x), g(x))
 ```
 
 A common way to test for approximate equality in programs is to compare the absolute value of the difference between numbers to a small tolerance value.
 
 ``` {.python}
->>> def approx_eq(x, y, tolerance=1e-5):
-        return abs(x - y) < tolerance
+def approx_eq(x, y, tolerance=1e-5):
+    return abs(x - y) < tolerance
 ```
 
 The golden ratio, often called phi, is a number that appears frequently in nature, art, and architecture. It can be computed via `iter_improve` using the `golden_update`, and it converges when its successor is equal to its square.
 
 ``` {.python}
->>> def golden_update(guess):
-        return 1/guess + 1
+def golden_update(guess):
+    return 1/guess + 1
 ```
 
 ``` {.python}
->>> def golden_test(guess):
-        return near(guess, square, successor)
+def golden_test(guess):
+    return near(guess, square, successor)
 ```
 
 At this point, we have added several bindings to the global frame. The depictions of function values are abbreviated for clarity.
@@ -1304,9 +1316,9 @@ At this point, we have added several bindings to the global frame. The depiction
 Calling `iter_improve` with the arguments `golden_update` and `golden_test` will compute an approximation to the golden ratio.
 
 ``` {.python}
->>> iter_improve(golden_update, golden_test)
-1.6180371352785146
+iter_improve(golden_update, golden_test)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>1.6180371352785146</code></pre></div></html>
 
 By tracing through the steps of our evaluation procedure, we can see how this result is computed. First, a local frame for `iter_improve` is constructed with bindings for `update`, `test`, and `guess`. In the body of `iter_improve`, the name `test` is bound to `golden_test`, which is called on the initial value of `guess`. In turn, `golden_test` calls `near`, creating a third local frame that binds the formal parameters `f` and `g` to `square` and `successor`.
 
@@ -1319,46 +1331,46 @@ This extended example illustrates two related big ideas in computer science. Fir
 As always, our new general method `iter_improve` needs a test to check its correctness. The golden ratio can provide such a test, because it also has an exact closed-form solution, which we can compare to this iterative result.
 
 ``` {.python}
->>> phi = 1/2 + pow(5, 1/2)/2
->>> def near_test():
-        assert near(phi, square, successor), 'phi * phi is not near phi + 1'
+phi = 1/2 + pow(5, 1/2)/2
+def near_test():
+    assert near(phi, square, successor), 'phi * phi is not near phi + 1'
 ```
 
 ``` {.python}
->>> def iter_improve_test():
-        approx_phi = iter_improve(golden_update, golden_test)
-        assert approx_eq(phi, approx_phi), 'phi differs from its approximation'
+def iter_improve_test():
+    approx_phi = iter_improve(golden_update, golden_test)
+    assert approx_eq(phi, approx_phi), 'phi differs from its approximation'
 ```
 
 **New environment Feature:** Higher-order functions.
 
 **Extra for experts.** We left out a step in the justification of our test. For what range of tolerance values `e` can you prove that if `near(x, square, successor)` is true with `tolerance` value `e`, then `approx_eq(phi, x)` is true with the same tolerance?
 
-## [1.6.3   Defining Functions III: Nested Definitions](#id35)
+## 1.6.3 Defining Functions III: Nested Definitions
 
 The above examples demonstrate how the ability to pass functions as arguments significantly enhances the expressive power of our programming language. Each general concept or equation maps onto its own short function. One negative consequence of this approach to programming is that the global frame becomes cluttered with names of small functions. Another problem is that we are constrained by particular function signatures: the `update` argument to `iter_improve` must take exactly one argument. In Python, nested function definitions address both of these problems, but require us to amend our environment model slightly.
 
 Let's consider a new problem: computing the square root of a number. Repeated application of the following update converges to the square root of `x`:
 
 ``` {.python}
->>> def average(x, y):
-        return (x + y)/2
+def average(x, y):
+    return (x + y)/2
 ```
 
 ``` {.python}
->>> def sqrt_update(guess, x):
-        return average(guess, x/guess)
+def sqrt_update(guess, x):
+    return average(guess, x/guess)
 ```
 
 This two-argument update function is incompatible with `iter_improve`, and it just provides an intermediate value; we really only care about taking square roots in the end. The solution to both of these issues is to place function definitions inside the body of other definitions.
 
 ``` {.python}
->>> def square_root(x):
-        def update(guess):
-            return average(guess, x/guess)
-        def test(guess):
-            return approx_eq(square(guess), x)
-        return iter_improve(update, test)
+def square_root(x):
+    def update(guess):
+        return average(guess, x/guess)
+    def test(guess):
+        return approx_eq(square(guess), x)
+    return iter_improve(update, test)
 ```
 
 Like local assignment, local `def` statements only affect the current local frame. These functions are only in scope while `square_root` is being evaluated. Consistent with our evaluation procedure, these local `def` statements don't even get evaluated until `square_root` is called.
@@ -1373,9 +1385,9 @@ We require two extensions to our environment model to enable lexical scoping.
 Previous to `square_root`, all functions were defined in the global environment, and so they were all associated with the global environment. When we evaluate the first two clauses of `square_root`, we create functions that are associated with a local environment. In the call
 
 ``` {.python}
->>> square_root(256)
-16.00000000000039
+square_root(256)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>16.00000000000039</code></pre></div></html>
 
 the environment first adds a local frame for `square_root` and evaluates the `def` statements for `update` and `test` (only `update` is shown).
 
@@ -1396,38 +1408,38 @@ The `update` function carries with it some data: the values referenced in the en
 
 **New environment Feature:** Local function definition.
 
-## [1.6.4   Functions as Returned Values](#id36)
+## 1.6.4 Functions as Returned Values
 
 We can achieve even more expressive power in our programs by creating functions whose returned values are themselves functions. An important feature of lexically scoped programming languages is that locally defined functions keep their associated environment when they are returned. The following example illustrates the utility of this feature.
 
 With many simple functions defined, function *composition* is a natural method of combination to include in our programming language. That is, given two functions `f(x)` and `g(x)`, we might want to define `h(x) = f(g(x))`. We can define function composition using our existing tools:
 
 ``` {.python}
->>> def compose1(f, g):
-        def h(x):
-            return f(g(x))
-        return h
+def compose1(f, g):
+    def h(x):
+        return f(g(x))
+    return h
 ```
 
 ``` {.python}
->>> add_one_and_square = compose1(square, successor)
->>> add_one_and_square(12)
-169
+add_one_and_square = compose1(square, successor)
+add_one_and_square(12)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>169</code></pre></div></html>
 
 The `1` in `compose1` indicates that the composed functions and returned result all take `1` argument. This naming convention isn't enforced by the interpreter; the `1` is just part of the function name.
 
 At this point, we begin to observe the benefits of our investment in a rich model of computation. No modifications to our environment model are required to support our ability to return functions in this way.
 
-## [1.6.5   Lambda Expressions](#id37)
+## 1.6.5 Lambda Expressions
 
 So far, every time we want to define a new function, we need to give it a name. But for other types of expressions, we don’t need to associate intermediate products with a name. That is, we can compute `a*b + c*d` without having to name the subexpressions `a*b` or `c*d`, or the full expression. In Python, we can create function values on the fly using `lambda` expressions, which evaluate to unnamed functions. A lambda expression evaluates to a function that has a single return expression as its body. Assignment and control statements are not allowed.
 
 Lambda expressions are limited: They are only useful for simple, one-line functions that evaluate and return a single expression. In those special cases where they apply, lambda expressions can be quite expressive.
 
 ``` {.python}
->>> def compose1(f,g):
-        return lambda x: f(g(x))
+def compose1(f,g):
+    return lambda x: f(g(x))
 ```
 
 We can understand the structure of a `lambda` expression by constructing a corresponding English sentence:
@@ -1440,7 +1452,7 @@ We can understand the structure of a `lambda` expression by constructing a corre
 Some programmers find that using unnamed functions from lambda expressions is shorter and more direct. However, compound `lambda` expressions are notoriously illegible, despite their brevity. The following definition is correct, but some programmers have trouble understanding it quickly.
 
 ``` {.python}
->>> compose1 = lambda f,g: lambda x: f(g(x))
+compose1 = lambda f,g: lambda x: f(g(x))
 ```
 
 In general, Python style prefers explicit `def` statements to lambda expressions, but allows them in cases where a simple function is needed as an argument or return value.
@@ -1455,7 +1467,7 @@ The term *lambda* is a historical accident resulting from the incompatibility of
 
 Despite their unusual etymology, `lambda` expressions and the corresponding formal language for function application, the *lambda calculus*, are fundamental computer science concepts shared far beyond the Python programming community. We will revisit this topic when we study the design of interpreters in Chapter 3.
 
-## [1.6.6   Example: Newton's Method](#id38)
+## 1.6.6 Example: Newton's Method
 
 This final extended example shows how function values, local defintions, and lambda expressions can work together to express general ideas concisely.
 
@@ -1471,13 +1483,13 @@ A comment before we proceed: it is easy to take for granted the fact that we kno
 Before even beginning to understand Newton's method, we can start programming; this is the power of functional abstractions. We simply translate our previous statements into code.
 
 ``` {.python}
->>> def square_root(a):
-        return find_root(lambda x: square(x) - a)
+def square_root(a):
+    return find_root(lambda x: square(x) - a)
 ```
 
 ``` {.python}
->>> def logarithm(a, base=2):
-        return find_root(lambda x: pow(base, x) - a)
+def logarithm(a, base=2):
+    return find_root(lambda x: pow(base, x) - a)
 ```
 
 Of course, we cannot apply any of these functions until we define *find\_root*, and so we need to understand how Newton's method works.
@@ -1502,37 +1514,40 @@ This line's slope is the ratio of the change in function value to the change in 
 Our Newton update expresses the computational process of following this tangent line to 0. We approximate the derivative of the function by computing its slope over a very small interval.
 
 ``` {.python}
->>> def approx_derivative(f, x, delta=1e-5):
-        df = f(x + delta) - f(x)
-        return df/delta
+def approx_derivative(f, x, delta=1e-5):
+    df = f(x + delta) - f(x)
+    return df/delta
 ```
 
 ``` {.python}
->>> def newton_update(f):
-        def update(x):
-            return x - f(x) / approx_derivative(f, x)
-        return update
+def newton_update(f):
+    def update(x):
+        return x - f(x) / approx_derivative(f, x)
+    return update
 ```
 
 Finally, we can define the `find_root` function in terms of `newton_update`, our iterative improvement algorithm, and a test to see if `f(x)` is near 0. We supply a larger initial guess to improve performance for `logarithm`.
 
 ``` {.python}
->>> def find_root(f, initial_guess=10):
-        def test(x):
-            return approx_eq(f(x), 0)
-        return iter_improve(newton_update(f), test, initial_guess)
+def find_root(f, initial_guess=10):
+    def test(x):
+        return approx_eq(f(x), 0)
+    return iter_improve(newton_update(f), test, initial_guess)
 ```
 
 ``` {.python}
->>> square_root(16)
-4.000000000026422
->>> logarithm(32, 2)
-5.000000094858201
+square_root(16)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>4.000000000026422</code></pre></div></html>
+
+``` {.python}
+logarithm(32, 2)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>5.000000094858201</code></pre></div></html>
 
 As you experiment with Newton's method, be aware that it will not always converge. The initial guess of `iter_improve` must be sufficiently close to the root, and various conditions about the function must be met. Despite this shortcoming, Newton's method is a powerful general computational method for solving differentiable equations. In fact, very fast algorithms for logarithms and large integer division employ variants of the technique.
 
-## [1.6.7   Abstractions and First-Class Functions](#id39)
+## 1.6.7 Abstractions and First-Class Functions
 
 We began this section with the observation that user-defined functions are a crucial abstraction mechanism, because they permit us to express general methods of computing as explicit elements in our programming language. Now we've seen how higher-order functions permit us to manipulate these general methods to create further abstractions.
 
@@ -1547,39 +1562,41 @@ In general, programming languages impose restrictions on the ways in which compu
 
 Python awards functions full first-class status, and the resulting gain in expressive power is enormous. Control structures, on the other hand, do not: you cannot pass `if` to a function the way you can `sum`.
 
-## [1.6.8   Function Decorators](#id40)
+## 1.6.8 Function Decorators
 
 Python provides special syntax to apply higher-order functions as part of executing a `def` statement, called a decorator. Perhaps the most common example is a trace.
 
 ``` {.python}
->>> def trace1(fn):
-        def wrapped(x):
-            print('-> ', fn, '(', x, ')')
-            return fn(x)
-        return wrapped
+def trace1(fn):
+    def wrapped(x):
+        print('-> ', fn, '(', x, ')')
+        return fn(x)
+    return wrapped
 ```
 
 ``` {.python}
->>> @trace1
-    def triple(x):
-        return 3 * x
+@trace1
+def triple(x):
+    return 3 * x
 ```
 
 ``` {.python}
->>> triple(12)
-->  <function triple at 0x102a39848> ( 12 )
+triple(12)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>->  <function triple at 0x102a39848> ( 12 )
+
 36
-```
+</code></pre></div></html>
 
 In this example, A higher-order function `trace1` is defined, which returns a function that precedes a call to its argument with a `print` statement that outputs the argument. The `def` statement for `triple` has an annototation, `@trace1`, which affects the execution rule for `def`. As usual, the function `triple` is created. However, the name `triple` is not bound to this function. Instead, the name `triple` is bound to the returned function value of calling `trace1` on the newly defined `triple` function. In code, this decorator is equivalent to:
 
 ``` {.python}
->>> def triple(x):
-        return 3 * x
+def triple(x):
+    return 3 * x
 ```
 
 ``` {.python}
->>> triple = trace1(triple)
+triple = trace1(triple)
 ```
 
 In the projects for this course, decorators are used for tracing, as well as selecting which functions to call when a program is run from the command line.

@@ -1,53 +1,13 @@
-Contents
 
--   [2.1   Introduction](#introduction)
-    -   [2.1.1   The Object Metaphor](#the-object-metaphor)
-    -   [2.1.2   Native Data Types](#native-data-types)
--   [2.2   Data Abstraction](#data-abstraction)
-    -   [2.2.1   Example: Arithmetic on Rational Numbers](#example-arithmetic-on-rational-numbers)
-    -   [2.2.2   Tuples](#tuples)
-    -   [2.2.3   Abstraction Barriers](#abstraction-barriers)
-    -   [2.2.4   The Properties of Data](#the-properties-of-data)
--   [2.3   Sequences](#sequences)
-    -   [2.3.1   Nested Pairs](#nested-pairs)
-    -   [2.3.2   Recursive Lists](#recursive-lists)
-    -   [2.3.3   Tuples II](#tuples-ii)
-    -   [2.3.4   Sequence Iteration](#sequence-iteration)
-    -   [2.3.5   Sequence Abstraction](#sequence-abstraction)
-    -   [2.3.6   Strings](#strings)
-    -   [2.3.7   Conventional Interfaces](#conventional-interfaces)
--   [2.4   Mutable Data](#mutable-data)
-    -   [2.4.1   Local State](#local-state)
-    -   [2.4.2   The Benefits of Non-Local Assignment](#the-benefits-of-non-local-assignment)
-    -   [2.4.3   The Cost of Non-Local Assignment](#the-cost-of-non-local-assignment)
-    -   [2.4.4   Lists](#lists)
-    -   [2.4.5   Dictionaries](#dictionaries)
-    -   [2.4.6   Example: Propagating Constraints](#example-propagating-constraints)
--   [2.5   Object-Oriented Programming](#object-oriented-programming)
-    -   [2.5.1   Objects and Classes](#objects-and-classes)
-    -   [2.5.2   Defining Classes](#defining-classes)
-    -   [2.5.3   Message Passing and Dot Expressions](#message-passing-and-dot-expressions)
-    -   [2.5.4   Class Attributes](#class-attributes)
-    -   [2.5.5   Inheritance](#inheritance)
-    -   [2.5.6   Using Inheritance](#using-inheritance)
-    -   [2.5.7   Multiple Inheritance](#multiple-inheritance)
-    -   [2.5.8   The Role of Objects](#the-role-of-objects)
--   [2.6   Implementing Classes and Objects](#implementing-classes-and-objects)
-    -   [2.6.1   Instances](#instances)
-    -   [2.6.2   Classes](#classes)
-    -   [2.6.3   Using Implemented Objects](#using-implemented-objects)
--   [2.7   Generic Operations](#generic-operations)
-    -   [2.7.1   String Conversion](#string-conversion)
-    -   [2.7.2   Multiple Representations](#multiple-representations)
-    -   [2.7.3   Generic Functions](#generic-functions)
+[[table-of-contents]]
 
-# [2.1   Introduction](#id2)
+# 2.1 Introduction
 
 We concentrated in Chapter 1 on computational processes and on the role of functions in program design. We saw how to use primitive data (numbers) and primitive operations (arithmetic operations), how to form compound functions through composition and control, and how to create functional abstractions by giving names to processes. We also saw that higher-order functions enhance the power of our language by enabling us to manipulate, and thereby to reason, in terms of general methods of computation. This is much of the essence of programming.
 
 This chapter focuses on data. Data allow us to represent and manipulate information about the world using the computational tools we have acquired so far. Programs without data structures may suffice for exploring mathematical properties. But real-world phenomena, such as documents, relationships, cities, and weather patterns, all have complex structure that is best represented using *compound data types*. With structured data, programs can simulate and reason about virtually any domain of human knowledge and experience. Thanks to the explosive growth of the Internet, a vast amount of structured information about the world is freely available to us all online.
 
-## [2.1.1   The Object Metaphor](#id3)
+## 2.1.1 The Object Metaphor
 
 In the beginning of this course, we distinguished between functions and data: functions performed operations and data were operated upon. When we included function values among our data, we acknowledged that data too can have behavior. Functions could be operated upon like data, but could also be called to perform computation.
 
@@ -56,21 +16,21 @@ In this course, *objects* will serve as our central programming metaphor for dat
 The object metaphor is implemented in Python through specialized object syntax and associated terminology, which we can introduce by example. A date is a kind of simple object.
 
 ``` {.python}
->>> from datetime import date
+from datetime import date
 ```
 
 The name `date` is bound to a *class*. A class represents a kind of object. Individual dates are called *instances* of that class, and they can be *constructed* by calling the class as a function on arguments that characterize the instance.
 
 ``` {.python}
->>> today = date(2011, 9, 12)
+today = date(2011, 9, 12)
 ```
 
 While `today` was constructed from primitive numbers, it behaves like a date. For instance, subtracting it from another date will give a time difference, which we can display as a line of text by calling `str`.
 
 ``` {.python}
->>> str(date(2011, 12, 2) - today)
-'81 days, 0:00:00'
+str(date(2011, 12, 2) - today)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'81 days, 0:00:00'</code></pre></div></html>
 
 Objects have *attributes*, which are named values that are part of the object. In Python, we use dot notation to designated an attribute of an object.
 
@@ -81,16 +41,16 @@ Above, the `<expression>` evaluates to an object, and `<name>` is the name of an
 Unlike the names that we have considered so far, these attribute names are not available in the general environment. Instead, attribute names are particular to the object instance preceding the dot.
 
 ``` {.python}
->>> today.year
-2011
+today.year
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>2011</code></pre></div></html>
 
 Objects also have *methods*, which are function-valued attributes. Metaphorically, the object "knows" how to carry out those methods. Methods compute their results from both their arguments and their object. For example, The `strftime` method of `today` takes a single argument that specifies how to display a date (e.g., `%A` means that the day of the week should be spelled out in full).
 
 ``` {.python}
->>> today.strftime('%A, %B %d')
-'Monday, September 12'
+today.strftime('%A, %B %d')
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'Monday, September 12'</code></pre></div></html>
 
 Computing the return value of `strftime` requires two inputs: the string that describes the format of the output and the date information bundled into `today`. Date-specific logic is applied within this method to yield this result. We never stated that the 12th of September, 2011, was a Monday, but knowing one's weekday is part of what it means to be a date. By bundling behavior and information together, this Python object offers us a convincing, self-contained abstraction of a date.
 
@@ -98,14 +58,14 @@ Dot notation provides another form of combined expression in Python. Dot notatio
 
 Even though we haven't described precisely how objects work yet, it is time to start thinking about data as objects now, because in Python every value is an object.
 
-## [2.1.2   Native Data Types](#id4)
+## 2.1.2 Native Data Types
 
 Every object in Python has a *type*. The `type` function allows us to inspect the type of an object.
 
 ``` {.python}
->>> type(today)
-<class 'datetime.date'>
+type(today)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code><class 'datetime.date'></code></pre></div></html>
 
 So far, the only kinds of objects we have studied are numbers, functions, Booleans, and now dates. We also briefly encountered sets and strings, but we will need to study those in more depth. There are many other kinds of objects --- sounds, images, locations, data connections, etc. --- most of which can be defined by the means of combination and abstraction that we develop in this chapter. Python has only a handful of primitive or *native* data types built into the language.
 
@@ -117,26 +77,32 @@ Native data types have the following properties:
 As we have seen, numbers are native; numeric literals evaluate to numbers, and mathematical operators manipulate number objects.
 
 ``` {.python}
->>> 12 + 3000000000000000000000000
-3000000000000000000000012
+12 + 3000000000000000000000000
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>3000000000000000000000012</code></pre></div></html>
 
 In fact, Python includes three native numeric types: integers (`int`), real numbers (`float`), and complex numbers (`complex`).
 
 ``` {.python}
->>> type(2)
-<class 'int'>
->>> type(1.5)
-<class 'float'>
->>> type(1+1j)
-<class 'complex'>
+type(2)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code><class 'int'></code></pre></div></html>
+
+``` {.python}
+type(1.5)
+```
+<html><div class="codeparent python"><pre class="stdout"><code><class 'float'></code></pre></div></html>
+
+``` {.python}
+type(1+1j)
+```
+<html><div class="codeparent python"><pre class="stdout"><code><class 'complex'></code></pre></div></html>
 
 The name `float` comes from the way in which real numbers are represented in Python: a "floating point" representation. While the details of how numbers are represented is not a topic for this course, some high-level differences between `int` and `float` objects are important to know. In particular, `int` objects can only represent integers, but they represent them exactly, without any approximation. On the other hand, `float` objects can represent a wide range of fractional numbers, but not all rational numbers are representable. Nonetheless, float objects are often used to represent real and rational numbers approximately, up to some number of significant figures.
 
 **Further reading.** The following sections introduce more of Python's native data types, focusing on the role they play in creating useful data abstractions. A chapter on [native data types](http://diveintopython3.ep.io/native-datatypes.html) in Dive Into Python 3 gives a pragmatic overview of all Python's native data types and how to use them effectively, including numerous usage examples and practical tips. You needn't read that chapter now, but consider it a valuable reference.
 
-# [2.2   Data Abstraction](#id5)
+# 2.2 Data Abstraction
 
 As we consider the wide set of things in the world that we would like to represent in our programs, we find that most of them have compound structure. A date has a year, a month, and a day; a geographic position has a latitude and a longitude. To represent positions, we would like our programming language to have the capacity to "glue together" a latitude and longitude to form a pair --- a *compound data* value --- that our programs could manipulate in a way that would be consistent with the fact that we regard a position as a single conceptual unit, which has two parts.
 
@@ -148,7 +114,7 @@ The basic idea of data abstraction is to structure programs so that they operate
 
 As you read the next few sections, keep in mind that most Python code written today uses very high-level abstract data types that are built into the language, like classes, dictionaries, and lists. Since we're building up an understanding of how these abstractions work, we can't use them yet ourselves. As a consequence, we will write some code that isn't Pythonic --- it's not necessarily the typical way to implement our ideas in the language. What we write is instructive, however, because it demonstrates how these abstractions can be constructed! Remember that computer science isn't just about learning to use programming languages, but also learning how they work.
 
-## [2.2.1   Example: Arithmetic on Rational Numbers](#id6)
+## 2.2.1 Example: Arithmetic on Rational Numbers
 
 Recall that a rational number is a ratio of integers, and rational numbers constitute an important sub-class of real numbers. A rational number like `1/3` or `17/29` is typically written as:
 
@@ -163,16 +129,16 @@ Rational numbers are important in computer science because they, like integers, 
 However, as soon as we actually divide the numerator by the denominator, we can be left with a truncated decimal approximation (a `float`).
 
 ``` {.python}
->>> 1/3
-0.3333333333333333
+1/3
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>0.3333333333333333</code></pre></div></html>
 
 and the problems with this approximation appear when we start to conduct tests:
 
 ``` {.python}
->>> 1/3 == 0.333333333333333300000  # Beware of approximations
-True
+1/3 == 0.333333333333333300000  # Beware of approximations
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
 
 How computers approximate real numbers with finite-length decimal expansions is a topic for another class. The important idea here is that by representing rational numbers as ratios of integers, we avoid the approximation problem entirely. Hence, we would like to keep the numerator and denominator separate for the sake of precision, but treat them as a single unit.
 
@@ -185,128 +151,143 @@ We know from using functional abstractions that we can start programming product
 We are using here a powerful strategy of synthesis: *wishful thinking*. We haven't yet said how a rational number is represented, or how the functions `numer`, `denom`, and `make_rat` should be implemented. Even so, if we did have these three functions, we could then add, multiply, and test equality of rational numbers by calling them:
 
 ``` {.python}
->>> def add_rat(x, y):
-        nx, dx = numer(x), denom(x)
-        ny, dy = numer(y), denom(y)
-        return make_rat(nx * dy + ny * dx, dx * dy)
+def add_rat(x, y):
+    nx, dx = numer(x), denom(x)
+    ny, dy = numer(y), denom(y)
+    return make_rat(nx * dy + ny * dx, dx * dy)
 ```
 
 ``` {.python}
->>> def mul_rat(x, y):
-        return make_rat(numer(x) * numer(y), denom(x) * denom(y))
+def mul_rat(x, y):
+    return make_rat(numer(x) * numer(y), denom(x) * denom(y))
 ```
 
 ``` {.python}
->>> def eq_rat(x, y):
-        return numer(x) * denom(y) == numer(y) * denom(x)
+def eq_rat(x, y):
+    return numer(x) * denom(y) == numer(y) * denom(x)
 ```
 
 Now we have the operations on rational numbers defined in terms of the selector functions `numer` and `denom`, and the constructor function `make_rat`, but we haven't yet defined these functions. What we need is some way to glue together a numerator and a denominator into a unit.
 
-## [2.2.2   Tuples](#id7)
+## 2.2.2 Tuples
 
 To enable us to implement the concrete level of our data abstraction, Python provides a compound structure called a `tuple`, which can be constructed by separating values by commas. Although not strictly required, parentheses almost always surround tuples.
 
 ``` {.python}
->>> (1, 2)
 (1, 2)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>(1, 2)</code></pre></div></html>
 
 The elements of a tuple can be unpacked in two ways. The first way is via our familiar method of multiple assignment.
 
 ``` {.python}
->>> pair = (1, 2)
->>> pair
-(1, 2)
->>> x, y = pair
->>> x
-1
->>> y
-2
+pair = (1, 2)
+pair
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>(1, 2)</code></pre></div></html>
+
+``` {.python}
+x, y = pair
+x
+```
+<html><div class="codeparent python"><pre class="stdout"><code>1</code></pre></div></html>
+
+``` {.python}
+y
+```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
 
 In fact, multiple assignment has been creating and unpacking tuples all along.
 
 A second method for accessing the elements in a tuple is by the indexing operator, written as square brackets.
 
 ``` {.python}
->>> pair[0]
-1
->>> pair[1]
-2
+pair[0]
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>1</code></pre></div></html>
+
+``` {.python}
+pair[1]
+```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
 
 Tuples in Python (and sequences in most other programming languages) are 0-indexed, meaning that the index `0` picks out the first element, index `1` picks out the second, and so on. One intuition that underlies this indexing convention is that the index represents how far an element is offset from the beginning of the tuple.
 
 The equivalent function for the element selection operator is called `getitem`, and it also uses 0-indexed positions to select elements from a tuple.
 
 ``` {.python}
->>> from operator import getitem
->>> getitem(pair, 0)
-1
+from operator import getitem
+getitem(pair, 0)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>1</code></pre></div></html>
 
 Tuples are native types, which means that there are built-in Python operators to manipulate them. We'll return to the full properties of tuples shortly. At present, we are only interested in how tuples can serve as the glue that implements abstract data types.
 
 **Representing Rational Numbers.** Tuples offer a natural way to implement rational numbers as a pair of two integers: a numerator and a denominator. We can implement our constructor and selector functions for rational numbers by manipulating 2-element tuples.
 
 ``` {.python}
->>> def make_rat(n, d):
-        return (n, d)
+def make_rat(n, d):
+    return (n, d)
 ```
 
 ``` {.python}
->>> def numer(x):
-        return getitem(x, 0)
+def numer(x):
+    return getitem(x, 0)
 ```
 
 ``` {.python}
->>> def denom(x):
-        return getitem(x, 1)
+def denom(x):
+    return getitem(x, 1)
 ```
 
 A function for printing rational numbers completes our implementation of this abstract data type.
 
 ``` {.python}
->>> def str_rat(x):
-        """Return a string 'n/d' for numerator n and denominator d."""
-        return '{0}/{1}'.format(numer(x), denom(x))
+def str_rat(x):
+    """Return a string 'n/d' for numerator n and denominator d."""
+    return '{0}/{1}'.format(numer(x), denom(x))
 ```
 
 Together with the arithmetic operations we defined earlier, we can manipulate rational numbers with the functions we have defined.
 
 ``` {.python}
->>> half = make_rat(1, 2)
->>> str_rat(half)
-'1/2'
->>> third = make_rat(1, 3)
->>> str_rat(mul_rat(half, third))
-'1/6'
->>> str_rat(add_rat(third, third))
-'6/9'
+half = make_rat(1, 2)
+str_rat(half)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'1/2'</code></pre></div></html>
+
+``` {.python}
+third = make_rat(1, 3)
+str_rat(mul_rat(half, third))
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'1/6'</code></pre></div></html>
+
+``` {.python}
+str_rat(add_rat(third, third))
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'6/9'</code></pre></div></html>
 
 As the final example shows, our rational-number implementation does not reduce rational numbers to lowest terms. We can remedy this by changing `make_rat`. If we have a function for computing the greatest common denominator of two integers, we can use it to reduce the numerator and the denominator to lowest terms before constructing the pair. As with many useful tools, such a function already exists in the Python Library.
 
 ``` {.python}
->>> from fractions import gcd
->>> def make_rat(n, d):
-        g = gcd(n, d)
-        return (n//g, d//g)
+from fractions import gcd
+def make_rat(n, d):
+    g = gcd(n, d)
+    return (n//g, d//g)
 ```
 
 The double slash operator, `//`, expresses integer division, which rounds down the fractional part of the result of division. Since we know that `g` divides both `n` and `d` evenly, integer division is exact in this case. Now we have
 
 ``` {.python}
->>> str_rat(add_rat(third, third))
-'2/3'
+str_rat(add_rat(third, third))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'2/3'</code></pre></div></html>
 
 as desired. This modification was accomplished by changing the constructor without changing any of the functions that implement the actual arithmetic operations.
 
 **Further reading.** The `str_rat` implementation above uses *format strings*, which contain placeholders for values. The details of how to use format strings and the `format` method appear in the [formatting strings](http://diveintopython3.ep.io/strings.html#formatting-strings) section of Dive Into Python 3.
 
-## [2.2.3   Abstraction Barriers](#id8)
+## 2.2.3 Abstraction Barriers
 
 Before continuing with more examples of compound data and data abstraction, let us consider some of the issues raised by the rational number example. We defined operations in terms of a constructor `make_rat` and selectors `numer` and `denom`. In general, the underlying idea of data abstraction is to identify for each type of value a basic set of operations in terms of which all manipulations of values of that type will be expressed, and then to use only those operations in manipulating the data.
 
@@ -320,7 +301,7 @@ At each layer, the functions within the box enforce the abstraction boundary bec
 
 Abstraction barriers provide many advantages. One advantage is that they makes programs much easier to maintain and to modify. The fewer functions that depend on a particular representation, the fewer changes are required when one wants to change that representation.
 
-## [2.2.4   The Properties of Data](#id9)
+## 2.2.4 The Properties of Data
 
 We began the rational-number implementation by implementing arithmetic operations in terms of three unspecified functions: `make_rat`, `numer`, and `denom`. At that point, we could think of the operations as being defined in terms of data objects --- numerators, denominators, and rational numbers --- whose behavior was specified by the latter three functions.
 
@@ -337,31 +318,34 @@ In order to implement rational numbers, we needed a form of glue for two integer
 We can implement functions `make_pair` and `getitem_pair` that fulfill this description just as well as a tuple.
 
 ``` {.python}
->>> def make_pair(x, y):
-        """Return a function that behaves like a pair."""
-        def dispatch(m):
-            if m == 0:
-                return x
-            elif m == 1:
-                return y
-        return dispatch
+def make_pair(x, y):
+    """Return a function that behaves like a pair."""
+    def dispatch(m):
+        if m == 0:
+            return x
+        elif m == 1:
+            return y
+    return dispatch
 ```
 
 ``` {.python}
->>> def getitem_pair(p, i):
-        """Return the element at index i of pair p."""
-        return p(i)
+def getitem_pair(p, i):
+    """Return the element at index i of pair p."""
+    return p(i)
 ```
 
 With this implementation, we can create and manipulate pairs.
 
 ``` {.python}
->>> p = make_pair(1, 2)
->>> getitem_pair(p, 0)
-1
->>> getitem_pair(p, 1)
-2
+p = make_pair(1, 2)
+getitem_pair(p, 0)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>1</code></pre></div></html>
+
+``` {.python}
+getitem_pair(p, 1)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
 
 This use of functions corresponds to nothing like our intuitive notion of what data should be. Nevertheless, these functions suffice to represent compound data in our programs.
 
@@ -369,7 +353,7 @@ The subtle point to notice is that the value returned by `make_pair` is a functi
 
 The point of exhibiting the functional representation of a pair is not that Python actually works this way (tuples are implemented more directly, for efficiency reasons) but that it could work this way. The functional representation, although obscure, is a perfectly adequate way to represent pairs, since it fulfills the only conditions that pairs need to fulfill. This example also demonstrates that the ability to manipulate functions as values automatically provides us the ability to represent compound data.
 
-# [2.3   Sequences](#id10)
+# 2.3 Sequences
 
 A sequence is an ordered collection of data values. Unlike a pair, which has exactly two elements, a sequence can have an arbitrary (but finite) number of ordered elements.
 
@@ -385,7 +369,7 @@ Unlike an abstract data type, we have not stated how to construct a sequence. Th
 
 In this section, we develop a particular abstract data type that can implement the sequence abstraction. We then introduce built-in Python types that also implement the same abstraction.
 
-## [2.3.1   Nested Pairs](#id11)
+## 2.3.1 Nested Pairs
 
 For rational numbers, we paired together two integer objects using a two-element tuple, then showed that we could implement pairs just as well using functions. In that case, the elements of each pair we constructed were integers. However, like expressions, tuples can nest. Either element of a pair can itself be a pair, a property that holds true for either method of implementing a pair that we have seen: as a tuple or as a dispatch function.
 
@@ -396,9 +380,9 @@ A standard way to visualize a pair --- in this case, the pair `(1,2)` --- is cal
 This Python expression for a nested tuple,
 
 ``` {.python}
->>> ((1, 2), (3, 4))
 ((1, 2), (3, 4))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>((1, 2), (3, 4))</code></pre></div></html>
 
 would have the following structure.
 
@@ -406,7 +390,7 @@ would have the following structure.
 
 Our ability to use tuples as the elements of other tuples provides a new means of combination in our programming language. We call the ability for tuples to nest in this way a *closure property* of the tuple data type. In general, a method for combining data values satisfies the closure property if the result of combination can itself be combined using the same method. Closure is the key to power in any means of combination because it permits us to create hierarchical structures --- structures made up of parts, which themselves are made up of parts, and so on. We will explore a range of hierarchical structures in Chapter 3. For now, we consider a particularly important structure.
 
-## [2.3.2   Recursive Lists](#id12)
+## 2.3.2 Recursive Lists
 
 We can use nested pairs to form lists of elements of arbitrary length, which will allow us to implement the sequence abstraction. The figure below illustrates the structure of the recursive representation of a four-element list: `1`, `2`, `3`, `4`.
 
@@ -415,9 +399,9 @@ We can use nested pairs to form lists of elements of arbitrary length, which wil
 The list is represented by a chain of pairs. The first element of each pair is an element in the list, while the second is a pair that represents the rest of the list. The second element of the final pair is `None`, which indicates that the list has ended. We can construct this structure using a nested tuple literal:
 
 ``` {.python}
->>> (1, (2, (3, (4, None))))
 (1, (2, (3, (4, None))))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>(1, (2, (3, (4, None))))</code></pre></div></html>
 
 This nested structure corresponds to a very useful way of thinking about sequences in general, which we have seen before in the execution rules of the Python interpreter. A non-empty sequence can be decomposed into:
 
@@ -429,22 +413,22 @@ The rest of a sequence is itself a (possibly empty) sequence. We call this view 
 Since our list representation is recursive, we will call it an `rlist` in our implementation, so as not to confuse it with the built-in `list` type in Python that we will introduce later in this chapter. A recursive list can be constructed from a first element and the rest of the list. The value `None` represents an empty recursive list.
 
 ``` {.python}
->>> empty_rlist = None
->>> def make_rlist(first, rest):
-        """Make a recursive list from its first element and the rest."""
-        return (first, rest)
+empty_rlist = None
+def make_rlist(first, rest):
+    """Make a recursive list from its first element and the rest."""
+    return (first, rest)
 ```
 
 ``` {.python}
->>> def first(s):
-        """Return the first element of a recursive list s."""
-        return s[0]
+def first(s):
+    """Return the first element of a recursive list s."""
+    return s[0]
 ```
 
 ``` {.python}
->>> def rest(s):
-        """Return the rest of the elements of a recursive list s."""
-        return s[1]
+def rest(s):
+    """Return the rest of the elements of a recursive list s."""
+    return s[1]
 ```
 
 These two selectors, one constructor, and one constant together implement the recursive list abstract data type. The single behavior condition for a recursive list is that, like a pair, its constructor and selectors are inverse functions.
@@ -454,42 +438,48 @@ These two selectors, one constructor, and one constant together implement the re
 We can use the constructor and selectors to manipulate recursive lists.
 
 ``` {.python}
->>> counts = make_rlist(1, make_rlist(2, make_rlist(3, make_rlist(4, empty_rlist))))
->>> first(counts)
-1
->>> rest(counts)
-(2, (3, (4, None)))
+counts = make_rlist(1, make_rlist(2, make_rlist(3, make_rlist(4, empty_rlist))))
+first(counts)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>1</code></pre></div></html>
+
+``` {.python}
+rest(counts)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>(2, (3, (4, None)))</code></pre></div></html>
 
 Recall that we were able to represent pairs using functions, and therefore we can represent recursive lists using functions as well.
 
 The recursive list can store a sequence of values in order, but it does not yet implement the sequence abstraction. Using the abstract data type we have defined, we can implement the two behaviors that characterize a sequence: length and element selection.
 
 ``` {.python}
->>> def len_rlist(s):
-        """Return the length of recursive list s."""
-        length = 0
-        while s != empty_rlist:
-            s, length = rest(s), length + 1
-        return length
+def len_rlist(s):
+    """Return the length of recursive list s."""
+    length = 0
+    while s != empty_rlist:
+        s, length = rest(s), length + 1
+    return length
 ```
 
 ``` {.python}
->>> def getitem_rlist(s, i):
-        """Return the element at index i of recursive list s."""
-        while i > 0:
-            s, i = rest(s), i - 1
-        return first(s)
+def getitem_rlist(s, i):
+    """Return the element at index i of recursive list s."""
+    while i > 0:
+        s, i = rest(s), i - 1
+    return first(s)
 ```
 
 Now, we can manipulate a recursive list as a sequence:
 
 ``` {.python}
->>> len_rlist(counts)
-4
->>> getitem_rlist(counts, 1)  # The second item has index 1
-2
+len_rlist(counts)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>4</code></pre></div></html>
+
+``` {.python}
+getitem_rlist(counts, 1)  # The second item has index 1
+```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
 
 Both of these implementations are iterative. They peel away each layer of nested pair until the end of the list (in `len_rlist`) or the desired element (in `getitem_rlist`) is reached.
 
@@ -511,75 +501,78 @@ This example demonstrates a common pattern of computation with recursive lists, 
 
 The way in which we construct recursive lists is rather verbose. Fortunately, Python provides a variety of built-in sequence types that provide both the versatility of the sequence abstraction, as well as convenient notation.
 
-## [2.3.3   Tuples II](#id13)
+## 2.3.3 Tuples II
 
 In fact, the `tuple` type that we introduced to form primitive pairs is itself a full sequence type. Tuples provide substantially more functionality than the pair abstract data type that we implemented functionally.
 
 Tuples can have arbitrary length, and they exhibit the two principal behaviors of the sequence abstraction: length and element selection. Below, `digits` is a tuple with four elements.
 
 ``` {.python}
->>> digits = (1, 8, 2, 8)
->>> len(digits)
-4
->>> digits[3]
-8
+digits = (1, 8, 2, 8)
+len(digits)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>4</code></pre></div></html>
+
+``` {.python}
+digits[3]
+```
+<html><div class="codeparent python"><pre class="stdout"><code>8</code></pre></div></html>
 
 Additionally, tuples can be added together and multiplied by integers. For tuples, addition and multiplication do not add or multiply elements, but instead combine and replicate the tuples themselves. That is, the `add` function in the `operator` module (and the `+` operator) returns a new tuple that is the conjunction of the added arguments. The `mul` function in `operator` (and the `*` operator) can take an integer `k` and a tuple and return a new tuple that consists of `k` copies of the tuple argument.
 
 ``` {.python}
->>> (2, 7) + digits * 2
-(2, 7, 1, 8, 2, 8, 1, 8, 2, 8)
+(2, 7) + digits * 2
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>(2, 7, 1, 8, 2, 8, 1, 8, 2, 8)</code></pre></div></html>
 
 **Mapping.** A powerful method of transforming one tuple into another is by applying a function to each element and collecting the results. This general form of computation is called *mapping* a function over a sequence, and corresponds to the built-in function `map`. The result of `map` is an object that is not itself a sequence, but can be converted into a sequence by calling `tuple`, the constructor function for tuples.
 
 ``` {.python}
->>> alternates = (-1, 2, -3, 4, -5)
->>> tuple(map(abs, alternates))
-(1, 2, 3, 4, 5)
+alternates = (-1, 2, -3, 4, -5)
+tuple(map(abs, alternates))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>(1, 2, 3, 4, 5)</code></pre></div></html>
 
 The `map` function is important because it relies on the sequence abstraction: we do not need to be concerned about the structure of the underlying tuple; only that we can access each one of its elements individually in order to pass it as an argument to the mapped function (`abs`, in this case).
 
-## [2.3.4   Sequence Iteration](#id14)
+## 2.3.4 Sequence Iteration
 
 Mapping is itself an instance of a general pattern of computation: iterating over all elements in a sequence. To map a function over a sequence, we do not just select a particular element, but each element in turn. This pattern is so common that Python has an additional control statement to process sequential data: the `for` statement.
 
 Consider the problem of counting how many times a value appears in a sequence. We can implement a function to compute this count using a `while` loop.
 
 ``` {.python}
->>> def count(s, value):
-        """Count the number of occurrences of value in sequence s."""
-        total, index = 0, 0
-        while index < len(s):
-            if s[index] == value:
-                total = total + 1
-            index = index + 1
-        return total
+def count(s, value):
+    """Count the number of occurrences of value in sequence s."""
+    total, index = 0, 0
+    while index < len(s):
+        if s[index] == value:
+            total = total + 1
+        index = index + 1
+    return total
 ```
 
 ``` {.python}
->>> count(digits, 8)
-2
+count(digits, 8)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
 
 The Python `for` statement can simplify this function body by iterating over the element values directly, without introducing the name `index` at all. `For` example (pun intended), we can write:
 
 ``` {.python}
->>> def count(s, value):
-        """Count the number of occurrences of value in sequence s."""
-        total = 0
-        for elem in s:
-            if elem == value:
-                total = total + 1
-        return total
+def count(s, value):
+    """Count the number of occurrences of value in sequence s."""
+    total = 0
+    for elem in s:
+        if elem == value:
+            total = total + 1
+    return total
 ```
 
 ``` {.python}
->>> count(digits, 8)
-2
+count(digits, 8)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
 
 A `for` statement consists of a single clause with the form:
 
@@ -602,63 +595,63 @@ An important consequence of this evaluation procedure is that `<name>` will be b
 **Sequence unpacking.** A common pattern in programs is to have a sequence of elements that are themselves sequences, but all of a fixed length. `For` statements may include multiple names in their header to "unpack" each element sequence into its respective elements. For example, we may have a sequence of pairs (that is, two-element tuples),
 
 ``` {.python}
->>> pairs = ((1, 2), (2, 2), (2, 3), (4, 4))
+pairs = ((1, 2), (2, 2), (2, 3), (4, 4))
 ```
 
 and wish to find the number of pairs that have the same first and second element.
 
 ``` {.python}
->>> same_count = 0
+same_count = 0
 ```
 
 The following `for` statement with two names in its header will bind each name `x` and `y` to the first and second elements in each pair, respectively.
 
 ``` {.python}
->>> for x, y in pairs:
-        if x == y:
-            same_count = same_count + 1
+for x, y in pairs:
+    if x == y:
+        same_count = same_count + 1
 ```
 
 ``` {.python}
->>> same_count
-2
+same_count
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
 
 This pattern of binding multiple names to multiple values in a fixed-length sequence is called *sequence unpacking*; it is the same pattern that we see in assignment statements that bind multiple names to multiple values.
 
 **Ranges.** A `range` is another built-in type of sequence in Python, which represents a range of integers. Ranges are created with the `range` function, which takes two integer arguments: the first number and one beyond the last number in the desired range.
 
 ``` {.python}
->>> range(1, 10)  # Includes 1, but not 10
-range(1, 10)
+range(1, 10)  # Includes 1, but not 10
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>range(1, 10)</code></pre></div></html>
 
 Calling the `tuple` constructor on a range will create a tuple with the same elements as the range, so that the elements can be easily inspected.
 
 ``` {.python}
->>> tuple(range(5, 8))
-(5, 6, 7)
+tuple(range(5, 8))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>(5, 6, 7)</code></pre></div></html>
 
 If only one argument is given, it is interpreted as one beyond the last value for a range that starts at 0.
 
 ``` {.python}
->>> tuple(range(4))
-(0, 1, 2, 3)
+tuple(range(4))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>(0, 1, 2, 3)</code></pre></div></html>
 
 Ranges commonly appear as the expression in a `for` header to specify the number of times that the suite should be executed:
 
 ``` {.python}
->>> total = 0
->>> for k in range(5, 8):
-        total = total + k
+total = 0
+for k in range(5, 8):
+    total = total + k
 ```
 
 ``` {.python}
->>> total
-18
+total
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>18</code></pre></div></html>
 
 A common convention is to use a single underscore character for the name in the `for` header if the name is unused in the suite:
 
@@ -673,20 +666,26 @@ Go Bears!
 
 Note that an underscore is just another name in the environment as far as the interpreter is concerned, but has a conventional meaning among programmers that indicates the name will not appear in any expressions.
 
-## [2.3.5   Sequence Abstraction](#id15)
+## 2.3.5 Sequence Abstraction
 
 We have now introduced two types of native data types that implement the sequence abstraction: tuples and ranges. Both satisfy the conditions with which we began this section: length and element selection. Python includes two more behaviors of sequence types that extend the sequence abstraction.
 
 **Membership.** A value can be tested for membership in a sequence. Python has two operators `in` and `not in` that evaluate to `True` or `False` depending on whether an element appears in a sequence.
 
 ``` {.python}
->>> digits
-(1, 8, 2, 8)
->>> 2 in digits
-True
->>> 1828 not in digits
-True
+digits
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>(1, 8, 2, 8)</code></pre></div></html>
+
+``` {.python}
+2 in digits
+```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
+
+``` {.python}
+1828 not in digits
+```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
 
 All sequences also have methods called `index` and `count`, which return the index of (or count of) a value in a sequence.
 
@@ -695,11 +694,14 @@ All sequences also have methods called `index` and `count`, which return the ind
 In Python, sequence slicing is expressed similarly to element selection, using square brackets. A colon separates the starting and ending indices. Any bound that is omitted is assumed to be an extreme value: 0 for the starting index, and the length of the sequence for the ending index.
 
 ``` {.python}
->>> digits[0:2]
-(1, 8)
->>> digits[1:]
-(8, 2, 8)
+digits[0:2]
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>(1, 8)</code></pre></div></html>
+
+``` {.python}
+digits[1:]
+```
+<html><div class="codeparent python"><pre class="stdout"><code>(8, 2, 8)</code></pre></div></html>
 
 Enumerating these additional behaviors of the Python sequence abstraction gives us an opportunity to reflect upon what constitutes a useful data abstraction in general. The richness of an abstraction (that is, how many behaviors it includes) has consequences. For users of an abstraction, additional behaviors can be helpful. On the other hand, satisfying the requirements of a rich abstraction with a new data type can be challenging. To ensure that our implementation of recursive lists supported these additional behaviors would require some work. Another negative consequence of rich abstractions is that they take longer for users to learn.
 
@@ -707,7 +709,7 @@ Sequences have a rich abstraction because they are so ubiquitous in computing th
 
 **Further reading.** Slice notation admits a variety of special cases, such as negative starting values, ending values, and step sizes. A complete description appears in the subsection called [slicing a list](http://diveintopython3.ep.io/native-datatypes.html#slicinglists) in Dive Into Python 3. In this chapter, we will only use the basic features described above.
 
-## [2.3.6   Strings](#id16)
+## 2.3.6 Strings
 
 Text values are perhaps more fundamental to computer science than even numbers. As a case in point, Python programs are written and stored as text. The native data type for text in Python is called a string, and corresponds to the constructor `str`.
 
@@ -716,87 +718,111 @@ There are many details of how strings are represented, expressed, and manipulate
 String literals can express arbitrary text, surrounded by either single or double quotation marks.
 
 ``` {.python}
->>> 'I am string!'
 'I am string!'
->>> "I've got an apostrophe"
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'I am string!'</code></pre></div></html>
+
+``` {.python}
 "I've got an apostrophe"
->>> '您好'
+```
+<html><div class="codeparent python"><pre class="stdout"><code>"I've got an apostrophe"</code></pre></div></html>
+
+``` {.python}
 '您好'
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'您好'</code></pre></div></html>
 
 We have seen strings already in our code, as docstrings, in calls to `print`, and as error messages in `assert` statements.
 
 Strings satisfy the two basic conditions of a sequence that we introduced at the beginning of this section: they have a length and they support element selection.
 
 ``` {.python}
->>> city = 'Berkeley'
->>> len(city)
-8
->>> city[3]
-'k'
+city = 'Berkeley'
+len(city)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>8</code></pre></div></html>
+
+``` {.python}
+city[3]
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'k'</code></pre></div></html>
 
 The elements of a string are themselves strings that have only a single character. A character is any single letter of the alphabet, punctuation mark, or other symbol. Unlike many other programming languages, Python does not have a separate character type; any text is a string, and strings that represent single characters have a length of 1.
 
 Like tuples, strings can also be combined via addition and multiplication.
 
 ``` {.python}
->>> 'Berkeley' + ', CA'
-'Berkeley, CA'
->>> 'Shabu ' * 2
-'Shabu Shabu '
+'Berkeley' + ', CA'
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'Berkeley, CA'</code></pre></div></html>
+
+``` {.python}
+'Shabu ' * 2
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'Shabu Shabu '</code></pre></div></html>
 
 **Membership.** The behavior of strings diverges from other sequence types in Python. The string abstraction does not conform to the full sequence abstraction that we described for tuples and ranges. In particular, the membership operator `in` applies to strings, but has an entirely different behavior than when it is applied to sequences. It matches substrings rather than elements.
 
 ``` {.python}
->>> 'here' in "Where's Waldo?"
-True
+'here' in "Where's Waldo?"
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
 
 Likewise, the `count` and `index` methods on strings take substrings as arguments, rather than single-character elements. The behavior of `count` is particularly nuanced; it counts the number of non-overlapping occurrences of a substring in a string.
 
 ``` {.python}
->>> 'Mississippi'.count('i')
-4
->>> 'Mississippi'.count('issi')
-1
+'Mississippi'.count('i')
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>4</code></pre></div></html>
+
+``` {.python}
+'Mississippi'.count('issi')
+```
+<html><div class="codeparent python"><pre class="stdout"><code>1</code></pre></div></html>
 
 **Multiline Literals.** Strings aren't limited to a single line. Triple quotes delimit string literals that span multiple lines. We have used this triple quoting extensively already for docstrings.
 
 ``` {.python}
->>> """The Zen of Python
-claims, Readability counts.
-Read more: import this."""
-'The Zen of Python\nclaims, "Readability counts."\nRead more: import this.'
+"""The Zen of Python
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>claims, Readability counts.
+
+Read more: import this."""
+
+'The Zen of Python\nclaims, "Readability counts."\nRead more: import this.'
+</code></pre></div></html>
 
 In the printed result above, the `\n` (pronounced "*backslash en*") is a single element that represents a new line. Although it appears as two characters (backslash and "n"), it is considered a single character for the purposes of length and element selection.
 
 **String Coercion.** A string can be created from any object in Python by calling the `str` constructor function with an object value as its argument. This feature of strings is useful for constructing descriptive strings from objects of various types.
 
 ``` {.python}
->>> str(2) + ' is an element of ' + str(digits)
-'2 is an element of (1, 8, 2, 8)'
+str(2) + ' is an element of ' + str(digits)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'2 is an element of (1, 8, 2, 8)'</code></pre></div></html>
 
 The mechanism by which a single `str` function can apply to any type of argument and return an appropriate value is the subject of the later section on generic functions.
 
 **Methods.** The behavior of strings in Python is extremely productive because of a rich set of methods for returning string variants and searching for contents. A few of these methods are introduced below by example.
 
 ``` {.python}
->>> '1234'.isnumeric()
-True
->>> 'rOBERT dE nIRO'.swapcase()
-'Robert De Niro'
->>> 'snakeyes'.upper().endswith('YES')
-True
+'1234'.isnumeric()
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
+
+``` {.python}
+'rOBERT dE nIRO'.swapcase()
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'Robert De Niro'</code></pre></div></html>
+
+``` {.python}
+'snakeyes'.upper().endswith('YES')
+```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
 
 **Further reading.** Encoding text in computers is a complex topic. In this chapter, we will abstract away the details of how strings are represented. However, for many applications, the particular details of how strings are encoded by computers is essential knowledge. [Sections 4.1-4.3 of Dive Into Python 3](http://diveintopython3.ep.io/strings.html) provides a description of character encodings and Unicode.
 
-## [2.3.7   Conventional Interfaces](#id17)
+## 2.3.7 Conventional Interfaces
 
 In working with compound data, we've stressed how data abstraction permits us to design programs without becoming enmeshed in the details of data representations, and how abstraction preserves for us the flexibility to experiment with alternative representations. In this section, we introduce another powerful design principle for working with data structures --- the use of *conventional interfaces*.
 
@@ -820,43 +846,46 @@ naturals(n)    fib    iseven     sum
 The `fib` function below computes Fibonacci numbers (now updated from the definition in Chapter 1 with a `for` statement),
 
 ``` {.python}
->>> def fib(k):
-        """Compute the kth Fibonacci number."""
-        prev, curr = 1, 0  # curr is the first Fibonacci number.
-        for _ in range(k - 1):
-             prev, curr = curr, prev + curr
-        return curr
+def fib(k):
+    """Compute the kth Fibonacci number."""
+    prev, curr = 1, 0  # curr is the first Fibonacci number.
+    for _ in range(k - 1):
+         prev, curr = curr, prev + curr
+    return curr
 ```
 
 and a predicate `iseven` can be defined using the integer remainder operator, `%`.
 
 ``` {.python}
->>> def iseven(n):
-        return n % 2 == 0
+def iseven(n):
+    return n % 2 == 0
 ```
 
 The functions `map` and `filter` are operations on sequences. We have already encountered `map`, which applies a function to each element in a sequence and collects the results. The `filter` function takes a sequence and returns those elements of a sequence for which a predicate is true. Both of these functions return intermediate objects, `map` and `filter` objects, which are iterable objects that can be converted into tuples or summed.
 
 ``` {.python}
->>> nums = (5, 6, -7, -8, 9)
->>> tuple(filter(iseven, nums))
-(6, -8)
->>> sum(map(abs, nums))
-35
+nums = (5, 6, -7, -8, 9)
+tuple(filter(iseven, nums))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>(6, -8)</code></pre></div></html>
+
+``` {.python}
+sum(map(abs, nums))
+```
+<html><div class="codeparent python"><pre class="stdout"><code>35</code></pre></div></html>
 
 Now we can implement `even_fib`, the solution to our first problem, in terms of `map`, `filter`, and `sum`.
 
 ``` {.python}
->>> def sum_even_fibs(n):
-        """Sum the first n even Fibonacci numbers."""
-        return sum(filter(iseven, map(fib, range(1, n+1))))
+def sum_even_fibs(n):
+    """Sum the first n even Fibonacci numbers."""
+    return sum(filter(iseven, map(fib, range(1, n+1))))
 ```
 
 ``` {.python}
->>> sum_even_fibs(20)
-3382
+sum_even_fibs(20)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>3382</code></pre></div></html>
 
 Now, let's consider the second problem. It can also be decomposed as a pipeline of sequence operations that include `map` and `filter`:
 
@@ -869,34 +898,34 @@ enumerate  filter   map   accumulate
 The words in a string can be enumerated via the `split` method of a string object, which by default splits on spaces.
 
 ``` {.python}
->>> tuple('Spaces between words'.split())
-('Spaces', 'between', 'words')
+tuple('Spaces between words'.split())
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>('Spaces', 'between', 'words')</code></pre></div></html>
 
 The first letter of a word can be retrieved using the selection operator, and a predicate that determines if a word is capitalized can be defined using the built-in predicate `isupper`.
 
 ``` {.python}
->>> def first(s):
-        return s[0]
+def first(s):
+    return s[0]
 ```
 
 ``` {.python}
->>> def iscap(s):
-        return len(s) > 0 and s[0].isupper()
+def iscap(s):
+    return len(s) > 0 and s[0].isupper()
 ```
 
 At this point, our acronym function can be defined via `map` and `filter`.
 
 ``` {.python}
->>> def acronym(name):
-        """Return a tuple of the letters that form the acronym for name."""
-        return tuple(map(first, filter(iscap, name.split())))
+def acronym(name):
+    """Return a tuple of the letters that form the acronym for name."""
+    return tuple(map(first, filter(iscap, name.split())))
 ```
 
 ``` {.python}
->>> acronym('University of California Berkeley Undergraduate Graphics Group')
-('U', 'C', 'B', 'U', 'G', 'G')
+acronym('University of California Berkeley Undergraduate Graphics Group')
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>('U', 'C', 'B', 'U', 'G', 'G')</code></pre></div></html>
 
 These similar solutions to rather different problems show how to combine general components that operate on the conventional interface of a sequence using the general computational patterns of mapping, filtering, and accumulation. The sequence abstraction allows us to specify these solutions concisely.
 
@@ -915,13 +944,13 @@ To evaluate a generator expression, Python evaluates the `<sequence expression>`
 The result value of evaluating a generator expression is itself an iterable value. Accumulation functions like `tuple`, `sum`, `max`, and `min` can take this returned object as an argument.
 
 ``` {.python}
->>> def acronym(name):
-        return tuple(w[0] for w in name.split() if iscap(w))
+def acronym(name):
+    return tuple(w[0] for w in name.split() if iscap(w))
 ```
 
 ``` {.python}
->>> def sum_even_fibs(n):
-        return sum(fib(k) for k in range(1, n+1) if fib(k) % 2 == 0)
+def sum_even_fibs(n):
+    return sum(fib(k) for k in range(1, n+1) if fib(k) % 2 == 0)
 ```
 
 Generator expressions are specialized syntax that utilizes the conventional interface of iterable values, such as sequences. These expressions subsume most of the functionality of `map` and `filter`, but avoid actually creating the function values that are applied (or, incidentally, creating the environment frames required to apply those functions).
@@ -929,28 +958,28 @@ Generator expressions are specialized syntax that utilizes the conventional inte
 **Reduce.** In our examples we used specific functions to accumulate results, either `tuple` or `sum`. Functional programming languages (including Python) include general higher-order accumulators that go by various names. Python includes `reduce` in the `functools` module, which applies a two-argument function cumulatively to the elements of a sequence from left to right, to reduce a sequence to a value. The following expression computes 5 factorial.
 
 ``` {.python}
->>> from operator import mul
->>> from functools import reduce
->>> reduce(mul, (1, 2, 3, 4, 5))
-120
+from operator import mul
+from functools import reduce
+reduce(mul, (1, 2, 3, 4, 5))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>120</code></pre></div></html>
 
 Using this more general form of accumulation, we can also compute the product of even Fibonacci numbers, in addition to the sum, using sequences as a conventional interface.
 
 ``` {.python}
->>> def product_even_fibs(n):
-        """Return the product of the first n even Fibonacci numbers, except 0."""
-        return reduce(mul, filter(iseven, map(fib, range(2, n+1))))
+def product_even_fibs(n):
+    """Return the product of the first n even Fibonacci numbers, except 0."""
+    return reduce(mul, filter(iseven, map(fib, range(2, n+1))))
 ```
 
 ``` {.python}
->>> product_even_fibs(20)
-123476336640
+product_even_fibs(20)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>123476336640</code></pre></div></html>
 
 The combination of higher order procedures corresponding to `map`, `filter`, and `reduce` will appear again in Chapter 4, when we consider methods for distributing computation across multiple computers.
 
-# [2.4   Mutable Data](#id18)
+# 2.4 Mutable Data
 
 We have seen how abstraction is vital in helping us to cope with the complexity of large systems. Effective program synthesis also requires organizational principles that can guide us in formulating the overall design of a program. In particular, we need strategies to help us structure large systems so that they will be *modular*, that is, so that they can be divided "naturally" into coherent parts that can be separately developed and maintained.
 
@@ -958,43 +987,52 @@ One powerful technique for creating modular programs is to introduce new kinds o
 
 The native data types we have introduced so far --- numbers, Booleans, tuples, ranges, and strings --- are all types of *immutable* objects. While names may change bindings to different values in the environment during the course of execution, the values themselves do not change. In this section, we will introduce a collection of *mutable* data types. Mutable objects can change throughout the execution of a program.
 
-## [2.4.1   Local State](#id19)
+## 2.4.1 Local State
 
 Our first example of a mutable object will be a function that has local state. That state will change during the course of execution of a program.
 
 To illustrate what we mean by having a function with local state, let us model the situation of withdrawing money from a bank account. We will do so by creating a function called `withdraw`, which takes as its argument an amount to be withdrawn. If there is enough money in the account to accommodate the withdrawal, then `withdraw` should return the balance remaining after the withdrawal. Otherwise, `withdraw` should return the message `'Insufficient funds'`. For example, if we begin with \$100 in the account, we would like to obtain the following sequence of return values by calling withdraw:
 
 ``` {.python}
->>> withdraw(25)
-75
->>> withdraw(25)
-50
->>> withdraw(60)
-'Insufficient funds'
->>> withdraw(15)
-35
+withdraw(25)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>75</code></pre></div></html>
+
+``` {.python}
+withdraw(25)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>50</code></pre></div></html>
+
+``` {.python}
+withdraw(60)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'Insufficient funds'</code></pre></div></html>
+
+``` {.python}
+withdraw(15)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>35</code></pre></div></html>
 
 Observe that the expression `withdraw(25)`, evaluated twice, yields different values. This is a new kind of behavior for a user-defined function: it is non-pure. Calling the function not only returns a value, but also has the side effect of changing the function in some way, so that the next call with the same argument will return a different result. All of our user-defined functions so far have been pure functions, unless they called a non-pure built-in function. They have remained pure because they have not been allowed to make any changes outside of their local environment frame!
 
 For `withdraw` to make sense, it must be created with an initial account balance. The function `make_withdraw` is a higher-order function that takes a starting balance as an argument. The function `withdraw` is its return value.
 
 ``` {.python}
->>> withdraw = make_withdraw(100)
+withdraw = make_withdraw(100)
 ```
 
 An implementation of `make_withdraw` requires a new kind of statement: a `nonlocal` statement. When we call `make_withdraw`, we bind the name `balance` to the initial amount. We then define and return a local function, `withdraw`, which updates and returns the value of `balance` when called.
 
 ``` {.python}
->>> def make_withdraw(balance):
-        """Return a withdraw function that draws down balance with each call."""
-        def withdraw(amount):
-            nonlocal balance                 # Declare the name "balance" nonlocal
-            if amount > balance:
-                return 'Insufficient funds'
-            balance = balance - amount       # Re-bind the existing balance name
-            return balance
-        return withdraw
+def make_withdraw(balance):
+    """Return a withdraw function that draws down balance with each call."""
+    def withdraw(amount):
+        nonlocal balance                 # Declare the name "balance" nonlocal
+        if amount > balance:
+            return 'Insufficient funds'
+        balance = balance - amount       # Re-bind the existing balance name
+        return balance
+    return withdraw
 ```
 
 The novel part of this implementation is the `nonlocal` statement, which mandates that whenever we change the binding of the name `balance`, the binding is changed in the first frame in which `balance` is already bound. Recall that without the `nonlocal` statement, an assignment statement would always bind a name in the first frame of the environment. The `nonlocal` statement indicates that the name appears somewhere in the environment other than the first (local) frame or the last (global) frame.
@@ -1008,7 +1046,7 @@ Our definition statement has the usual effect: it creates a new user-defined fun
 Next, we call `make_withdraw` with an initial balance argument of `20`.
 
 ``` {.python}
->>> wd = make_withdraw(20)
+wd = make_withdraw(20)
 ```
 
 This assignment statement binds the name `wd` to the returned function in the global frame.
@@ -1020,9 +1058,9 @@ The returned function, (intrinsically) called *withdraw*, is associated with the
 Next, we evaluate an expression that calls *withdraw* on an amount `5`.
 
 ``` {.python}
->>> wd(5)
-15
+wd(5)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>15</code></pre></div></html>
 
 The name `wd` is bound to the *withdraw* function, so the body of *withdraw* is evaluated in a new environment that extends the environment in which *withdraw* was defined. Tracing the effect of evaluating *withdraw* illustrates the effect of a `nonlocal` statement in Python.
 
@@ -1035,9 +1073,9 @@ By virtue of changing the binding for `balance`, we have changed the *withdraw* 
 When we call `wd` a second time,
 
 ``` {.python}
->>> wd(3)
-12
+wd(3)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>12</code></pre></div></html>
 
 we see that the changes to the value bound to the name `balance` are cumulative across the two calls.
 
@@ -1047,7 +1085,7 @@ Here, the second call to *withdraw* did create a second local frame, as usual. H
 
 **Practical guidance.** By introducing `nonlocal` statements, we have created a dual role for assignment statements. Either they change local bindings, or they change nonlocal bindings. In fact, assignment statements already had a dual role: they either created new bindings or re-bound existing names. The many roles of Python assignment can obscure the effects of executing an assignment statement. It is up to you as a programmer to document your code clearly so that the effects of assignment can be understood by others.
 
-## [2.4.2   The Benefits of Non-Local Assignment](#id20)
+## 2.4.2 The Benefits of Non-Local Assignment
 
 Non-local assignment is an important step on our path to viewing a program as a collection of independent and autonomous *objects*, which interact with each other but each manage their own internal state.
 
@@ -1056,7 +1094,7 @@ In particular, non-local assignment has given us the ability to maintain some st
 We can continue our example to illustrate this point. A second call to *make\_withdraw* returns a second *withdraw* function that is associated with yet another environment.
 
 ``` {.python}
->>> wd2 = make_withdraw(7)
+wd2 = make_withdraw(7)
 ```
 
 This second *withdraw* function is bound to the name `wd2` in the global frame. We've abbreviated the line that represents this binding with an asterisk. Now, we see that there are in fact two bindings for the name `balance`. The name `wd` is still bound to a *withdraw* function with a balance of `12`, while `wd2` is bound to a new *withdraw* function with a balance of `7`.
@@ -1066,9 +1104,9 @@ This second *withdraw* function is bound to the name `wd2` in the global frame. 
 Finally, we call the second *withdraw* bound to `wd2`:
 
 ``` {.python}
->>> wd2(6)
-1
+wd2(6)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>1</code></pre></div></html>
 
 This call changes the binding of its nonlocal `balance` name, but does not affect the first *withdraw* bound to the name `wd` in the global frame.
 
@@ -1076,7 +1114,7 @@ This call changes the binding of its nonlocal `balance` name, but does not affec
 
 In this way, each instance of *withdraw* is maintaining its own balance state, but that state is inaccessible to any other function in the program. Viewing this situation at a higher level, we have created an abstraction of a bank account that manages its own internals but behaves in a way that models accounts in the world: it changes over time based on its own history of withdrawal requests.
 
-## [2.4.3   The Cost of Non-Local Assignment](#id21)
+## 2.4.3 The Cost of Non-Local Assignment
 
 Our environment model of computation cleanly extends to explain the effects of non-local assignment. However, non-local assignment introduces some important nuances in the way we think about names and values.
 
@@ -1085,13 +1123,16 @@ Previously, our values did not change; only our names and bindings changed. When
 However, functions with state do not behave this way. When two names `wd` and `wd2` are both bound to a *withdraw* function, it *does* matter whether they are bound to the same function or different instances of that function. Consider the following example, which contrasts the one we just analyzed.
 
 ``` {.python}
->>> wd = make_withdraw(12)
->>> wd2 = wd
->>> wd2(1)
-11
->>> wd(1)
-10
+wd = make_withdraw(12)
+wd2 = wd
+wd2(1)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>11</code></pre></div></html>
+
+``` {.python}
+wd(1)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>10</code></pre></div></html>
 
 In this case, calling the function named by `wd2` did change the value of the function named by `wd`, because both names refer to the same function. The environment diagram after these statements are executed shows this fact.
 
@@ -1109,7 +1150,7 @@ In general, so long as we never modify data objects, we can regard a compound da
 
 Despite the complications it introduces, non-local assignment is a powerful tool for creating modular programs. Different parts of a program, which correspond to different environment frames, can evolve separately throughout program execution. Moreover, using functions with local state, we are able to implement mutable data types. In the remainder of this section, we introduce some of the most useful built-in data types in Python, along with methods for implementing those data types using functions with non-local assignment.
 
-## [2.4.4   Lists](#id22)
+## 2.4.4 Lists
 
 The `list` is Python's most useful and flexible sequence type. A list is similar to a tuple, but it is mutable. Method calls and assignment statements can change the contents of a list.
 
@@ -1118,60 +1159,63 @@ We can introduce many list editing operations through an example that illustrate
 Playing cards were invented in China, perhaps around the 9th century. An early deck had three suits, which corresponded to denominations of money.
 
 ``` {.python}
->>> chinese_suits = ['coin', 'string', 'myriad']  # A list literal
->>> suits = chinese_suits                         # Two names refer to the same list
+chinese_suits = ['coin', 'string', 'myriad']  # A list literal
+suits = chinese_suits                         # Two names refer to the same list
 ```
 
 As cards migrated to Europe (perhaps through Egypt), only the suit of coins remained in Spanish decks (*oro*).
 
 ``` {.python}
->>> suits.pop()             # Removes and returns the final element
-'myriad'
->>> suits.remove('string')  # Removes the first element that equals the argument
+suits.pop()             # Removes and returns the final element
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'myriad'</code></pre></div></html>
+
+``` {.python}
+suits.remove('string')  # Removes the first element that equals the argument
 ```
 
 Three more suits were added (they evolved in name and design over time),
 
 ``` {.python}
->>> suits.append('cup')              # Add an element to the end
->>> suits.extend(['sword', 'club'])  # Add all elements of a list to the end
+suits.append('cup')              # Add an element to the end
+suits.extend(['sword', 'club'])  # Add all elements of a list to the end
 ```
 
 and Italians called swords *spades*.
 
 ``` {.python}
->>> suits[2] = 'spade'  # Replace an element
+suits[2] = 'spade'  # Replace an element
 ```
 
 giving the suits of a traditional Italian deck of cards.
 
 ``` {.python}
->>> suits
-['coin', 'cup', 'spade', 'club']
+suits
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>['coin', 'cup', 'spade', 'club']</code></pre></div></html>
 
 The French variant that we use today in the U.S. changes the first two:
 
 ``` {.python}
->>> suits[0:2] = ['heart', 'diamond']  # Replace a slice
->>> suits
-['heart', 'diamond', 'spade', 'club']
+suits[0:2] = ['heart', 'diamond']  # Replace a slice
+suits
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>['heart', 'diamond', 'spade', 'club']</code></pre></div></html>
 
 Methods also exist for inserting, sorting, and reversing lists. All of these *mutation operations* change the value of the list; they do not create new list objects.
 
 **Sharing and Identity.** Because we have been changing a single list rather than creating new lists, the object bound to the name `chinese_suits` has also changed, because it is the same list object that was bound to `suits`.
 
 ``` {.python}
->>> chinese_suits  # This name co-refers with "suits" to the same list
-['heart', 'diamond', 'spade', 'club']
+chinese_suits  # This name co-refers with "suits" to the same list
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>['heart', 'diamond', 'spade', 'club']</code></pre></div></html>
 
 Lists can be copied using the `list` constructor function. Changes to one list do not affect another, unless they share structure.
 
 ``` {.python}
->>> nest = list(suits)  # Bind "nest" to a second list with the same elements
->>> nest[0] = suits     # Create a nested list
+nest = list(suits)  # Bind "nest" to a second list with the same elements
+nest[0] = suits     # Create a nested list
 ```
 
 After this final assignment, we are left with the following environment, where lists are represented using box-and-pointer notation.
@@ -1181,32 +1225,41 @@ After this final assignment, we are left with the following environment, where l
 According to this environment, changing the list referenced by `suits` will affect the nested list that is the first element of `nest`, but not the other elements.
 
 ``` {.python}
->>> suits.insert(2, 'Joker')  # Insert an element at index 2, shifting the rest
->>> nest
-[['heart', 'diamond', 'Joker', 'spade', 'club'], 'diamond', 'spade', 'club']
+suits.insert(2, 'Joker')  # Insert an element at index 2, shifting the rest
+nest
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>[['heart', 'diamond', 'Joker', 'spade', 'club'], 'diamond', 'spade', 'club']</code></pre></div></html>
 
 And likewise, undoing this change in the first element of `nest` will change `suit` as well.
 
 ``` {.python}
->>> nest[0].pop(2)
-'Joker'
->>> suits
-['heart', 'diamond', 'spade', 'club']
+nest[0].pop(2)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'Joker'</code></pre></div></html>
+
+``` {.python}
+suits
+```
+<html><div class="codeparent python"><pre class="stdout"><code>['heart', 'diamond', 'spade', 'club']</code></pre></div></html>
 
 As a result of this last invocation of the `pop` method, we return to the environment depicted above.
 
 Because two lists may have the same contents but in fact be different lists, we require a means to test whether two objects are the same. Python includes two comparison operators, called `is` and `is not`, that test whether two expressions in fact evaluate to the identical object. Two objects are identical if they are equal in their current value, and any change to one will always be reflected in the other. Identity is a stronger condition than equality.
 
 ``` {.python}
->>> suits is nest[0]
-True
->>> suits is ['heart', 'diamond', 'spade', 'club']
-False
->>> suits == ['heart', 'diamond', 'spade', 'club']
-True
+suits is nest[0]
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
+
+``` {.python}
+suits is ['heart', 'diamond', 'spade', 'club']
+```
+<html><div class="codeparent python"><pre class="stdout"><code>False</code></pre></div></html>
+
+``` {.python}
+suits == ['heart', 'diamond', 'spade', 'club']
+```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
 
 The final two comparisons illustrate the difference between `is` and `==`. The former checks for identity, while the latter checks for the equality of contents.
 
@@ -1215,10 +1268,10 @@ The final two comparisons illustrate the difference between `is` and `==`. The f
 For example, the `unicodedata` module tracks the official names of every character in the Unicode alphabet. We can look up the characters corresponding to names, including those for card suits.
 
 ``` {.python}
->>> from unicodedata import lookup
->>> [lookup('WHITE ' + s.upper() + ' SUIT') for s in suits]
-['♡', '♢', '♤', '♧']
+from unicodedata import lookup
+[lookup('WHITE ' + s.upper() + ' SUIT') for s in suits]
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>['♡', '♢', '♤', '♧']</code></pre></div></html>
 
 List comprehensions reinforce the paradigm of data processing using the conventional interface of sequences, as `list` is a sequence data type.
 
@@ -1231,35 +1284,35 @@ We will implement a list as a function that has a recursive list as its local st
 Our mutable list is a dispatch function, just as our functional implementation of a pair was a dispatch function. It checks the input "message" against known messages and takes an appropriate action for each different input. Our mutable list responds to five different messages. The first two implement the behaviors of the sequence abstraction. The next two add or remove the first element of the list. The final message returns a string representation of the whole list contents.
 
 ``` {.python}
->>> def make_mutable_rlist():
-        """Return a functional implementation of a mutable recursive list."""
-        contents = empty_rlist
-        def dispatch(message, value=None):
-            nonlocal contents
-            if message == 'len':
-                return len_rlist(contents)
-            elif message == 'getitem':
-                return getitem_rlist(contents, value)
-            elif message == 'push_first':
-                contents = make_rlist(value, contents)
-            elif message == 'pop_first':
-                f = first(contents)
-                contents = rest(contents)
-                return f
-            elif message == 'str':
-                return str(contents)
-        return dispatch
+def make_mutable_rlist():
+    """Return a functional implementation of a mutable recursive list."""
+    contents = empty_rlist
+    def dispatch(message, value=None):
+        nonlocal contents
+        if message == 'len':
+            return len_rlist(contents)
+        elif message == 'getitem':
+            return getitem_rlist(contents, value)
+        elif message == 'push_first':
+            contents = make_rlist(value, contents)
+        elif message == 'pop_first':
+            f = first(contents)
+            contents = rest(contents)
+            return f
+        elif message == 'str':
+            return str(contents)
+    return dispatch
 ```
 
 We can also add a convenience function to construct a functionally implemented recursive list from any built-in sequence, simply by adding each element in reverse order.
 
 ``` {.python}
->>> def to_mutable_rlist(source):
-        """Return a functional list with the same contents as source."""
-        s = make_mutable_rlist()
-        for element in reversed(source):
-            s('push_first', element)
-        return s
+def to_mutable_rlist(source):
+    """Return a functional list with the same contents as source."""
+    s = make_mutable_rlist()
+    for element in reversed(source):
+        s('push_first', element)
+    return s
 ```
 
 In the definition above, the function `reversed` takes and returns an iterable value; it is another example of a function that uses the conventional interface of sequences.
@@ -1267,21 +1320,27 @@ In the definition above, the function `reversed` takes and returns an iterable v
 At this point, we can construct a functionally implemented lists. Note that the list itself is a function.
 
 ``` {.python}
->>> s = to_mutable_rlist(suits)
->>> type(s)
-<class 'function'>
->>> s('str')
-"('heart', ('diamond', ('spade', ('club', None))))"
+s = to_mutable_rlist(suits)
+type(s)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code><class 'function'></code></pre></div></html>
+
+``` {.python}
+s('str')
+```
+<html><div class="codeparent python"><pre class="stdout"><code>"('heart', ('diamond', ('spade', ('club', None))))"</code></pre></div></html>
 
 In addition, we can pass messages to the list `s` that change its contents, for instance removing the first element.
 
 ``` {.python}
->>> s('pop_first')
-'heart'
->>> s('str')
-"('diamond', ('spade', ('club', None)))"
+s('pop_first')
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'heart'</code></pre></div></html>
+
+``` {.python}
+s('str')
+```
+<html><div class="codeparent python"><pre class="stdout"><code>"('diamond', ('spade', ('club', None)))"</code></pre></div></html>
 
 In principle, the operations `push_first` and `pop_first` suffice to make arbitrary changes to a list. We can always empty out the list entirely and then replace its old contents with the desired result.
 
@@ -1291,47 +1350,47 @@ This second approach, which encapsulates the logic for all operations on a data 
 
 One could imagine that enumerating all of these messages by name in the body of `dispatch` would become tedious and prone to error. Python dictionaries, introduced in the next section, provide a data type that will help us manage the mapping between messages and operations.
 
-## [2.4.5   Dictionaries](#id23)
+## 2.4.5 Dictionaries
 
 Dictionaries are Python's built-in data type for storing and manipulating correspondence relationships. A dictionary contains key-value pairs, where both the keys and values are objects. The purpose of a dictionary is to provide an abstraction for storing and retrieving values that are indexed not by consecutive integers, but by descriptive keys.
 
 Strings commonly serve as keys, because strings are our conventional representation for names of things. This dictionary literal gives the values of various Roman numerals.
 
 ``` {.python}
->>> numerals = {'I': 1.0, 'V': 5, 'X': 10}
+numerals = {'I': 1.0, 'V': 5, 'X': 10}
 ```
 
 Looking up values by their keys uses the element selection operator that we previously applied to sequences.
 
 ``` {.python}
->>> numerals['X']
-10
+numerals['X']
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>10</code></pre></div></html>
 
 A dictionary can have at most one value for each key. Adding new key-value pairs and changing the existing value for a key can both be achieved with assignment statements.
 
 ``` {.python}
->>> numerals['I'] = 1
->>> numerals['L'] = 50
->>> numerals
-{'I': 1, 'X': 10, 'L': 50, 'V': 5}
+numerals['I'] = 1
+numerals['L'] = 50
+numerals
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>{'I': 1, 'X': 10, 'L': 50, 'V': 5}</code></pre></div></html>
 
 Notice that `'L'` was not added to the end of the output above. Dictionaries are unordered collections of key-value pairs. When we print a dictionary, the keys and values are rendered in some order, but as users of the language we cannot predict what that order will be.
 
 The dictionary abstraction also supports various methods of iterating of the contents of the dictionary as a whole. The methods `keys`, `values`, and `items` all return iterable values.
 
 ``` {.python}
->>> sum(numerals.values())
-66
+sum(numerals.values())
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>66</code></pre></div></html>
 
 A list of key-value pairs can be converted into a dictionary by calling the `dict` constructor function.
 
 ``` {.python}
->>> dict([(3, 9), (4, 16), (5, 25)])
-{3: 9, 4: 16, 5: 25}
+dict([(3, 9), (4, 16), (5, 25)])
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>{3: 9, 4: 16, 5: 25}</code></pre></div></html>
 
 Dictionaries do have some restrictions:
 
@@ -1345,45 +1404,48 @@ The second restriction is a consequence of the dictionary abstraction, which is 
 A useful method implemented by dictionaries is `get`, which returns either the value for a key, if the key is present, or a default value. The arguments to `get` are the key and the default value.
 
 ``` {.python}
->>> numerals.get('A', 0)
-0
->>> numerals.get('V', 0)
-5
+numerals.get('A', 0)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>0</code></pre></div></html>
+
+``` {.python}
+numerals.get('V', 0)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>5</code></pre></div></html>
 
 Dictionaries also have a comprehension syntax analogous to those of lists and generator expressions. Evaluating a dictionary comprehension yields a new dictionary object.
 
 ``` {.python}
->>> {x: x*x for x in range(3,6)}
-{3: 9, 4: 16, 5: 25}
+{x: x*x for x in range(3,6)}
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>{3: 9, 4: 16, 5: 25}</code></pre></div></html>
 
 **Implementation.** We can implement an abstract data type that conforms to the dictionary abstraction as a list of records, each of which is a two-element list consisting of a key and the associated value.
 
 ``` {.python}
->>> def make_dict():
-        """Return a functional implementation of a dictionary."""
-        records = []
-        def getitem(key):
-            for k, v in records:
-                if k == key:
-                    return v
-        def setitem(key, value):
-            for item in records:
-                if item[0] == key:
-                    item[1] = value
-                    return
-            records.append([key, value])
-        def dispatch(message, key=None, value=None):
-            if message == 'getitem':
-                return getitem(key)
-            elif message == 'setitem':
-                setitem(key, value)
-            elif message == 'keys':
-                return tuple(k for k, _ in records)
-            elif message == 'values':
-                return tuple(v for _, v in records)
-        return dispatch
+def make_dict():
+    """Return a functional implementation of a dictionary."""
+    records = []
+    def getitem(key):
+        for k, v in records:
+            if k == key:
+                return v
+    def setitem(key, value):
+        for item in records:
+            if item[0] == key:
+                item[1] = value
+                return
+        records.append([key, value])
+    def dispatch(message, key=None, value=None):
+        if message == 'getitem':
+            return getitem(key)
+        elif message == 'setitem':
+            setitem(key, value)
+        elif message == 'keys':
+            return tuple(k for k, _ in records)
+        elif message == 'values':
+            return tuple(v for _, v in records)
+    return dispatch
 ```
 
 Again, we use the message passing method to organize our implementation. We have supported four messages: `getitem`, `setitem`, `keys`, and `values`. To look up a value for a key, we iterate through the records to find a matching key. To insert a value for a key, we iterate through the records to see if there is already a record with that key. If not, we form a new record. If there already is a record with this key, we set the value of the record to the designated new value.
@@ -1391,22 +1453,31 @@ Again, we use the message passing method to organize our implementation. We have
 We can now use our implementation to store and retrieve values.
 
 ``` {.python}
->>> d = make_dict()
->>> d('setitem', 3, 9)
->>> d('setitem', 4, 16)
->>> d('getitem', 3)
-9
->>> d('getitem', 4)
-16
->>> d('keys')
-(3, 4)
->>> d('values')
-(9, 16)
+d = make_dict()
+d('setitem', 3, 9)
+d('setitem', 4, 16)
+d('getitem', 3)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>9</code></pre></div></html>
+
+``` {.python}
+d('getitem', 4)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>16</code></pre></div></html>
+
+``` {.python}
+d('keys')
+```
+<html><div class="codeparent python"><pre class="stdout"><code>(3, 4)</code></pre></div></html>
+
+``` {.python}
+d('values')
+```
+<html><div class="codeparent python"><pre class="stdout"><code>(9, 16)</code></pre></div></html>
 
 This implementation of a dictionary is *not* optimized for fast record lookup, because each response to the message `'getitem'` must iterate through the entire list of `records`. The built-in dictionary type is considerably more efficient.
 
-## [2.4.6   Example: Propagating Constraints](#id24)
+## 2.4.6 Example: Propagating Constraints
 
 Mutable data allows us to simulate systems with change, but also allows us to build new kinds of abstractions. In this extended example, we combine nonlocal assignment, lists, and dictionaries to build a *constraint-based system* that supports computation in multiple directions. Expressing programs as constraints is a type of *declarative programming*, in which a programmer declares the structure of a problem to be solved, but abstracts away the details of exactly how the solution to the problem is computed.
 
@@ -1439,26 +1510,26 @@ Computation by such a network proceeds as follows: When a connector is given a v
 **Using the Constraint System.** To use the constraint system to carry out the temperature computation outlined above, we first create two named connectors, `celsius` and `fahrenheit`, by calling the `make_connector` constructor.
 
 ``` {.python}
->>> celsius = make_connector('Celsius')
->>> fahrenheit = make_connector('Fahrenheit')
+celsius = make_connector('Celsius')
+fahrenheit = make_connector('Fahrenheit')
 ```
 
 Then, we link these connectors into a network that mirrors the figure above. The function `make_converter` assembles the various connectors and constraints in the network.
 
 ``` {.python}
->>> def make_converter(c, f):
-        """Connect c to f with constraints to convert from Celsius to Fahrenheit."""
-        u, v, w, x, y = [make_connector() for _ in range(5)]
-        multiplier(c, w, u)
-        multiplier(v, x, u)
-        adder(v, y, f)
-        constant(w, 9)
-        constant(x, 5)
-        constant(y, 32)
+def make_converter(c, f):
+    """Connect c to f with constraints to convert from Celsius to Fahrenheit."""
+    u, v, w, x, y = [make_connector() for _ in range(5)]
+    multiplier(c, w, u)
+    multiplier(v, x, u)
+    adder(v, y, f)
+    constant(w, 9)
+    constant(x, 5)
+    constant(y, 32)
 ```
 
 ``` {.python}
->>> make_converter(celsius, fahrenheit)
+make_converter(celsius, fahrenheit)
 ```
 
 We will use a message passing system to coordinate constraints and connectors. Instead of using functions to answer messages, we will use dictionaries. A dispatch dictionary will have string-valued keys that denote the messages it accepts. The values associated with those keys will be the responses to those messages.
@@ -1470,37 +1541,43 @@ Connectors are dictionaries that hold a current value and respond to messages th
 One message we can send to a connector is to set its value. Here, we (the `'user'`) set the value of `celsius` to `25`.
 
 ``` {.python}
->>> celsius['set_val']('user', 25)
-Celsius = 25
-Fahrenheit = 77.0
+celsius['set_val']('user', 25)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>Celsius = 25
+
+Fahrenheit = 77.0
+</code></pre></div></html>
 
 Not only does the value of `celsius` change to `25`, but its value propagates through the network, and so the value of `fahrenheit` is changed as well. These changes are printed because we named these two connectors when we constructed them.
 
 Now we can try to set `fahrenheit` to a new value, say `212`.
 
 ``` {.python}
->>> fahrenheit['set_val']('user', 212)
-Contradiction detected: 77.0 vs 212
+fahrenheit['set_val']('user', 212)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>Contradiction detected: 77.0 vs 212</code></pre></div></html>
 
 The connector complains that it has sensed a contradiction: Its value is `77.0`, and someone is trying to set it to `212`. If we really want to reuse the network with new values, we can tell `celsius` to forget its old value:
 
 ``` {.python}
->>> celsius['forget']('user')
-Celsius is forgotten
-Fahrenheit is forgotten
+celsius['forget']('user')
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>Celsius is forgotten
+
+Fahrenheit is forgotten
+</code></pre></div></html>
 
 The connector `celsius` finds that the `user`, who set its value originally, is now retracting that value, so `celsius` agrees to lose its value, and it informs the rest of the network of this fact. This information eventually propagates to `fahrenheit`, which now finds that it has no reason for continuing to believe that its own value is `77`. Thus, it also gives up its value.
 
 Now that `fahrenheit` has no value, we are free to set it to `212`:
 
 ``` {.python}
->>> fahrenheit['set_val']('user', 212)
-Fahrenheit = 212
-Celsius = 100.0
+fahrenheit['set_val']('user', 212)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>Fahrenheit = 212
+
+Celsius = 100.0
+</code></pre></div></html>
 
 This new value, when propagated through the network, forces `celsius` to have a value of `100`. We have used the very same network to compute `celsius` given `fahrenheit` and to compute `fahrenheit` given `celsius`. This non-directionality of computation is the distinguishing feature of constraint-based systems.
 
@@ -1522,32 +1599,32 @@ When constraints receive these messages, they propagate them appropriately to ot
 The `adder` function constructs an adder constraint over three connectors, where the first two must add to the third: `a + b = c`. To support multidirectional constraint propagation, the adder must also specify that it subtracts `a` from `c` to get `b` and likewise subtracts `b` from `c` to get `a`.
 
 ``` {.python}
->>> from operator import add, sub
->>> def adder(a, b, c):
-        """The constraint that a + b = c."""
-        return make_ternary_constraint(a, b, c, add, sub, sub)
+from operator import add, sub
+def adder(a, b, c):
+    """The constraint that a + b = c."""
+    return make_ternary_constraint(a, b, c, add, sub, sub)
 ```
 
 We would like to implement a generic ternary (three-way) constraint, which uses the three connectors and three functions from `adder` to create a constraint that accepts `new_val` and `forget` messages. The response to messages are local functions, which are placed in a dictionary called `constraint`.
 
 ``` {.python}
->>> def make_ternary_constraint(a, b, c, ab, ca, cb):
-        """The constraint that ab(a,b)=c and ca(c,a)=b and cb(c,b) = a."""
-        def new_value():
-            av, bv, cv = [connector['has_val']() for connector in (a, b, c)]
-            if av and bv:
-                c['set_val'](constraint, ab(a['val'], b['val']))
-            elif av and cv:
-                b['set_val'](constraint, ca(c['val'], a['val']))
-            elif bv and cv:
-                a['set_val'](constraint, cb(c['val'], b['val']))
-        def forget_value():
-            for connector in (a, b, c):
-                connector['forget'](constraint)
-        constraint = {'new_val': new_value, 'forget': forget_value}
+def make_ternary_constraint(a, b, c, ab, ca, cb):
+    """The constraint that ab(a,b)=c and ca(c,a)=b and cb(c,b) = a."""
+    def new_value():
+        av, bv, cv = [connector['has_val']() for connector in (a, b, c)]
+        if av and bv:
+            c['set_val'](constraint, ab(a['val'], b['val']))
+        elif av and cv:
+            b['set_val'](constraint, ca(c['val'], a['val']))
+        elif bv and cv:
+            a['set_val'](constraint, cb(c['val'], b['val']))
+    def forget_value():
         for connector in (a, b, c):
-            connector['connect'](constraint)
-        return constraint
+            connector['forget'](constraint)
+    constraint = {'new_val': new_value, 'forget': forget_value}
+    for connector in (a, b, c):
+        connector['connect'](constraint)
+    return constraint
 ```
 
 The dictionary called `constraint` is a dispatch dictionary, but also the constraint object itself. It responds to the two messages that constraints receive, but is also passed as the `source` argument in calls to its connectors.
@@ -1559,20 +1636,20 @@ If the constraint is informed that one of its connectors has forgotten its value
 A `multiplier` is very similar to an `adder`.
 
 ``` {.python}
->>> from operator import mul, truediv
->>> def multiplier(a, b, c):
-        """The constraint that a * b = c."""
-        return make_ternary_constraint(a, b, c, mul, truediv, truediv)
+from operator import mul, truediv
+def multiplier(a, b, c):
+    """The constraint that a * b = c."""
+    return make_ternary_constraint(a, b, c, mul, truediv, truediv)
 ```
 
 A constant is a constraint as well, but one that is never sent any messages, because it involves only a single connector that it sets on construction.
 
 ``` {.python}
->>> def constant(connector, value):
-        """The constraint that connector = value."""
-        constraint = {}
-        connector['set_val'](constraint, value)
-        return constraint
+def constant(connector, value):
+    """The constraint that connector = value."""
+    constraint = {}
+    connector['set_val'](constraint, value)
+    return constraint
 ```
 
 These three constraints are sufficient to implement our temperature conversion network.
@@ -1582,34 +1659,34 @@ These three constraints are sufficient to implement our temperature conversion n
 The constructor `make_connector` has local functions for setting and forgetting values, which are the responses to messages from constraints.
 
 ``` {.python}
->>> def make_connector(name=None):
-        """A connector between constraints."""
-        informant = None
-        constraints = []
-        def set_value(source, value):
-            nonlocal informant
-            val = connector['val']
-            if val is None:
-                informant, connector['val'] = source, value
-                if name is not None:
-                    print(name, '=', value)
-                inform_all_except(source, 'new_val', constraints)
-            else:
-                if val != value:
-                    print('Contradiction detected:', val, 'vs', value)
-        def forget_value(source):
-            nonlocal informant
-            if informant == source:
-                informant, connector['val'] = None, None
-                if name is not None:
-                    print(name, 'is forgotten')
-                inform_all_except(source, 'forget', constraints)
-        connector = {'val': None,
-                     'set_val': set_value,
-                     'forget': forget_value,
-                     'has_val': lambda: connector['val'] is not None,
-                     'connect': lambda source: constraints.append(source)}
-        return connector
+def make_connector(name=None):
+    """A connector between constraints."""
+    informant = None
+    constraints = []
+    def set_value(source, value):
+        nonlocal informant
+        val = connector['val']
+        if val is None:
+            informant, connector['val'] = source, value
+            if name is not None:
+                print(name, '=', value)
+            inform_all_except(source, 'new_val', constraints)
+        else:
+            if val != value:
+                print('Contradiction detected:', val, 'vs', value)
+    def forget_value(source):
+        nonlocal informant
+        if informant == source:
+            informant, connector['val'] = None, None
+            if name is not None:
+                print(name, 'is forgotten')
+            inform_all_except(source, 'forget', constraints)
+    connector = {'val': None,
+                 'set_val': set_value,
+                 'forget': forget_value,
+                 'has_val': lambda: connector['val'] is not None,
+                 'connect': lambda source: constraints.append(source)}
+    return connector
 ```
 
 A connector is again a dispatch dictionary for the five messages used by constraints to communicate with connectors. Four responses are functions, and the final response is the value itself.
@@ -1617,11 +1694,11 @@ A connector is again a dispatch dictionary for the five messages used by constra
 The local function `set_value` is called when there is a request to set the connector's value. If the connector does not currently have a value, it will set its value and remember as `informant` the source constraint that requested the value to be set. Then the connector will notify all of its participating constraints except the constraint that requested the value to be set. This is accomplished using the following iterative function.
 
 ``` {.python}
->>> def inform_all_except(source, message, constraints):
-        """Inform all constraints of the message, except source."""
-        for c in constraints:
-            if c != source:
-                c[message]()
+def inform_all_except(source, message, constraints):
+    """Inform all constraints of the message, except source."""
+    for c in constraints:
+        if c != source:
+            c[message]()
 ```
 
 If a connector is asked to forget its value, it calls the local function `forget-value`, which first checks to make sure that the request is coming from the same constraint that set the value originally. If so, the connector informs its associated constraints about the loss of the value.
@@ -1630,7 +1707,7 @@ The response to the message `has_val` indicates whether the connector has a valu
 
 The constraint program we have designed introduces many ideas that will appear again in object-oriented programming. Constraints and connectors are both abstractions that are manipulated through messages. When the value of a connector is changed, it is changed via a message that not only changes the value, but validates it (checking the source) and propagates its effects (informing other constraints). In fact, we will use a similar architecture of dictionaries with string-valued keys and functional values to implement an object-oriented system later in this chapter.
 
-# [2.5   Object-Oriented Programming](#id25)
+# 2.5 Object-Oriented Programming
 
 Object-oriented programming (OOP) is a method for organizing programs that brings together many of the ideas introduced in this chapter. Like abstract data types, objects create an abstraction barrier between the use and implementation of data. Like dispatch dictionaries in message passing, objects respond to behavioral requests. Like mutable data structures, objects have local state that is not directly accessible from the global environment. The Python object system provides new syntax to ease the task of implementing all of these useful techniques for organizing programs.
 
@@ -1638,7 +1715,7 @@ But the object system offers more than just convenience; it enables a new metaph
 
 The paradigm of object-oriented programming has its own vocabulary that reinforces the object metaphor. We have seen that an object is a data value that has methods and attributes, accessible via dot notation. Every object also has a type, called a *class*. New classes can be defined in Python, just as new functions can be defined.
 
-## [2.5.1   Objects and Classes](#id26)
+## 2.5.1 Objects and Classes
 
 A class serves as a template for all objects whose type is that class. Every object is an instance of some particular class. The objects we have used so far all have built-in classes, but new classes can be defined similarly to how new functions can be defined. A class definition specifies the attributes and methods shared among objects of that class. We will introduce the class statement by revisiting the example of a bank account.
 
@@ -1647,39 +1724,48 @@ When introducing local state, we saw that bank accounts are naturally modeled as
 An `Account` class allows us to create multiple instances of bank accounts. The act of creating a new object instance is known as *instantiating* the class. The syntax in Python for instantiating a class is identical to the syntax of calling a function. In this case, we call `Account` with the argument `'Jim'`, the account holder's name.
 
 ``` {.python}
->>> a = Account('Jim')
+a = Account('Jim')
 ```
 
 An *attribute* of an object is a name-value pair associated with the object, which is accessible via dot notation. The attributes specific to a particular object, as opposed to all objects of a class, are called *instance attributes*. Each `Account` has its own balance and account holder name, which are examples of instance attributes. In the broader programming community, instance attributes may also be called *fields*, *properties*, or *instance variables*.
 
 ``` {.python}
->>> a.holder
-'Jim'
->>> a.balance
-0
+a.holder
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'Jim'</code></pre></div></html>
+
+``` {.python}
+a.balance
+```
+<html><div class="codeparent python"><pre class="stdout"><code>0</code></pre></div></html>
 
 Functions that operate on the object or perform object-specific computations are called methods. The side effects and return value of a method can depend upon, and change, other attributes of the object. For example, `deposit` is a method of our `Account` object `a`. It takes one argument, the amount to deposit, changes the `balance` attribute of the object, and returns the resulting balance.
 
 ``` {.python}
->>> a.deposit(15)
-15
+a.deposit(15)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>15</code></pre></div></html>
 
 In OOP, we say that methods are *invoked* on a particular object. As a result of invoking the `withdraw` method, either the withdrawal is approved and the amount is deducted and returned, or the request is declined and the account prints an error message.
 
 ``` {.python}
->>> a.withdraw(10)  # The withdraw method returns the balance after withdrawal
-5
->>> a.balance       # The balance attribute has changed
-5
->>> a.withdraw(10)
-'Insufficient funds'
+a.withdraw(10)  # The withdraw method returns the balance after withdrawal
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>5</code></pre></div></html>
+
+``` {.python}
+a.balance       # The balance attribute has changed
+```
+<html><div class="codeparent python"><pre class="stdout"><code>5</code></pre></div></html>
+
+``` {.python}
+a.withdraw(10)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'Insufficient funds'</code></pre></div></html>
 
 As illustrated above, the behavior of a method can depend upon the changing attributes of the object. Two calls to `withdraw` with the same argument return different results.
 
-## [2.5.2   Defining Classes](#id27)
+## 2.5.2 Defining Classes
 
 User-defined classes are created by `class` statements, which consist of a single clause. A class statement defines the class name and a base class (discussed in the section on Inheritance), then includes a suite of statements to define the attributes of the class:
 
@@ -1695,10 +1781,10 @@ Classes are typically organized around manipulating instance attributes, which a
 The `<suite>` of a `class` statement contains `def` statements that define new methods for objects of that class. The method that initializes objects has a special name in Python, `__init__` (two underscores on each side of "init"), and is called the *constructor* for the class.
 
 ``` {.python}
->>> class Account(object):
-        def __init__(self, account_holder):
-            self.balance = 0
-            self.holder = account_holder
+class Account(object):
+    def __init__(self, account_holder):
+        self.balance = 0
+        self.holder = account_holder
 ```
 
 The `__init__` method for `Account` has two formal parameters. The first one, `self`, is bound to the newly created `Account` object. The second parameter, `account_holder`, is bound to the argument passed to the class when it is called to be instantiated.
@@ -1708,7 +1794,7 @@ The constructor binds the instance attribute name `balance` to `0`. It also bind
 Having defined the `Account` class, we can instantiate it.
 
 ``` {.python}
->>> a = Account('Jim')
+a = Account('Jim')
 ```
 
 This "call" to the `Account` class creates a new object that is an instance of `Account`, then calls the constructor function `__init__` with two arguments: the newly created object and the string `'Jim'`. By convention, we use the parameter name `self` for the first argument of a constructor, because it is bound to the object being instantiated. This convention is adopted in virtually all Python code.
@@ -1716,55 +1802,61 @@ This "call" to the `Account` class creates a new object that is an instance of `
 Now, we can access the object's `balance` and `holder` using dot notation.
 
 ``` {.python}
->>> a.balance
-0
->>> a.holder
-'Jim'
+a.balance
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>0</code></pre></div></html>
+
+``` {.python}
+a.holder
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'Jim'</code></pre></div></html>
 
 **Identity.** Each new account instance has its own balance attribute, the value of which is independent of other objects of the same class.
 
 ``` {.python}
->>> b = Account('Jack')
->>> b.balance = 200
->>> [acc.balance for acc in (a, b)]
-[0, 200]
+b = Account('Jack')
+b.balance = 200
+[acc.balance for acc in (a, b)]
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>[0, 200]</code></pre></div></html>
 
 To enforce this separation, every object that is an instance of a user-defined class has a unique identity. Object identity is compared using the `is` and `is not` operators.
 
 ``` {.python}
->>> a is a
-True
->>> a is not b
-True
+a is a
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
+
+``` {.python}
+a is not b
+```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
 
 Despite being constructed from identical calls, the objects bound to `a` and `b` are not the same. As usual, binding an object to a new name using assignment does not create a new object.
 
 ``` {.python}
->>> c = a
->>> c is a
-True
+c = a
+c is a
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
 
 New objects that have user-defined classes are only created when a class (such as `Account`) is instantiated with call expression syntax.
 
 **Methods.** Object methods are also defined by a `def` statement in the suite of a `class` statement. Below, `deposit` and `withdraw` are both defined as methods on objects of the `Account` class.
 
 ``` {.python}
->>> class Account(object):
-        def __init__(self, account_holder):
-            self.balance = 0
-            self.holder = account_holder
-        def deposit(self, amount):
-            self.balance = self.balance + amount
-            return self.balance
-        def withdraw(self, amount):
-            if amount > self.balance:
-                return 'Insufficient funds'
-            self.balance = self.balance - amount
-            return self.balance
+class Account(object):
+    def __init__(self, account_holder):
+        self.balance = 0
+        self.holder = account_holder
+    def deposit(self, amount):
+        self.balance = self.balance + amount
+        return self.balance
+    def withdraw(self, amount):
+        if amount > self.balance:
+            return 'Insufficient funds'
+        self.balance = self.balance - amount
+        return self.balance
 ```
 
 While method definitions do not differ from function definitions in how they are declared, method definitions do have a different effect. The function value that is created by a `def` statement within a `class` statement is bound to the declared name, but bound locally within the class as an attribute. That value is invoked as a method using dot notation from an instance of the class.
@@ -1774,20 +1866,29 @@ Each method definition again includes a special first parameter `self`, which is
 To invoke these methods, we again use dot notation, as illustrated below.
 
 ``` {.python}
->>> tom_account = Account('Tom')
->>> tom_account.deposit(100)
-100
->>> tom_account.withdraw(90)
-10
->>> tom_account.withdraw(90)
-'Insufficient funds'
->>> tom_account.holder
-'Tom'
+tom_account = Account('Tom')
+tom_account.deposit(100)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>100</code></pre></div></html>
+
+``` {.python}
+tom_account.withdraw(90)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>10</code></pre></div></html>
+
+``` {.python}
+tom_account.withdraw(90)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'Insufficient funds'</code></pre></div></html>
+
+``` {.python}
+tom_account.holder
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'Tom'</code></pre></div></html>
 
 When a method is invoked via dot notation, the object itself (bound to `tom_account`, in this case) plays a dual role. First, it determines what the name `withdraw` means; `withdraw` is not a name in the environment, but instead a name that is local to the `Account` class. Second, it is bound to the first parameter `self` when the `withdraw` method is invoked. The details of the procedure for evaluating dot notation follow in the next section.
 
-## [2.5.3   Message Passing and Dot Expressions](#id28)
+## 2.5.3 Message Passing and Dot Expressions
 
 Methods, which are defined in classes, and instance attributes, which are typically assigned in constructors, are the fundamental elements of object-oriented programming. These two concepts replicate much of the behavior of a dispatch dictionary in a message passing implementation of a data value. Objects take messages using dot notation, but instead of those messages being arbitrary string-valued keys, they are names local to a class. Objects also have named local state values (the instance attributes), but that state can be accessed and manipulated using dot notation, without having to employ `nonlocal` statements in the implementation.
 
@@ -1804,16 +1905,16 @@ The `<expression>` can be any valid Python expression, but the `<name>` must be 
 The built-in function `getattr` also returns an attribute for an object by name. It is the function equivalent of dot notation. Using `getattr`, we can look up an attribute using a string, just as we did with a dispatch dictionary.
 
 ``` {.python}
->>> getattr(tom_account, 'balance')
-10
+getattr(tom_account, 'balance')
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>10</code></pre></div></html>
 
 We can also test whether an object has a named attribute with `hasattr`.
 
 ``` {.python}
->>> hasattr(tom_account, 'deposit')
-True
+hasattr(tom_account, 'deposit')
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>True</code></pre></div></html>
 
 The attributes of an object include all of its instance attributes, along with all of the attributes (including methods) defined in its class. Methods are attributes of the class that require special handling.
 
@@ -1824,22 +1925,28 @@ To achieve automatic `self` binding, Python distinguishes between *functions*, w
 We can see the difference in the interactive interpreter by calling `type` on the returned values of dot expressions. As an attribute of a class, a method is just a function, but as an attribute of an instance, it is a bound method:
 
 ``` {.python}
->>> type(Account.deposit)
-<class 'function'>
->>> type(tom_account.deposit)
-<class 'method'>
+type(Account.deposit)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code><class 'function'></code></pre></div></html>
+
+``` {.python}
+type(tom_account.deposit)
+```
+<html><div class="codeparent python"><pre class="stdout"><code><class 'method'></code></pre></div></html>
 
 These two results differ only in the fact that the first is a standard two-argument function with parameters `self` and `amount`. The second is a one-argument method, where the name `self` will be bound to the object named `tom_account` automatically when the method is called, while the parameter `amount` will be bound to the argument passed to the method. Both of these values, whether function values or bound method values, are associated with the same `deposit` function body.
 
 We can call `deposit` in two ways: as a function and as a bound method. In the former case, we must supply an argument for the `self` parameter explicitly. In the latter case, the `self` parameter is bound automatically.
 
 ``` {.python}
->>> Account.deposit(tom_account, 1001)  # The deposit function requires 2 arguments
-1011
->>> tom_account.deposit(1000)           # The deposit method takes 1 argument
-2011
+Account.deposit(tom_account, 1001)  # The deposit function requires 2 arguments
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>1011</code></pre></div></html>
+
+``` {.python}
+tom_account.deposit(1000)           # The deposit method takes 1 argument
+```
+<html><div class="codeparent python"><pre class="stdout"><code>2011</code></pre></div></html>
 
 The function `getattr` behaves exactly like dot notation: if its first argument is an object but the name is a method defined in the class, then `getattr` returns a bound method value. On the other hand, if the first argument is a class, then `getattr` returns the attribute value directly, which is a plain function.
 
@@ -1847,41 +1954,47 @@ The function `getattr` behaves exactly like dot notation: if its first argument 
 
 In some cases, there are instance variables and methods that are related to the maintenance and consistency of an object that we don't want users of the object to see or use. They are not part of the abstraction defined by a class, but instead part of the implementation. Python's convention dictates that if an attribute name starts with an underscore, it should only be accessed within methods of the class itself, rather than by users of the class.
 
-## [2.5.4   Class Attributes](#id29)
+## 2.5.4 Class Attributes
 
 Some attribute values are shared across all objects of a given class. Such attributes are associated with the class itself, rather than any individual instance of the class. For instance, let us say that a bank pays interest on the balance of accounts at a fixed interest rate. That interest rate may change, but it is a single value shared across all accounts.
 
 Class attributes are created by assignment statements in the suite of a `class` statement, outside of any method definition. In the broader developer community, class attributes may also be called class variables or static variables. The following class statement creates a class attribute for `Account` with the name `interest`.
 
 ``` {.python}
->>> class Account(object):
-        interest = 0.02            # A class attribute
-        def __init__(self, account_holder):
-            self.balance = 0
-            self.holder = account_holder
-        # Additional methods would be defined here
+class Account(object):
+    interest = 0.02            # A class attribute
+    def __init__(self, account_holder):
+        self.balance = 0
+        self.holder = account_holder
+    # Additional methods would be defined here
 ```
 
 This attribute can still be accessed from any instance of the class.
 
 ``` {.python}
->>> tom_account = Account('Tom')
->>> jim_account = Account('Jim')
->>> tom_account.interest
-0.02
->>> jim_account.interest
-0.02
+tom_account = Account('Tom')
+jim_account = Account('Jim')
+tom_account.interest
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>0.02</code></pre></div></html>
+
+``` {.python}
+jim_account.interest
+```
+<html><div class="codeparent python"><pre class="stdout"><code>0.02</code></pre></div></html>
 
 However, a single assignment statement to a class attribute changes the value of the attribute for all instances of the class.
 
 ``` {.python}
->>> Account.interest = 0.04
->>> tom_account.interest
-0.04
->>> jim_account.interest
-0.04
+Account.interest = 0.04
+tom_account.interest
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>0.04</code></pre></div></html>
+
+``` {.python}
+jim_account.interest
+```
+<html><div class="codeparent python"><pre class="stdout"><code>0.04</code></pre></div></html>
 
 **Attribute names.** We have introduced enough complexity into our object system that we have to specify how names are resolved to particular attributes. After all, we could easily have a class attribute and an instance attribute with the same name.
 
@@ -1905,48 +2018,57 @@ In this evaluation procedure, instance attributes are found before class attribu
 If we assign to the named attribute `interest` of an account instance, we create a new instance attribute that has the same name as the existing class attribute.
 
 ``` {.python}
->>> jim_account.interest = 0.08
+jim_account.interest = 0.08
 ```
 
 and that attribute value will be returned from a dot expression.
 
 ``` {.python}
->>> jim_account.interest
-0.08
+jim_account.interest
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>0.08</code></pre></div></html>
 
 However, the class attribute `interest` still retains its original value, which is returned for all other accounts.
 
 ``` {.python}
->>> tom_account.interest
-0.04
+tom_account.interest
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>0.04</code></pre></div></html>
 
 Changes to the class attribute `interest` will affect `tom_account`, but the instance attribute for `jim_account` will be unaffected.
 
 ``` {.python}
->>> Account.interest = 0.05  # changing the class attribute
->>> tom_account.interest     # changes instances without like-named instance attributes
-0.05
->>> jim_account.interest     # but the existing instance attribute is unaffected
-0.08
+Account.interest = 0.05  # changing the class attribute
+tom_account.interest     # changes instances without like-named instance attributes
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>0.05</code></pre></div></html>
 
-## [2.5.5   Inheritance](#id30)
+``` {.python}
+jim_account.interest     # but the existing instance attribute is unaffected
+```
+<html><div class="codeparent python"><pre class="stdout"><code>0.08</code></pre></div></html>
+
+## 2.5.5 Inheritance
 
 When working in the OOP paradigm, we often find that different abstract data types are related. In particular, we find that similar classes differ in their amount of specialization. Two classes may have similar attributes, but one represents a special case of the other.
 
 For example, we may want to implement a checking account, which is different from a standard account. A checking account charges an extra \$1 for each withdrawal and has a lower interest rate. Here, we demonstrate the desired behavior.
 
 ``` {.python}
->>> ch = CheckingAccount('Tom')
->>> ch.interest     # Lower interest rate for checking accounts
-0.01
->>> ch.deposit(20)  # Deposits are the same
-20
->>> ch.withdraw(5)  # withdrawals decrease balance by an extra charge
-14
+ch = CheckingAccount('Tom')
+ch.interest     # Lower interest rate for checking accounts
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>0.01</code></pre></div></html>
+
+``` {.python}
+ch.deposit(20)  # Deposits are the same
+```
+<html><div class="codeparent python"><pre class="stdout"><code>20</code></pre></div></html>
+
+``` {.python}
+ch.withdraw(5)  # withdrawals decrease balance by an extra charge
+```
+<html><div class="codeparent python"><pre class="stdout"><code>14</code></pre></div></html>
 
 A `CheckingAccount` is a specialization of an `Account`. In OOP terminology, the generic account will serve as the base class of `CheckingAccount`, while `CheckingAccount` will be a subclass of `Account`. (The terms *parent class* and *superclass* are also used for the base class, while *child class* is also used for the subclass.)
 
@@ -1954,51 +2076,57 @@ A subclass *inherits* the attributes of its base class, but may *override* certa
 
 Inheritance also has a role in our object metaphor, in addition to being a useful organizational feature. Inheritance is meant to represent *is-a* relationships between classes, which contrast with *has-a* relationships. A checking account *is-a* specific type of account, so having a `CheckingAccount` inherit from `Account` is an appropriate use of inheritance. On the other hand, a bank *has-a* list of bank accounts that it manages, so neither should inherit from the other. Instead, a list of account objects would be naturally expressed as an instance attribute of a bank object.
 
-## [2.5.6   Using Inheritance](#id31)
+## 2.5.6 Using Inheritance
 
 We specify inheritance by putting the base class in parentheses after the class name. First, we give a full implementation of the `Account` class, which includes docstrings for the class and its methods.
 
 ``` {.python}
->>> class Account(object):
-        """A bank account that has a non-negative balance."""
-        interest = 0.02
-        def __init__(self, account_holder):
-            self.balance = 0
-            self.holder = account_holder
-        def deposit(self, amount):
-            """Increase the account balance by amount and return the new balance."""
-            self.balance = self.balance + amount
-            return self.balance
-        def withdraw(self, amount):
-            """Decrease the account balance by amount and return the new balance."""
-            if amount > self.balance:
-                return 'Insufficient funds'
-            self.balance = self.balance - amount
-            return self.balance
+class Account(object):
+    """A bank account that has a non-negative balance."""
+    interest = 0.02
+    def __init__(self, account_holder):
+        self.balance = 0
+        self.holder = account_holder
+    def deposit(self, amount):
+        """Increase the account balance by amount and return the new balance."""
+        self.balance = self.balance + amount
+        return self.balance
+    def withdraw(self, amount):
+        """Decrease the account balance by amount and return the new balance."""
+        if amount > self.balance:
+            return 'Insufficient funds'
+        self.balance = self.balance - amount
+        return self.balance
 ```
 
 A full implementation of `CheckingAccount` appears below.
 
 ``` {.python}
->>> class CheckingAccount(Account):
-        """A bank account that charges for withdrawals."""
-        withdraw_charge = 1
-        interest = 0.01
-        def withdraw(self, amount):
-            return Account.withdraw(self, amount + self.withdraw_charge)
+class CheckingAccount(Account):
+    """A bank account that charges for withdrawals."""
+    withdraw_charge = 1
+    interest = 0.01
+    def withdraw(self, amount):
+        return Account.withdraw(self, amount + self.withdraw_charge)
 ```
 
 Here, we introduce a class attribute `withdraw_charge` that is specific to the `CheckingAccount` class. We assign a lower value to the `interest` attribute. We also define a new `withdraw` method to override the behavior defined in the `Account` class. With no further statements in the class suite, all other behavior is inherited from the base class `Account`.
 
 ``` {.python}
->>> checking = CheckingAccount('Sam')
->>> checking.deposit(10)
-10
->>> checking.withdraw(5)
-4
->>> checking.interest
-0.01
+checking = CheckingAccount('Sam')
+checking.deposit(10)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>10</code></pre></div></html>
+
+``` {.python}
+checking.withdraw(5)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>4</code></pre></div></html>
+
+``` {.python}
+checking.interest
+```
+<html><div class="codeparent python"><pre class="stdout"><code>0.01</code></pre></div></html>
 
 The expression `checking.deposit` evaluates to a bound method for making deposits, which was defined in the `Account` class. When Python resolves a name in a dot expression that is not an attribute of the instance, it looks up the name in the class. In fact, the act of "looking up" a name in a class tries to find that name in every base class in the inheritance chain for the original object's class. We can define this procedure recursively. To look up a name in a class.
 
@@ -2013,48 +2141,57 @@ The class of an object stays constant throughout. Even though the `deposit` meth
 
 Notice that we called `self.withdraw_charge` rather than the equivalent `CheckingAccount.withdraw_charge`. The benefit of the former over the latter is that a class that inherits from `CheckingAccount` might override the withdrawal charge. If that is the case, we would like our implementation of `withdraw` to find that new value instead of the old one.
 
-## [2.5.7   Multiple Inheritance](#id32)
+## 2.5.7 Multiple Inheritance
 
 Python supports the concept of a subclass inheriting attributes from multiple base classes, a language feature called *multiple inheritance*.
 
 Suppose that we have a `SavingsAccount` that inherits from `Account`, but charges customers a small fee every time they make a deposit.
 
 ``` {.python}
->>> class SavingsAccount(Account):
-        deposit_charge = 2
-        def deposit(self, amount):
-            return Account.deposit(self, amount - self.deposit_charge)
+class SavingsAccount(Account):
+    deposit_charge = 2
+    def deposit(self, amount):
+        return Account.deposit(self, amount - self.deposit_charge)
 ```
 
 Then, a clever executive conceives of an `AsSeenOnTVAccount` account with the best features of both `CheckingAccount` and `SavingsAccount`: withdrawal fees, deposit fees, and a low interest rate. It's both a checking and a savings account in one! "If we build it," the executive reasons, "someone will sign up and pay all those fees. We'll even give them a dollar."
 
 ``` {.python}
->>> class AsSeenOnTVAccount(CheckingAccount, SavingsAccount):
-        def __init__(self, account_holder):
-            self.holder = account_holder
-            self.balance = 1           # A free dollar!
+class AsSeenOnTVAccount(CheckingAccount, SavingsAccount):
+    def __init__(self, account_holder):
+        self.holder = account_holder
+        self.balance = 1           # A free dollar!
 ```
 
 In fact, this implementation is complete. Both withdrawal and deposits will generate fees, using the function definitions in `CheckingAccount` and `SavingsAccount` respectively.
 
 ``` {.python}
->>> such_a_deal = AsSeenOnTVAccount("John")
->>> such_a_deal.balance
-1
->>> such_a_deal.deposit(20)            # $2 fee from SavingsAccount.deposit
-19
->>> such_a_deal.withdraw(5)            # $1 fee from CheckingAccount.withdraw
-13
+such_a_deal = AsSeenOnTVAccount("John")
+such_a_deal.balance
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>1</code></pre></div></html>
+
+``` {.python}
+such_a_deal.deposit(20)            # $2 fee from SavingsAccount.deposit
+```
+<html><div class="codeparent python"><pre class="stdout"><code>19</code></pre></div></html>
+
+``` {.python}
+such_a_deal.withdraw(5)            # $1 fee from CheckingAccount.withdraw
+```
+<html><div class="codeparent python"><pre class="stdout"><code>13</code></pre></div></html>
 
 Non-ambiguous references are resolved correctly as expected:
 
 ``` {.python}
->>> such_a_deal.deposit_charge
-2
->>> such_a_deal.withdraw_charge
-1
+such_a_deal.deposit_charge
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>2</code></pre></div></html>
+
+``` {.python}
+such_a_deal.withdraw_charge
+```
+<html><div class="codeparent python"><pre class="stdout"><code>1</code></pre></div></html>
 
 But what about when the reference is ambiguous, such as the reference to the `withdraw` method that is defined in both `Account` and `CheckingAccount`? The figure below depicts an *inheritance graph* for the `AsSeenOnTVAccount` class. Each arrow points from a subclass to a base class.
 
@@ -2071,13 +2208,13 @@ There is no correct solution to the inheritance ordering problem, as there are c
 **Further reading.** Python resolves this name using a recursive algorithm called the C3 Method Resolution Ordering. The method resolution order of any class can be queried using the `mro` method on all classes.
 
 ``` {.python}
->>> [c.__name__ for c in AsSeenOnTVAccount.mro()]
-['AsSeenOnTVAccount', 'CheckingAccount', 'SavingsAccount', 'Account', 'object']
+[c.__name__ for c in AsSeenOnTVAccount.mro()]
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>['AsSeenOnTVAccount', 'CheckingAccount', 'SavingsAccount', 'Account', 'object']</code></pre></div></html>
 
 The precise algorithm for finding method resolution orderings is not a topic for this course, but is [described by Python's primary author](http://python-history.blogspot.com/2010/06/method-resolution-order.html) with a reference to the original paper.
 
-## [2.5.8   The Role of Objects](#id33)
+## 2.5.8 The Role of Objects
 
 The Python object system is designed to make data abstraction and message passing both convenient and flexible. The specialized syntax of classes, methods, inheritance, and dot expressions all enable us to formalize the object metaphor in our programs, which improves our ability to organize large programs.
 
@@ -2089,7 +2226,7 @@ On the other hand, classes may not provide the best mechanism for implementing c
 
 Multi-paradigm languages like Python allow programmers to match organizational paradigms to appropriate problems. Learning to identify when to introduce a new class, as opposed to a new function, in order to simplify or modularize a program, is an important design skill in software engineering that deserves careful attention.
 
-# [2.6   Implementing Classes and Objects](#id34)
+# 2.6 Implementing Classes and Objects
 
 When working in the object-oriented programming paradigm, we use the object metaphor to guide the organization of our programs. Most logic about how to represent and manipulate data is expressed within class declarations. In this section, we see that classes and objects can themselves be represented using just functions and dictionaries. The purpose of implementing an object system in this way is to illustrate that using the object metaphor does not require a special programming language. Programs can be object-oriented, even in programming languages that do not have a built-in object system.
 
@@ -2097,7 +2234,7 @@ In order to implement objects, we will abandon dot notation (which does require 
 
 We will not implement the entire Python object system, which includes features that we have not covered in this text (e.g., meta-classes and static methods). We will focus instead on user-defined classes without multiple inheritance and without introspective behavior (such as returning the class of an instance). Our implementation is not meant to follow the precise specification of the Python type system. Instead, it is designed to implement the core functionality that enables the object metaphor.
 
-## [2.6.1   Instances](#id35)
+## 2.6.1 Instances
 
 We begin with instances. An instance has named attributes, such as the balance of an account, which can be set and retrieved. We implement an instance using a dispatch dictionary that responds to messages that "get" and "set" attribute values. Attributes themselves are stored in a local dictionary called `attributes`.
 
@@ -2106,19 +2243,19 @@ As we have seen previously in this chapter, dictionaries themselves are abstract
 To begin our implementation, we assume that we have a class implementation that can look up any names that are not part of the instance. We pass in a class to `make_instance` as the parameter `cls`.
 
 ``` {.python}
->>> def make_instance(cls):
-        """Return a new object instance, which is a dispatch dictionary."""
-        def get_value(name):
-            if name in attributes:
-                return attributes[name]
-            else:
-                value = cls['get'](name)
-                return bind_method(value, instance)
-        def set_value(name, value):
-            attributes[name] = value
-        attributes = {}
-        instance = {'get': get_value, 'set': set_value}
-        return instance
+def make_instance(cls):
+    """Return a new object instance, which is a dispatch dictionary."""
+    def get_value(name):
+        if name in attributes:
+            return attributes[name]
+        else:
+            value = cls['get'](name)
+            return bind_method(value, instance)
+    def set_value(name, value):
+        attributes[name] = value
+    attributes = {}
+    instance = {'get': get_value, 'set': set_value}
+    return instance
 ```
 
 The `instance` is a dispatch dictionary that responds to the messages `get` and `set`. The `set` message corresponds to attribute assignment in Python's object system: all assigned attributes are stored directly within the object's local attribute dictionary. In `get`, if `name` does not appear in the local `attributes` dictionary, then it is looked up in the class. If the `value` returned by `cls` is a function, it must be bound to the instance.
@@ -2126,36 +2263,36 @@ The `instance` is a dispatch dictionary that responds to the messages `get` and 
 **Bound method values.** The `get_value` function in `make_instance` finds a named attribute in its class with `get`, then calls `bind_method`. Binding a method only applies to function values, and it creates a bound method value from a function value by inserting the instance as the first argument:
 
 ``` {.python}
->>> def bind_method(value, instance):
-        """Return a bound method if value is callable, or value otherwise."""
-        if callable(value):
-            def method(*args):
-                return value(instance, *args)
-            return method
-        else:
-            return value
+def bind_method(value, instance):
+    """Return a bound method if value is callable, or value otherwise."""
+    if callable(value):
+        def method(*args):
+            return value(instance, *args)
+        return method
+    else:
+        return value
 ```
 
 When a method is called, the first parameter `self` will be bound to the value of `instance` by this definition.
 
-## [2.6.2   Classes](#id36)
+## 2.6.2 Classes
 
 A class is also an object, both in Python's object system and the system we are implementing here. For simplicity, we say that classes do not themselves have a class. (In Python, classes do have classes; almost all classes share the same class, called `type`.) A class can respond to `get` and `set` messages, as well as the `new` message:
 
 ``` {.python}
->>> def make_class(attributes, base_class=None):
-        """Return a new class, which is a dispatch dictionary."""
-        def get_value(name):
-            if name in attributes:
-                return attributes[name]
-            elif base_class is not None:
-                return base_class['get'](name)
-        def set_value(name, value):
-            attributes[name] = value
-        def new(*args):
-            return init_instance(cls, *args)
-        cls = {'get': get_value, 'set': set_value, 'new': new}
-        return cls
+def make_class(attributes, base_class=None):
+    """Return a new class, which is a dispatch dictionary."""
+    def get_value(name):
+        if name in attributes:
+            return attributes[name]
+        elif base_class is not None:
+            return base_class['get'](name)
+    def set_value(name, value):
+        attributes[name] = value
+    def new(*args):
+        return init_instance(cls, *args)
+    cls = {'get': get_value, 'set': set_value, 'new': new}
+    return cls
 ```
 
 Unlike an instance, the `get` function for classes does not query its class when an attribute is not found, but instead queries its `base_class`. No method binding is required for classes.
@@ -2163,47 +2300,47 @@ Unlike an instance, the `get` function for classes does not query its class when
 **Initialization.** The `new` function in `make_class` calls `init_instance`, which first makes a new instance, then invokes a method called `__init__`.
 
 ``` {.python}
->>> def init_instance(cls, *args):
-        """Return a new object with type cls, initialized with args."""
-        instance = make_instance(cls)
-        init = cls['get']('__init__')
-        if init:
-            init(instance, *args)
-        return instance
+def init_instance(cls, *args):
+    """Return a new object with type cls, initialized with args."""
+    instance = make_instance(cls)
+    init = cls['get']('__init__')
+    if init:
+        init(instance, *args)
+    return instance
 ```
 
 This final function completes our object system. We now have instances, which `set` locally but fall back to their classes on `get`. After an instance looks up a name in its class, it binds itself to function values to create methods. Finally, classes can create `new` instances, and they apply their `__init__` constructor function immediately after instance creation.
 
 In this object system, the only function that should be called by the user is `create_class`. All other functionality is enabled through message passing. Similarly, Python's object system is invoked via the `class` statement, and all of its other functionality is enabled through dot expressions and calls to classes.
 
-## [2.6.3   Using Implemented Objects](#id37)
+## 2.6.3 Using Implemented Objects
 
 We now return to use the bank account example from the previous section. Using our implemented object system, we will create an `Account` class, a `CheckingAccount` subclass, and an instance of each.
 
 The `Account` class is created through a `create_account_class` function, which has structure similar to a `class` statement in Python, but concludes with a call to `make_class`.
 
 ``` {.python}
->>> def make_account_class():
-        """Return the Account class, which has deposit and withdraw methods."""
-        def __init__(self, account_holder):
-            self['set']('holder', account_holder)
-            self['set']('balance', 0)
-        def deposit(self, amount):
-            """Increase the account balance by amount and return the new balance."""
-            new_balance = self['get']('balance') + amount
-            self['set']('balance', new_balance)
-            return self['get']('balance')
-        def withdraw(self, amount):
-            """Decrease the account balance by amount and return the new balance."""
-            balance = self['get']('balance')
-            if amount > balance:
-                return 'Insufficient funds'
-            self['set']('balance', balance - amount)
-            return self['get']('balance')
-        return make_class({'__init__': __init__,
-                           'deposit':  deposit,
-                           'withdraw': withdraw,
-                           'interest': 0.02})
+def make_account_class():
+    """Return the Account class, which has deposit and withdraw methods."""
+    def __init__(self, account_holder):
+        self['set']('holder', account_holder)
+        self['set']('balance', 0)
+    def deposit(self, amount):
+        """Increase the account balance by amount and return the new balance."""
+        new_balance = self['get']('balance') + amount
+        self['set']('balance', new_balance)
+        return self['get']('balance')
+    def withdraw(self, amount):
+        """Decrease the account balance by amount and return the new balance."""
+        balance = self['get']('balance')
+        if amount > balance:
+            return 'Insufficient funds'
+        self['set']('balance', balance - amount)
+        return self['get']('balance')
+    return make_class({'__init__': __init__,
+                       'deposit':  deposit,
+                       'withdraw': withdraw,
+                       'interest': 0.02})
 ```
 
 In this function, the names of attributes are set at the end. Unlike Python `class` statements, which enforce consistency between intrinsic function names and attribute names, here we must specify the correspondence between attribute names and values manually.
@@ -2211,73 +2348,88 @@ In this function, the names of attributes are set at the end. Unlike Python `cla
 The `Account` class is finally instantiated via assignment.
 
 ``` {.python}
->>> Account = make_account_class()
+Account = make_account_class()
 ```
 
 Then, an account instance is created via the `new` message, which requires a name to go with the newly created account.
 
 ``` {.python}
->>> jim_acct = Account['new']('Jim')
+jim_acct = Account['new']('Jim')
 ```
 
 Then, `get` messages passed to `jim_acct` retrieve properties and methods. Methods can be called to update the balance of the account.
 
 ``` {.python}
->>> jim_acct['get']('holder')
-'Jim'
->>> jim_acct['get']('interest')
-0.02
->>> jim_acct['get']('deposit')(20)
-20
->>> jim_acct['get']('withdraw')(5)
-15
+jim_acct['get']('holder')
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'Jim'</code></pre></div></html>
+
+``` {.python}
+jim_acct['get']('interest')
+```
+<html><div class="codeparent python"><pre class="stdout"><code>0.02</code></pre></div></html>
+
+``` {.python}
+jim_acct['get']('deposit')(20)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>20</code></pre></div></html>
+
+``` {.python}
+jim_acct['get']('withdraw')(5)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>15</code></pre></div></html>
 
 As with the Python object system, setting an attribute of an instance does not change the corresponding attribute of its class.
 
 ``` {.python}
->>> jim_acct['set']('interest', 0.04)
->>> Account['get']('interest')
-0.02
+jim_acct['set']('interest', 0.04)
+Account['get']('interest')
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>0.02</code></pre></div></html>
 
 **Inheritance.** We can create a subclass `CheckingAccount` by overloading a subset of the class attributes. In this case, we change the `withdraw` method to impose a fee, and we reduce the interest rate.
 
 ``` {.python}
->>> def make_checking_account_class():
-        """Return the CheckingAccount class, which imposes a $1 withdrawal fee."""
-        def withdraw(self, amount):
-            return Account['get']('withdraw')(self, amount + 1)
-        return make_class({'withdraw': withdraw, 'interest': 0.01}, Account)
+def make_checking_account_class():
+    """Return the CheckingAccount class, which imposes a $1 withdrawal fee."""
+    def withdraw(self, amount):
+        return Account['get']('withdraw')(self, amount + 1)
+    return make_class({'withdraw': withdraw, 'interest': 0.01}, Account)
 ```
 
 In this implementation, we call the `withdraw` function of the base class `Account` from the `withdraw` function of the subclass, as we would in Python's built-in object system. We can create the subclass itself and an instance, as before.
 
 ``` {.python}
->>> CheckingAccount = make_checking_account_class()
->>> jack_acct = CheckingAccount['new']('Jack')
+CheckingAccount = make_checking_account_class()
+jack_acct = CheckingAccount['new']('Jack')
 ```
 
 Deposits behave identically, as does the constructor function. withdrawals impose the \$1 fee from the specialized `withdraw` method, and `interest` has the new lower value from `CheckingAccount`.
 
 ``` {.python}
->>> jack_acct['get']('interest')
-0.01
->>> jack_acct['get']('deposit')(20)
-20
->>> jack_acct['get']('withdraw')(5)
-14
+jack_acct['get']('interest')
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>0.01</code></pre></div></html>
+
+``` {.python}
+jack_acct['get']('deposit')(20)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>20</code></pre></div></html>
+
+``` {.python}
+jack_acct['get']('withdraw')(5)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>14</code></pre></div></html>
 
 Our object system built upon dictionaries is quite similar in implementation to the built-in object system in Python. In Python, an instance of any user-defined class has a special attribute `__dict__` that stores the local instance attributes for that object in a dictionary, much like our `attributes` dictionary. Python differs because it distinguishes certain special methods that interact with built-in functions to ensure that those functions behave correctly for arguments of many different types. Functions that operate on different types are the subject of the next section.
 
-# [2.7   Generic Operations](#id38)
+# 2.7 Generic Operations
 
 In this chapter, we introduced compound data values, along with the technique of data abstraction using constructors and selectors. Using message passing, we endowed our abstract data types with behavior directly. Using the object metaphor, we bundled together the representation of data and the methods used to manipulate that data to modularize data-driven programs with local state.
 
 However, we have yet to show that our object system allows us to combine together different types of objects flexibly in a large program. Message passing via dot expressions is only one way of building combined expressions with multiple objects. In this section, we explore alternate methods for combining and manipulating objects of different types.
 
-## [2.7.1   String Conversion](#id39)
+## 2.7.1 String Conversion
 
 We stated in the beginning of this chapter that an object value should behave like the kind of data it is meant to represent, including producing a string representation of itself. String representations of data values are especially important in an interactive language like Python, where the `read-eval-print` loop requires every value to have some sort of string representation.
 
@@ -2295,51 +2447,57 @@ For most object types, eval(repr(object)) == object.
 The result of calling `repr` on the value of an expression is what Python prints in an interactive session.
 
 ``` {.python}
->>> 12e12
-12000000000000.0
->>> print(repr(12e12))
-12000000000000.0
+12e12
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>12000000000000.0</code></pre></div></html>
+
+``` {.python}
+print(repr(12e12))
+```
+<html><div class="codeparent python"><pre class="stdout"><code>12000000000000.0</code></pre></div></html>
 
 In cases where no representation exists that evaluates to the original value, Python produces a proxy.
 
 ``` {.python}
->>> repr(min)
-'<built-in function min>'
+repr(min)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'<built-in function min>'</code></pre></div></html>
 
 The `str` constructor often coincides with `repr`, but provides a more interpretable text representation in some cases. For instance, we see a difference between `str` and `repr` with dates.
 
 ``` {.python}
->>> from datetime import date
->>> today = date(2011, 9, 12)
->>> repr(today)
-'datetime.date(2011, 9, 12)'
->>> str(today)
-'2011-09-12'
+from datetime import date
+today = date(2011, 9, 12)
+repr(today)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'datetime.date(2011, 9, 12)'</code></pre></div></html>
+
+``` {.python}
+str(today)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>'2011-09-12'</code></pre></div></html>
 
 Defining the `repr` function presents a new challenge: we would like it to apply correctly to all data types, even those that did not exist when `repr` was implemented. We would like it to be a *polymorphic function*, one that can be applied to many (*poly*) different forms (*morph*) of data.
 
 Message passing provides an elegant solution in this case: the `repr` function invokes a method called `__repr__` on its argument.
 
 ``` {.python}
->>> today.__repr__()
-'datetime.date(2011, 9, 12)'
+today.__repr__()
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'datetime.date(2011, 9, 12)'</code></pre></div></html>
 
 By implementing this same method in user-defined classes, we can extend the applicability of `repr` to any class we create in the future. This example highlights another benefit of message passing in general, that it provides a mechanism for extending the domain of existing functions to new object types.
 
 The `str` constructor is implemented in a similar manner: it invokes a method called `__str__` on its argument.
 
 ``` {.python}
->>> today.__str__()
-'2011-09-12'
+today.__str__()
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>'2011-09-12'</code></pre></div></html>
 
 These polymorphic functions are examples of a more general principle: certain functions should apply to multiple data types. The message passing approach exemplified here is only one of a family of techniques for implementing polymorphic functions. The remainder of this section explores some alternatives.
 
-## [2.7.2   Multiple Representations](#id40)
+## 2.7.2 Multiple Representations
 
 Data abstraction, using objects or functions, is a powerful tool for managing complexity. Abstract data types allow us to construct an abstraction barrier between the underlying representation of data and the functions or messages used to manipulate it. However, in large programs, it may not always make sense to speak of "the underlying representation" for a data type in a program. For one thing, there might be more than one useful representation for a data object, and we might like to design systems that can deal with multiple representations.
 
@@ -2373,13 +2531,13 @@ We can have two different abstract data types for complex numbers that differ in
 With these messages and constructors, we can implement complex arithmetic.
 
 ``` {.python}
->>> def add_complex(z1, z2):
-        return ComplexRI(z1.real + z2.real, z1.imag + z2.imag)
+def add_complex(z1, z2):
+    return ComplexRI(z1.real + z2.real, z1.imag + z2.imag)
 ```
 
 ``` {.python}
->>> def mul_complex(z1, z2):
-        return ComplexMA(z1.magnitude * z2.magnitude, z1.angle + z2.angle)
+def mul_complex(z1, z2):
+    return ComplexMA(z1.magnitude * z2.magnitude, z1.angle + z2.angle)
 ```
 
 The relationship between the terms "abstract data type" (ADT) and "interface" is subtle. An ADT includes ways of building complex data types, manipulating them as units, and selecting for their components. In an object-oriented system, an ADT corresponds to a class, although we have seen that an object system is not needed to implement an ADT. An interface is a set of messages that have associated meanings, and which may or may not include selectors. Conceptually, an ADT describes a full representational abstraction of some kind of thing, whereas an interface specifies a set of behaviors that may be shared across many things.
@@ -2389,48 +2547,51 @@ The relationship between the terms "abstract data type" (ADT) and "interface" is
 Python has a simple feature for computing attributes on the fly from zero-argument functions. The `@property` decorator allows functions to be called without the standard call expression syntax. An implementation of complex numbers in terms of real and imaginary parts illustrates this point.
 
 ``` {.python}
->>> from math import atan2
->>> class ComplexRI(object):
-        def __init__(self, real, imag):
-            self.real = real
-            self.imag = imag
-        @property
-        def magnitude(self):
-            return (self.real ** 2 + self.imag ** 2) ** 0.5
-        @property
-        def angle(self):
-            return atan2(self.imag, self.real)
-        def __repr__(self):
-            return 'ComplexRI({0}, {1})'.format(self.real, self.imag)
+from math import atan2
+class ComplexRI(object):
+    def __init__(self, real, imag):
+        self.real = real
+        self.imag = imag
+    @property
+    def magnitude(self):
+        return (self.real ** 2 + self.imag ** 2) ** 0.5
+    @property
+    def angle(self):
+        return atan2(self.imag, self.real)
+    def __repr__(self):
+        return 'ComplexRI({0}, {1})'.format(self.real, self.imag)
 ```
 
 A second implementation using magnitude and angle provides the same interface because it responds to the same set of messages.
 
 ``` {.python}
->>> from math import sin, cos
->>> class ComplexMA(object):
-        def __init__(self, magnitude, angle):
-            self.magnitude = magnitude
-            self.angle = angle
-        @property
-        def real(self):
-            return self.magnitude * cos(self.angle)
-        @property
-        def imag(self):
-            return self.magnitude * sin(self.angle)
-        def __repr__(self):
-            return 'ComplexMA({0}, {1})'.format(self.magnitude, self.angle)
+from math import sin, cos
+class ComplexMA(object):
+    def __init__(self, magnitude, angle):
+        self.magnitude = magnitude
+        self.angle = angle
+    @property
+    def real(self):
+        return self.magnitude * cos(self.angle)
+    @property
+    def imag(self):
+        return self.magnitude * sin(self.angle)
+    def __repr__(self):
+        return 'ComplexMA({0}, {1})'.format(self.magnitude, self.angle)
 ```
 
 In fact, our implementations of `add_complex` and `mul_complex` are now complete; either class of complex number can be used for either argument in either complex arithmetic function. It is worth noting that the object system does not explicitly connect the two complex types in any way (e.g., through inheritance). We have implemented the complex number abstraction by sharing a common set of messages, an interface, across the two classes.
 
 ``` {.python}
->>> from math import pi
->>> add_complex(ComplexRI(1, 2), ComplexMA(2, pi/2))
-ComplexRI(1.0000000000000002, 4.0)
->>> mul_complex(ComplexRI(0, 1), ComplexRI(0, 1))
-ComplexMA(1.0, 3.141592653589793)
+from math import pi
+add_complex(ComplexRI(1, 2), ComplexMA(2, pi/2))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>ComplexRI(1.0000000000000002, 4.0)</code></pre></div></html>
+
+``` {.python}
+mul_complex(ComplexRI(0, 1), ComplexRI(0, 1))
+```
+<html><div class="codeparent python"><pre class="stdout"><code>ComplexMA(1.0, 3.141592653589793)</code></pre></div></html>
 
 The interface approach to encoding multiple representations has appealing properties. The class for each representation can be developed separately; they must only agree on the names of the attributes they share. The interface is also *additive*. If another programmer wanted to add a third representation of complex numbers to the same program, they would only have to create another class with the same attributes.
 
@@ -2439,26 +2600,29 @@ The interface approach to encoding multiple representations has appealing proper
 To make our code more legible, we would perhaps like to use the `+` and `*` operators directly when adding and multiplying complex numbers. Adding the following methods to both of our complex number classes will enable these operators to be used, as well as the `add` and `mul` functions in the `operator` module:
 
 ``` {.python}
->>> ComplexRI.__add__ = lambda self, other: add_complex(self, other)
->>> ComplexMA.__add__ = lambda self, other: add_complex(self, other)
->>> ComplexRI.__mul__ = lambda self, other: mul_complex(self, other)
->>> ComplexMA.__mul__ = lambda self, other: mul_complex(self, other)
+ComplexRI.__add__ = lambda self, other: add_complex(self, other)
+ComplexMA.__add__ = lambda self, other: add_complex(self, other)
+ComplexRI.__mul__ = lambda self, other: mul_complex(self, other)
+ComplexMA.__mul__ = lambda self, other: mul_complex(self, other)
 ```
 
 Now, we can use infix notation with our user-defined classes.
 
 ``` {.python}
->>> ComplexRI(1, 2) + ComplexMA(2, 0)
-ComplexRI(3.0, 2.0)
->>> ComplexRI(0, 1) * ComplexRI(0, 1)
-ComplexMA(1.0, 3.141592653589793)
+ComplexRI(1, 2) + ComplexMA(2, 0)
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>ComplexRI(3.0, 2.0)</code></pre></div></html>
+
+``` {.python}
+ComplexRI(0, 1) * ComplexRI(0, 1)
+```
+<html><div class="codeparent python"><pre class="stdout"><code>ComplexMA(1.0, 3.141592653589793)</code></pre></div></html>
 
 **Further reading.** To evaluate expressions that contain the `+` operator, Python checks for special methods on both the left and right operands of the expression. First, Python checks for an `__add__` method on the value of the left operand, then checks for an `__radd__` method on the value of the right operand. If either is found, that method is invoked with the value of the other operand as its argument.
 
 Similar protocols exist for evaluating expressions that contain any kind of operator in Python, including slice notation and Boolean operators. The Python docs list the exhaustive set of [method names for operators](http://docs.python.org/py3k/reference/datamodel.html#special-method-names). Dive into Python 3 has a chapter on [special method names](http://diveintopython3.ep.io/special-method-names.html) that describes many details of their use in the Python interpreter.
 
-## [2.7.3   Generic Functions](#id41)
+## 2.7.3 Generic Functions
 
 Our implementation of complex numbers has made two data types interchangeable as arguments to the `add_complex` and `mul_complex` functions. Now we will see how to use this same idea not only to define operations that are generic over different representations but also to define operations that are generic over different kinds of arguments that do not share a common interface.
 
@@ -2469,28 +2633,28 @@ We would like to introduce the cross-type operations in some carefully controlle
 Let us revise our implementation of rational numbers to use Python's built-in object system. As before, we will store a rational number as a numerator and denominator in lowest terms.
 
 ``` {.python}
->>> from fractions import gcd
->>> class Rational(object):
-        def __init__(self, numer, denom):
-            g = gcd(numer, denom)
-            self.numer = numer // g
-            self.denom = denom // g
-        def __repr__(self):
-            return 'Rational({0}, {1})'.format(self.numer, self.denom)
+from fractions import gcd
+class Rational(object):
+    def __init__(self, numer, denom):
+        g = gcd(numer, denom)
+        self.numer = numer // g
+        self.denom = denom // g
+    def __repr__(self):
+        return 'Rational({0}, {1})'.format(self.numer, self.denom)
 ```
 
 Adding and multiplying rational numbers in this new implementation is similar to before.
 
 ``` {.python}
->>> def add_rational(x, y):
-        nx, dx = x.numer, x.denom
-        ny, dy = y.numer, y.denom
-        return Rational(nx * dy + ny * dx, dx * dy)
+def add_rational(x, y):
+    nx, dx = x.numer, x.denom
+    ny, dy = y.numer, y.denom
+    return Rational(nx * dy + ny * dx, dx * dy)
 ```
 
 ``` {.python}
->>> def mul_rational(x, y):
-        return Rational(x.numer * y.numer, x.denom * y.denom)
+def mul_rational(x, y):
+    return Rational(x.numer * y.numer, x.denom * y.denom)
 ```
 
 **Type dispatching.** One way to handle cross-type operations is to design a different function for each possible combination of types for which the operation is valid. For example, we could extend our complex number implementation so that it provides a function for adding complex numbers to rational numbers. We can provide this functionality generically using a technique called *dispatching on type*.
@@ -2498,13 +2662,13 @@ Adding and multiplying rational numbers in this new implementation is similar to
 The idea of type dispatching is to write functions that first inspect the type of argument they have received, and then execute code that is appropriate for the type. In Python, the type of an object can be inspected with the built-in `type` function.
 
 ``` {.python}
->>> def iscomplex(z):
-        return type(z) in (ComplexRI, ComplexMA)
+def iscomplex(z):
+    return type(z) in (ComplexRI, ComplexMA)
 ```
 
 ``` {.python}
->>> def isrational(z):
-        return type(z) == Rational
+def isrational(z):
+    return type(z) == Rational
 ```
 
 In this case, we are relying on the fact that each object knows its type, and we can look up that type using the Python `type` function. Even if the `type` function were not available, we could imagine implementing `iscomplex` and `isrational` in terms of a shared class attribute for `Rational`, `ComplexRI`, and `ComplexMA`.
@@ -2512,21 +2676,21 @@ In this case, we are relying on the fact that each object knows its type, and we
 Now consider the following implementation of `add`, which explicitly checks the type of both arguments. We will not use Python's special methods (i.e., `__add__`) in this example.
 
 ``` {.python}
->>> def add_complex_and_rational(z, r):
-            return ComplexRI(z.real + r.numer/r.denom, z.imag)
+def add_complex_and_rational(z, r):
+        return ComplexRI(z.real + r.numer/r.denom, z.imag)
 ```
 
 ``` {.python}
->>> def add(z1, z2):
-        """Add z1 and z2, which may be complex or rational."""
-        if iscomplex(z1) and iscomplex(z2):
-            return add_complex(z1, z2)
-        elif iscomplex(z1) and isrational(z2):
-            return add_complex_and_rational(z1, z2)
-        elif isrational(z1) and iscomplex(z2):
-            return add_complex_and_rational(z2, z1)
-        else:
-            return add_rational(z1, z2)
+def add(z1, z2):
+    """Add z1 and z2, which may be complex or rational."""
+    if iscomplex(z1) and iscomplex(z2):
+        return add_complex(z1, z2)
+    elif iscomplex(z1) and isrational(z2):
+        return add_complex_and_rational(z1, z2)
+    elif isrational(z1) and iscomplex(z2):
+        return add_complex_and_rational(z2, z1)
+    else:
+        return add_rational(z1, z2)
 ```
 
 This simplistic approach to type dispatching, which uses a large conditional statement, is not additive. If another numeric type were included in the program, we would have to re-implement `add` with new clauses.
@@ -2534,30 +2698,30 @@ This simplistic approach to type dispatching, which uses a large conditional sta
 We can create a more flexible implementation of `add` by implementing type dispatch through a dictionary. The first step in extending the flexibility of `add` will be to create a tag set for our classes that abstracts away from the two implementations of complex numbers.
 
 ``` {.python}
->>> def type_tag(x):
-        return type_tag.tags[type(x)]
+def type_tag(x):
+    return type_tag.tags[type(x)]
 ```
 
 ``` {.python}
->>> type_tag.tags = {ComplexRI: 'com', ComplexMA: 'com', Rational: 'rat'}
+type_tag.tags = {ComplexRI: 'com', ComplexMA: 'com', Rational: 'rat'}
 ```
 
 Next, we use these type tags to index a dictionary that stores the different ways of adding numbers. The keys of the dictionary are tuples of type tags, and the values are type-specific addition functions.
 
 ``` {.python}
->>> def add(z1, z2):
-        types = (type_tag(z1), type_tag(z2))
-        return add.implementations[types](z1, z2)
+def add(z1, z2):
+    types = (type_tag(z1), type_tag(z2))
+    return add.implementations[types](z1, z2)
 ```
 
 This definition of `add` does not have any functionality itself; it relies entirely on a dictionary called `add.implementations` to implement addition. We can populate that dictionary as follows.
 
 ``` {.python}
->>> add.implementations = {}
->>> add.implementations[('com', 'com')] = add_complex
->>> add.implementations[('com', 'rat')] = add_complex_and_rational
->>> add.implementations[('rat', 'com')] = lambda x, y: add_complex_and_rational(y, x)
->>> add.implementations[('rat', 'rat')] = add_rational
+add.implementations = {}
+add.implementations[('com', 'com')] = add_complex
+add.implementations[('com', 'rat')] = add_complex_and_rational
+add.implementations[('rat', 'com')] = lambda x, y: add_complex_and_rational(y, x)
+add.implementations[('rat', 'rat')] = add_rational
 ```
 
 This dictionary-based approach to dispatching is additive, because `add.implementations` and `type_tag.tags` can always be extended. Any new numeric type can "install" itself into the existing system by adding new entries to these dictionaries.
@@ -2565,53 +2729,59 @@ This dictionary-based approach to dispatching is additive, because `add.implemen
 While we have introduced some complexity to the system, we now have a generic, extensible `add` function that handles mixed types.
 
 ``` {.python}
->>> add(ComplexRI(1.5, 0), Rational(3, 2))
-ComplexRI(3.0, 0)
->>> add(Rational(5, 3), Rational(1, 2))
-Rational(13, 6)
+add(ComplexRI(1.5, 0), Rational(3, 2))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>ComplexRI(3.0, 0)</code></pre></div></html>
+
+``` {.python}
+add(Rational(5, 3), Rational(1, 2))
+```
+<html><div class="codeparent python"><pre class="stdout"><code>Rational(13, 6)</code></pre></div></html>
 
 **Data-directed programming.** Our dictionary-based implementation of `add` is not addition-specific at all; it does not contain any direct addition logic. It only implements addition because we happen to have populated its `implementations` dictionary with functions that perform addition.
 
 A more general version of generic arithmetic would apply arbitrary operators to arbitrary types and use a dictionary to store implementations of various combinations. This fully generic approach to implementing methods is called *data-directed programming*. In our case, we can implement both generic addition and multiplication without redundant logic.
 
 ``` {.python}
->>> def apply(operator_name, x, y):
-        tags = (type_tag(x), type_tag(y))
-        key = (operator_name, tags)
-        return apply.implementations[key](x, y)
+def apply(operator_name, x, y):
+    tags = (type_tag(x), type_tag(y))
+    key = (operator_name, tags)
+    return apply.implementations[key](x, y)
 ```
 
 In this generic `apply` function, a key is constructed from the operator name (e.g., `'add'`) and a tuple of type tags for the arguments. Implementations are also populated using these tags. We enable support for multiplication on complex and rational numbers below.
 
 ``` {.python}
->>> def mul_complex_and_rational(z, r):
-        return ComplexMA(z.magnitude * r.numer / r.denom, z.angle)
+def mul_complex_and_rational(z, r):
+    return ComplexMA(z.magnitude * r.numer / r.denom, z.angle)
 ```
 
 ``` {.python}
->>> mul_rational_and_complex = lambda r, z: mul_complex_and_rational(z, r)
->>> apply.implementations = {('mul', ('com', 'com')): mul_complex,
-                             ('mul', ('com', 'rat')): mul_complex_and_rational,
-                             ('mul', ('rat', 'com')): mul_rational_and_complex,
-                             ('mul', ('rat', 'rat')): mul_rational}
+mul_rational_and_complex = lambda r, z: mul_complex_and_rational(z, r)
+apply.implementations = {('mul', ('com', 'com')): mul_complex,
+                         ('mul', ('com', 'rat')): mul_complex_and_rational,
+                         ('mul', ('rat', 'com')): mul_rational_and_complex,
+                         ('mul', ('rat', 'rat')): mul_rational}
 ```
 
 We can also include the addition implementations from `add` to `apply`, using the dictionary `update` method.
 
 ``` {.python}
->>> adders = add.implementations.items()
->>> apply.implementations.update({('add', tags):fn for (tags, fn) in adders})
+adders = add.implementations.items()
+apply.implementations.update({('add', tags):fn for (tags, fn) in adders})
 ```
 
 Now that apply supports 8 different implementations in a single table, we can use it to manipulate rational and complex numbers quite generically.
 
 ``` {.python}
->>> apply('add', ComplexRI(1.5, 0), Rational(3, 2))
-ComplexRI(3.0, 0)
->>> apply('mul', Rational(1, 2), ComplexMA(10, 1))
-ComplexMA(5.0, 1)
+apply('add', ComplexRI(1.5, 0), Rational(3, 2))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>ComplexRI(3.0, 0)</code></pre></div></html>
+
+``` {.python}
+apply('mul', Rational(1, 2), ComplexMA(10, 1))
+```
+<html><div class="codeparent python"><pre class="stdout"><code>ComplexMA(5.0, 1)</code></pre></div></html>
 
 This data-directed approach does manage the complexity of cross-type operators, but it is cumbersome. With such a system, the cost of introducing a new type is not just writing methods for that type, but also the construction and installation of the functions that implement the cross-type operations. This burden can easily require much more code than is needed to define the operations on the type itself.
 
@@ -2622,14 +2792,14 @@ While the techniques of dispatching on type and data-directed programming do cre
 In general, we can implement this idea by designing coercion functions that transform an object of one type into an equivalent object of another type. Here is a typical coercion function, which transforms a rational number to a complex number with zero imaginary part:
 
 ``` {.python}
->>> def rational_to_complex(x):
-        return ComplexRI(x.numer/x.denom, 0)
+def rational_to_complex(x):
+    return ComplexRI(x.numer/x.denom, 0)
 ```
 
 Now, we can define a dictionary of coercion functions. This dictionary could be extended as more numeric types are introduced.
 
 ``` {.python}
->>> coercions = {('rat', 'com'): rational_to_complex}
+coercions = {('rat', 'com'): rational_to_complex}
 ```
 
 It is not generally possible to coerce an arbitrary data object of each type into all other types. For example, there is no way to coerce an arbitrary complex number to a rational number, so there will be no such conversion implementation in the `coercions` dictionary.
@@ -2637,36 +2807,39 @@ It is not generally possible to coerce an arbitrary data object of each type int
 Using the `coercions` dictionary, we can write a function called `coerce_apply`, which attempts to coerce arguments into values of the same type, and only then applies an operator. The implementations dictionary of `coerce_apply` does not include any cross-type operator implementations.
 
 ``` {.python}
->>> def coerce_apply(operator_name, x, y):
-        tx, ty = type_tag(x), type_tag(y)
-        if tx != ty:
-            if (tx, ty) in coercions:
-                tx, x = ty, coercions[(tx, ty)](x)
-            elif (ty, tx) in coercions:
-                ty, y = tx, coercions[(ty, tx)](y)
-            else:
-                return 'No coercion possible.'
-        key = (operator_name, tx)
-        return coerce_apply.implementations[key](x, y)
+def coerce_apply(operator_name, x, y):
+    tx, ty = type_tag(x), type_tag(y)
+    if tx != ty:
+        if (tx, ty) in coercions:
+            tx, x = ty, coercions[(tx, ty)](x)
+        elif (ty, tx) in coercions:
+            ty, y = tx, coercions[(ty, tx)](y)
+        else:
+            return 'No coercion possible.'
+    key = (operator_name, tx)
+    return coerce_apply.implementations[key](x, y)
 ```
 
 The `implementations` of `coerce_apply` require only one type tag, because they assume that both values share the same type tag. Hence, we require only four implementations to support generic arithmetic over complex and rational numbers.
 
 ``` {.python}
->>> coerce_apply.implementations = {('mul', 'com'): mul_complex,
-                                    ('mul', 'rat'): mul_rational,
-                                    ('add', 'com'): add_complex,
-                                    ('add', 'rat'): add_rational}
+coerce_apply.implementations = {('mul', 'com'): mul_complex,
+                                ('mul', 'rat'): mul_rational,
+                                ('add', 'com'): add_complex,
+                                ('add', 'rat'): add_rational}
 ```
 
 With these implementations in place, `coerce_apply` can replace `apply`.
 
 ``` {.python}
->>> coerce_apply('add', ComplexRI(1.5, 0), Rational(3, 2))
-ComplexRI(3.0, 0)
->>> coerce_apply('mul', Rational(1, 2), ComplexMA(10, 1))
-ComplexMA(5.0, 1.0)
+coerce_apply('add', ComplexRI(1.5, 0), Rational(3, 2))
 ```
+<html><div class="codeparent python"><pre class="stdout"><code>ComplexRI(3.0, 0)</code></pre></div></html>
+
+``` {.python}
+coerce_apply('mul', Rational(1, 2), ComplexMA(10, 1))
+```
+<html><div class="codeparent python"><pre class="stdout"><code>ComplexMA(5.0, 1.0)</code></pre></div></html>
 
 This coercion scheme has some advantages over the method of defining explicit cross-type operations. Although we still need to write coercion functions to relate the types, we need to write only one function for each pair of types rather than a different functions for each collection of types and each generic operation. What we are counting on here is the fact that the appropriate transformation between types depends only on the types themselves, not on the particular operation to be applied.
 
