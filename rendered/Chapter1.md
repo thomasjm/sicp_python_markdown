@@ -121,11 +121,8 @@ The expression
 {w for w in words if len(w) >= 5 and w[::-1] in words}
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>{'madam', 'stink', 'leets', 'rever', 'drawer', 'stops', 'sessa',
-
 'repaid', 'speed', 'redder', 'devil', 'minim', 'spots', 'asses',
-
 'refer', 'lived', 'keels', 'diaper', 'sleek', 'steel', 'leper',
-
 'level', 'deeps', 'repel', 'reward', 'knits'}
 </code></pre></div></html>
 
@@ -434,9 +431,7 @@ A nested expression of calls to `print` highlights the non-pure character of the
 print(print(1), print(2))
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>1
-
 2
-
 None None
 </code></pre></div></html>
 
@@ -1584,7 +1579,6 @@ def triple(x):
 triple(12)
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>->  <function triple at 0x102a39848> ( 12 )
-
 36
 </code></pre></div></html>
 

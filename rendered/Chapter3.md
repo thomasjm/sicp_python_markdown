@@ -750,9 +750,7 @@ There is no single correct approach to handling errors in a program. Programs de
 raise Exception('An error occurred')
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>Traceback (most recent call last):
-
   File "<stdin>", line 1, in <module>
-
 Exception: an error occurred
 </code></pre></div></html>
 
@@ -807,7 +805,6 @@ def invert_safe(x):
 invert_safe(2)
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>Never printed if x is 0
-
 0.5
 </code></pre></div></html>
 

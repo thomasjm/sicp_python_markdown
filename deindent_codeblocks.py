@@ -35,7 +35,7 @@ def tryReadOutput(codeLines, i, linesToReturn):
         if len(stdout) == 1:
             text = stdout[0].strip()
         else:
-            text = "\n".join(stdout)
+            text = "".join(stdout)
 
         linesToReturn.append("```" + "\n" + makeOutput(text))
 

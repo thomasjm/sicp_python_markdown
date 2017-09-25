@@ -786,9 +786,7 @@ Likewise, the `count` and `index` methods on strings take substrings as argument
 """The Zen of Python
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>claims, Readability counts.
-
 Read more: import this."""
-
 'The Zen of Python\nclaims, "Readability counts."\nRead more: import this.'
 </code></pre></div></html>
 
@@ -1544,7 +1542,6 @@ One message we can send to a connector is to set its value. Here, we (the `'user
 celsius['set_val']('user', 25)
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>Celsius = 25
-
 Fahrenheit = 77.0
 </code></pre></div></html>
 
@@ -1563,7 +1560,6 @@ The connector complains that it has sensed a contradiction: Its value is `77.0`,
 celsius['forget']('user')
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>Celsius is forgotten
-
 Fahrenheit is forgotten
 </code></pre></div></html>
 
@@ -1575,7 +1571,6 @@ Now that `fahrenheit` has no value, we are free to set it to `212`:
 fahrenheit['set_val']('user', 212)
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>Fahrenheit = 212
-
 Celsius = 100.0
 </code></pre></div></html>
 

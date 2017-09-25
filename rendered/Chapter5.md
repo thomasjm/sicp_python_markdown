@@ -80,11 +80,8 @@ letters.__next__()
 letters.__next__()
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>Traceback (most recent call last):
-
   File "<stdin>", line 1, in <module>
-
   File "<stdin>", line 12, in next
-
 StopIteration
 </code></pre></div></html>
 
@@ -114,9 +111,7 @@ for item in counts:
     print(item)
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>1
-
 2
-
 3
 </code></pre></div></html>
 
@@ -134,9 +129,7 @@ except StopIteration:
     pass
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>1
-
 2
-
 3
 </code></pre></div></html>
 
@@ -163,11 +156,8 @@ for letter in letters_generator():
     print(letter)
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>a
-
 b
-
 c
-
 d
 </code></pre></div></html>
 
@@ -207,9 +197,7 @@ letters.__next__()
 letters.__next__()
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>Traceback (most recent call last):
-
   File "<stdin>", line 1, in <module>
-
 StopIteration
 </code></pre></div></html>
 
@@ -565,15 +553,10 @@ matcher.__next__()
 read(text, matcher)
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>Commending
-
 spending
-
 offending
-
 pending
-
 lending!
-
 === Done ===
 </code></pre></div></html>
 
@@ -636,9 +619,7 @@ matcher.__next__()
 read(text, matcher)
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>spending
-
 pending
-
 === Done ===
 </code></pre></div></html>
 
@@ -712,15 +693,10 @@ p.__next__()
 read_to_many(text, [m, p])
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>Commending
-
 spending
-
 people
-
 pending
-
 === Done ===
-
 === Done ===
 </code></pre></div></html>
 
