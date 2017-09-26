@@ -96,7 +96,7 @@ A common pattern can be found in the body of many recursive functions. The body 
 
 The base cases are then followed by one or more *recursive calls*. Recursive calls require a certain character: they must simplify the original problem. In the case of `pig_latin`, the more initial consonants in `w`, the more work there is left to do. In the recursive call, `pig_latin(w[1:] + w[0])`, we call `pig_latin` on a word that has one fewer initial consonant -- a simpler problem. Each successive call to `pig_latin` will be simpler still until the base case is reached: a word with no initial consonants.
 
-Recursive functions express computation by simplifying problems incrementally. They often operate on problems in a different way than the iterative approaches that we have used in the past. Consider a function `fact` to compute `n` factorial, where for example `fact(4)` computes $4! = 4 \\cdot 3 \\cdot 2 \\cdot 1 = 24$.
+Recursive functions express computation by simplifying problems incrementally. They often operate on problems in a different way than the iterative approaches that we have used in the past. Consider a function `fact` to compute `n` factorial, where for example `fact(4)` computes $4! = 4 \cdot 3 \cdot 2 \cdot 1 = 24$.
 
 A natural implementation using a `while` statement accumulates the total by multiplying together each positive integer up to `n`.
 
@@ -129,7 +129,7 @@ fact(4)
 
 The correctness of this function is easy to verify from the standard definition of the mathematical function for factorial:
 
-$$\\begin{array}{l l} (n-1)! &= (n-1) \\cdot (n-2) \\cdot \\dots \\cdot 1 \\\\ n! &= n \\cdot (n-1) \\cdot (n-2) \\cdot \\dots \\cdot 1 \\\\ n! &= n \\cdot (n-1)! \\end{array}$$
+$$\begin{array}{l l} (n-1)! &= (n-1) \cdot (n-2) \cdot \dots \cdot 1 \\ n! &= n \cdot (n-1) \cdot (n-2) \cdot \dots \cdot 1 \\ n! &= n \cdot (n-1)! \end{array}$$
 
 These two factorial functions differ conceptually. The iterative function constructs the result from the base case of 1 to the final total by successively multiplying in each term. The recursive function, on the other hand, constructs the result directly from the final term, `n`, and the result of the simpler problem, `fact(n-1)`.
 
@@ -261,36 +261,36 @@ The previous examples illustrate that processes can differ considerably in the r
 
 Let $n$ be a parameter that measures the size of the problem, and let $R(n)$ be the amount of resources the process requires for a problem of size $n$. In our previous examples we took $n$ to be the number for which a given function is to be computed, but there are other possibilities. For instance, if our goal is to compute an approximation to the square root of a number, we might take $n$ to be the number of digits of accuracy required. In general there are a number of properties of the problem with respect to which it will be desirable to analyze a given process. Similarly, $R(n)$ might measure the amount of memory used, the number of elementary machine operations performed, and so on. In computers that do only a fixed number of operations at a time, the time required to evaluate an expression will be proportional to the number of elementary machine operations performed in the process of evaluation.
 
-We say that $R(n)$ has order of growth $\\Theta(f(n))$, written $R(n) = \\Theta(f(n))$ (pronounced "theta of $f(n)$"), if there are positive constants $k\_1$ and $k\_2$ independent of $n$ such that
+We say that $R(n)$ has order of growth $\Theta(f(n))$, written $R(n) = \Theta(f(n))$ (pronounced "theta of $f(n)$"), if there are positive constants $k_1$ and $k_2$ independent of $n$ such that
 
-$$k\_1 \\cdot f(n) \\leq R(n) \\leq k\_2 \\cdot f(n)$$
+$$k_1 \cdot f(n) \leq R(n) \leq k_2 \cdot f(n)$$
 
 for any sufficiently large value of $n$. In other words, for large $n$, the value $R(n)$ is sandwiched between two values that both scale with $f(n)$:
 
--   A lower bound $k\_1 \\cdot f(n)$ and
--   An upper bound $k\_2 \\cdot f(n)$
+-   A lower bound $k_1 \cdot f(n)$ and
+-   An upper bound $k_2 \cdot f(n)$
 
-For instance, the number of steps to compute $n!$ grows proportionally to the input $n$. Thus, the steps required for this process grows as $\\Theta(n)$. We also saw that the space required for the recursive implementation `fact` grows as $\\Theta(n)$. By contrast, the iterative implementation `fact_iter` takes a similar number of steps, but the space it requires stays constant. In this case, we say that the space grows as $\\Theta(1)$.
+For instance, the number of steps to compute $n!$ grows proportionally to the input $n$. Thus, the steps required for this process grows as $\Theta(n)$. We also saw that the space required for the recursive implementation `fact` grows as $\Theta(n)$. By contrast, the iterative implementation `fact_iter` takes a similar number of steps, but the space it requires stays constant. In this case, we say that the space grows as $\Theta(1)$.
 
 The number of steps in our tree-recursive Fibonacci computation `fib` grows exponentially in its input $n$. In particular, one can show that the nth Fibonacci number is the closest integer to
 
-$$\\frac{\\phi\^{n-2}}{\\sqrt{5}}$$
+$$\frac{\phi^{n-2}}{\sqrt{5}}$$
 
-where $\\phi$ is the golden ratio:
+where $\phi$ is the golden ratio:
 
-$$\\phi = \\frac{1 + \\sqrt{5}}{2} \\approx 1.6180$$
+$$\phi = \frac{1 + \sqrt{5}}{2} \approx 1.6180$$
 
-We also stated that the number of steps scales with the resulting value, and so the tree-recursive process requires $\\Theta(\\phi\^n)$ steps, a function that grows exponentially with $n$.
+We also stated that the number of steps scales with the resulting value, and so the tree-recursive process requires $\Theta(\phi^n)$ steps, a function that grows exponentially with $n$.
 
-Orders of growth provide only a crude description of the behavior of a process. For example, a process requiring $n\^2$ steps and a process requiring $1000 \\cdot n\^2$ steps and a process requiring $3 \\cdot n\^2 + 10 \\cdot n + 17$ steps all have $\\Theta(n\^2)$ order of growth. There are certainly cases in which an order of growth analysis is too coarse a method for deciding between two possible implementations of a function.
+Orders of growth provide only a crude description of the behavior of a process. For example, a process requiring $n^2$ steps and a process requiring $1000 \cdot n^2$ steps and a process requiring $3 \cdot n^2 + 10 \cdot n + 17$ steps all have $\Theta(n^2)$ order of growth. There are certainly cases in which an order of growth analysis is too coarse a method for deciding between two possible implementations of a function.
 
-However, order of growth provides a useful indication of how we may expect the behavior of the process to change as we change the size of the problem. For a $\\Theta(n)$ (linear) process, doubling the size will roughly double the amount of resources used. For an exponential process, each increment in problem size will multiply the resource utilization by a constant factor. The next example examines an algorithm whose order of growth is logarithmic, so that doubling the problem size increases the resource requirement by only a constant amount.
+However, order of growth provides a useful indication of how we may expect the behavior of the process to change as we change the size of the problem. For a $\Theta(n)$ (linear) process, doubling the size will roughly double the amount of resources used. For an exponential process, each increment in problem size will multiply the resource utilization by a constant factor. The next example examines an algorithm whose order of growth is logarithmic, so that doubling the problem size increases the resource requirement by only a constant amount.
 
 ## 3.2.6 Example: Exponentiation
 
-Consider the problem of computing the exponential of a given number. We would like a function that takes as arguments a base `b` and a positive integer exponent `n` and computes $b\^n$. One way to do this is via the recursive definition
+Consider the problem of computing the exponential of a given number. We would like a function that takes as arguments a base `b` and a positive integer exponent `n` and computes $b^n$. One way to do this is via the recursive definition
 
-$$\\begin{array}{l l} b\^n &= b \\cdot b\^{n-1} \\\\ b\^0 &= 1 \\end{array}$$
+$$\begin{array}{l l} b^n &= b \cdot b^{n-1} \\ b^0 &= 1 \end{array}$$
 
 which translates readily into the recursive function
 
@@ -301,7 +301,7 @@ def exp(b, n):
     return b * exp(b, n-1)
 ```
 
-This is a linear recursive process that requires $\\Theta(n)$ steps and $\\Theta(n)$ space. Just as with factorial, we can readily formulate an equivalent linear iteration that requires a similar number of steps but constant space.
+This is a linear recursive process that requires $\Theta(n)$ steps and $\Theta(n)$ space. Just as with factorial, we can readily formulate an equivalent linear iteration that requires a similar number of steps but constant space.
 
 ``` {.python}
 def exp_iter(b, n):
@@ -311,18 +311,17 @@ def exp_iter(b, n):
     return result
 ```
 
-We can compute exponentials in fewer steps by using successive squaring. For instance, rather than computing $b\^8$ as
+We can compute exponentials in fewer steps by using successive squaring. For instance, rather than computing $b^8$ as
 
-$$b \\cdot (b \\cdot (b \\cdot (b \\cdot (b \\cdot (b \\cdot (b \\cdot b))))))$$
+$$b \cdot (b \cdot (b \cdot (b \cdot (b \cdot (b \cdot (b \cdot b))))))$$
 
 we can compute it using three multiplications:
 
-$$\\begin{array}{l l} b\^2 &= b \\cdot b \\\\ b\^4 &= b\^2 \\cdot b\^2 \\\\ b\^8 &= b\^4 \\cdot b\^4 \\end{array}$$
+$$\begin{array}{l l} b^2 &= b \cdot b \\ b^4 &= b^2 \cdot b^2 \\ b^8 &= b^4 \cdot b^4 \end{array}$$
 
 This method works fine for exponents that are powers of `2`. We can also take advantage of successive squaring in computing exponentials in general if we use the recursive rule
 
-$$b\^n = \\left\\{\\begin{array}{l l} (b\^{\\frac{1}{2} n})\^2 & \\mbox{if \$n\$ is even} \\\\ b \\cdot b\^{n-1} & \\mbox{if \$n\$ is odd} \\end{array} \\right.$$
-
+$$b^n = \left\{\begin{array}{l l} (b^{\frac{1}{2} n})^2 & \mbox{if \$n\$ is even} \\ b \cdot b^{n-1} & \mbox{if \$n\$ is odd} \end{array} \right.$$
 We can express this method as a recursive function as well:
 
 ``` {.python}
@@ -345,7 +344,7 @@ fast_exp(2, 100)
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>1267650600228229401496703205376</code></pre></div></html>
 
-The process evolved by `fast_exp` grows logarithmically with `n` in both space and number of steps. To see this, observe that computing $b\^{2n}$ using `fast_exp` requires only one more multiplication than computing $b\^n$. The size of the exponent we can compute therefore doubles (approximately) with every new multiplication we are allowed. Thus, the number of multiplications required for an exponent of `n` grows about as fast as the logarithm of `n` base `2`. The process has $\\Theta(\\log n)$ growth. The difference between $\\Theta(\\log n)$ growth and $\\Theta(n)$ growth becomes striking as $n$ becomes large. For example, `fast_exp` for `n` of `1000` requires only `14` multiplications instead of `1000`.
+The process evolved by `fast_exp` grows logarithmically with `n` in both space and number of steps. To see this, observe that computing $b^{2n}$ using `fast_exp` requires only one more multiplication than computing $b^n$. The size of the exponent we can compute therefore doubles (approximately) with every new multiplication we are allowed. Thus, the number of multiplications required for an exponent of `n` grows about as fast as the logarithm of `n` base `2`. The process has $\Theta(\log n)$ growth. The difference between $\Theta(\log n)$ growth and $\Theta(n)$ growth becomes striking as $n$ becomes large. For example, `fast_exp` for `n` of `1000` requires only `14` multiplications instead of `1000`.
 
 # 3.3 Recursive Data Structures
 
@@ -602,7 +601,7 @@ set_contains(s, 5)
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>False</code></pre></div></html>
 
-This implementation of `set_contains` requires $\\Theta(n)$ time to test membership of an element, where $n$ is the size of the set `s`. Using this linear-time function for membership, we can adjoin an element to a set, also in linear time.
+This implementation of `set_contains` requires $\Theta(n)$ time to test membership of an element, where $n$ is the size of the set `s`. Using this linear-time function for membership, we can adjoin an element to a set, also in linear time.
 
 ``` {.python}
 def adjoin_set(s, v):
@@ -618,7 +617,7 @@ t
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>Rlist(4, Rlist(1, Rlist(2, Rlist(3))))</code></pre></div></html>
 
-In designing a representation, one of the issues with which we should be concerned is efficiency. Intersecting two sets `set1` and `set2` also requires membership testing, but this time each element of `set1` must be tested for membership in `set2`, leading to a quadratic order of growth in the number of steps, $\\Theta(n\^2)$, for two sets of size $n$.
+In designing a representation, one of the issues with which we should be concerned is efficiency. Intersecting two sets `set1` and `set2` also requires membership testing, but this time each element of `set1` must be tested for membership in `set2`, leading to a quadratic order of growth in the number of steps, $\Theta(n^2)$, for two sets of size $n$.
 
 ``` {.python}
 def intersect_set(set1, set2):
@@ -631,7 +630,7 @@ intersect_set(t, map_rlist(s, square))
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>Rlist(4, Rlist(1))</code></pre></div></html>
 
-When computing the union of two sets, we must be careful not to include any element twice. The `union_set` function also requires a linear number of membership tests, creating a process that also includes $\\Theta(n\^2)$ steps.
+When computing the union of two sets, we must be careful not to include any element twice. The `union_set` function also requires a linear number of membership tests, creating a process that also includes $\Theta(n^2)$ steps.
 
 ``` {.python}
 def union_set(set1, set2):
@@ -663,9 +662,9 @@ set_contains(s, 0)
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>False</code></pre></div></html>
 
-How many steps does this save? In the worst case, the item we are looking for may be the largest one in the set, so the number of steps is the same as for the unordered representation. On the other hand, if we search for items of many different sizes we can expect that sometimes we will be able to stop searching at a point near the beginning of the list and that other times we will still need to examine most of the list. On average we should expect to have to examine about half of the items in the set. Thus, the average number of steps required will be about $\\frac{n}{2}$. This is still $\\Theta(n)$ growth, but it does save us, on average, a factor of `2` in the number of steps over the previous implementation.
+How many steps does this save? In the worst case, the item we are looking for may be the largest one in the set, so the number of steps is the same as for the unordered representation. On the other hand, if we search for items of many different sizes we can expect that sometimes we will be able to stop searching at a point near the beginning of the list and that other times we will still need to examine most of the list. On average we should expect to have to examine about half of the items in the set. Thus, the average number of steps required will be about $\frac{n}{2}$. This is still $\Theta(n)$ growth, but it does save us, on average, a factor of `2` in the number of steps over the previous implementation.
 
-We can obtain a more impressive speedup by re-implementing `intersect_set`. In the unordered representation, this operation required $\\Theta(n\^2)$ steps because we performed a complete scan of `set2` for each element of `set1`. But with the ordered representation, we can use a more clever method. We iterate through both sets simultaneously, tracking an element `e1` in `set1` and `e2` in `set2`. When `e1` and `e2` are equal, we include that element in the intersection.
+We can obtain a more impressive speedup by re-implementing `intersect_set`. In the unordered representation, this operation required $\Theta(n^2)$ steps because we performed a complete scan of `set2` for each element of `set1`. But with the ordered representation, we can use a more clever method. We iterate through both sets simultaneously, tracking an element `e1` in `set1` and `e2` in `set2`. When `e1` and `e2` are equal, we include that element in the intersection.
 
 Suppose, however, that `e1` is less than `e2`. Since `e2` is smaller than the remaining elements of `set2`, we can immediately conclude that `e1` cannot appear anywhere in the remainder of `set2` and hence is not in the intersection. Thus, we no longer need to consider `e1`; we discard it and proceed to the next element of `set1`. Similar logic advances through the elements of `set2` when `e2 < e1`. Here is the function:
 
@@ -687,7 +686,7 @@ intersect_set(s, s.rest)
 ```
 <html><div class="codeparent python"><pre class="stdout"><code>Rlist(2, Rlist(3))</code></pre></div></html>
 
-To estimate the number of steps required by this process, observe that in each step we shrink the size of at least one of the sets. Thus, the number of steps required is at most the sum of the sizes of `set1` and `set2`, rather than the product of the sizes, as with the unordered representation. This is $\\Theta(n)$ growth rather than $\\Theta(n\^2)$ -- a considerable speedup, even for sets of moderate size. For example, the intersection of two sets of size `100` will take around `200` steps, rather than `10,000` for the unordered representation.
+To estimate the number of steps required by this process, observe that in each step we shrink the size of at least one of the sets. Thus, the number of steps required is at most the sum of the sizes of `set1` and `set2`, rather than the product of the sizes, as with the unordered representation. This is $\Theta(n)$ growth rather than $\Theta(n^2)$ -- a considerable speedup, even for sets of moderate size. For example, the intersection of two sets of size `100` will take around `200` steps, rather than `10,000` for the unordered representation.
 
 Adjunction and union for sets represented as ordered sequences can also be computed in linear time. These implementations are left as an exercise.
 
@@ -695,7 +694,7 @@ Adjunction and union for sets represented as ordered sequences can also be compu
 
 ![](img/set_trees.png)
 
-The advantage of the tree representation is this: Suppose we want to check whether a value `v` is contained in a set. We begin by comparing `v` with `entry`. If `v` is less than this, we know that we need only search the `left` subtree; if `v` is greater, we need only search the `right` subtree. Now, if the tree is "balanced," each of these subtrees will be about half the size of the original. Thus, in one step we have reduced the problem of searching a tree of size $n$ to searching a tree of size $\\frac{n}{2}$. Since the size of the tree is halved at each step, we should expect that the number of steps needed to search a tree grows as $\\Theta(\\log n)$. For large sets, this will be a significant speedup over the previous representations. This `set_contains` function exploits the ordering structure of the tree-structured set.
+The advantage of the tree representation is this: Suppose we want to check whether a value `v` is contained in a set. We begin by comparing `v` with `entry`. If `v` is less than this, we know that we need only search the `left` subtree; if `v` is greater, we need only search the `right` subtree. Now, if the tree is "balanced," each of these subtrees will be about half the size of the original. Thus, in one step we have reduced the problem of searching a tree of size $n$ to searching a tree of size $\frac{n}{2}$. Since the size of the tree is halved at each step, we should expect that the number of steps needed to search a tree grows as $\Theta(\log n)$. For large sets, this will be a significant speedup over the previous representations. This `set_contains` function exploits the ordering structure of the tree-structured set.
 
 ``` {.python}
 def set_contains(s, v):
@@ -709,7 +708,7 @@ def set_contains(s, v):
         return set_contains(s.left, v)
 ```
 
-Adjoining an item to a set is implemented similarly and also requires $\\Theta(\\log n)$ steps. To adjoin a value `v`, we compare `v` with `entry` to determine whether `v` should be added to the `right` or to the `left` branch, and having adjoined `v` to the appropriate branch we piece this newly constructed branch together with the original `entry` and the other branch. If `v` is equal to the `entry`, we just return the node. If we are asked to adjoin `v` to an empty tree, we generate a `Tree` that has `v` as the `entry` and empty `right` and `left` branches. Here is the function:
+Adjoining an item to a set is implemented similarly and also requires $\Theta(\log n)$ steps. To adjoin a value `v`, we compare `v` with `entry` to determine whether `v` should be added to the `right` or to the `left` branch, and having adjoined `v` to the appropriate branch we piece this newly constructed branch together with the original `entry` and the other branch. If `v` is equal to the `entry`, we just return the node. If we are asked to adjoin `v` to an empty tree, we generate a `Tree` that has `v` as the `entry` and empty `right` and `left` branches. Here is the function:
 
 ``` {.python}
 def adjoin_set(s, v):
@@ -855,7 +854,7 @@ def find_root(f, guess=1):
         return e.last_guess
 ```
 
-Consider applying `find_root` to find the zero of the function $2x\^2 + \\sqrt{x}$. This function has a zero at `0`, but evaluating it on any negative number will raise a `ValueError`. Our Chapter 1 implementation of Newton's Method would raise that error and fail to return any guess of the zero. Our revised implementation returns the last guess found before the error.
+Consider applying `find_root` to find the zero of the function $2x^2 + \sqrt{x}$. This function has a zero at `0`, but evaluating it on any negative number will raise a `ValueError`. Our Chapter 1 implementation of Newton's Method would raise that error and fail to return any guess of the zero. Our revised implementation returns the last guess found before the error.
 
 ``` {.python}
 from math import sqrt

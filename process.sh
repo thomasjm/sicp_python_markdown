@@ -27,11 +27,19 @@ sed -i.old '1s;^;\n[[table-of-contents]]\n\n;' $OUT
 # Remove links from headers
 perl -i -pe 's/^(#+) \[([\d\.]+)[^\x00-\x7F]*(.+)\]\(.*\)/\1 \2 \3/g' $OUT
 
-# Fix up maths
-perl -i -pe 's/\\\\\(/\$/g' $OUT
-perl -i -pe 's/\\\\\)/\$/g' $OUT
-perl -i -pe 's/\\\\\\\[/\$\$/g' $OUT
-perl -i -pe 's/\\\\\\\]/\$\$\n/g' $OUT
-
 # Fix up code blocks
 ./deindent_codeblocks.py $OUT $OUT
+
+# Fix up math (convert to dollar signs and un-escape stuff)
+./fixup_math.py $OUT $OUT
+
+# Make sure MathJax block maths are on their own lines
+# perl -i -pe 'BEGIN {undef $/;} s/(\$\$[^\$]+\$\$)/\n\n$1\n\n/sgm' $OUT
+perl -i -pe 'BEGIN {undef $/;} s/(\$\$[^\$]+\$\$)/\n\n$1\n\n/sgm' $OUT
+# We might have over-spaced, some, so fix this
+# Remove extra newlines at the end
+perl -i -pe 'BEGIN {undef $/;} s/(\$\$[^\$]+\$\$)\n\n\n\n/$1\n\n/sgm' $OUT
+perl -i -pe 'BEGIN {undef $/;} s/(\$\$[^\$]+\$\$)\n\n\n/$1\n\n/sgm' $OUT
+# Remove extra newlines at the beginning
+perl -i -pe 'BEGIN {undef $/;} s/\n\n\n\n(\$\$[^\$]+\$\$)/\n\n$1/sgm' $OUT
+perl -i -pe 'BEGIN {undef $/;} s/\n\n\n(\$\$[^\$]+\$\$)/\n\n$1/sgm' $OUT
