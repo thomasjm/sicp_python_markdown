@@ -9,7 +9,6 @@ with open(sys.argv[1], "r") as input:
 newLines = []
 
 def tryReadIndentedBlock(codeLines, i, linesToReturn):
-    print("codeLines: ", codeLines)
     if codeLines[i].startswith(">>> "):
         while i < len(codeLines) and (codeLines[i].startswith(">>> ") or codeLines[i].startswith("    ") or codeLines[i] == "\n"):
             if codeLines[i] == "\n":
@@ -47,7 +46,6 @@ def transformCodeLines(codeLines, startLine, endLine):
     i = 0
     while i < len(codeLines):
         i = tryReadIndentedBlock(codeLines, i, linesToReturn)
-        print("Lines to return: ", linesToReturn)
 
         if i < len(codeLines):
             j = tryReadOutput(codeLines, i, linesToReturn)

@@ -43,3 +43,28 @@ perl -i -pe 'BEGIN {undef $/;} s/(\$\$[^\$]+\$\$)\n\n\n/$1\n\n/sgm' $OUT
 # Remove extra newlines at the beginning
 perl -i -pe 'BEGIN {undef $/;} s/\n\n\n\n(\$\$[^\$]+\$\$)/\n\n$1/sgm' $OUT
 perl -i -pe 'BEGIN {undef $/;} s/\n\n\n(\$\$[^\$]+\$\$)/\n\n$1/sgm' $OUT
+
+
+# Split into sub-sections
+chapter=$(echo $FILE | sed -rn 's/[^[:digit:]]*([[:digit:]]+)[^[:digit:]]*/\1/p')
+base=$(echo $OUT | cut -f 1 -d '.')
+i="1"
+cp $OUT ${base}.${i}.md;
+number_re='^[0-9]+$'
+while true; do
+    offset=$(cat ${base}.${i}.md | grep "# $chapter.$[$i+1]" -m 1 -b | sed 's/:.*//')
+
+    if ! [[ $offset =~ $number_re ]] ; then
+        break
+    fi
+
+    echo "" > ${base}.$[$i+1].md
+    echo "[[table-of-contents]]" >> ${base}.$[$i+1].md
+    cat ${base}.${i}.md | tail -c +$offset >> ${base}.$[$i+1].md
+    cat ${base}.${i}.md | head -c +$offset > tmp.md
+    cp tmp.md ${base}.${i}.md
+
+    i=$[$i+1]
+done
+rm $OUT
+rm -f $OUT.old
