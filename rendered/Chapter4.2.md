@@ -63,7 +63,7 @@ Message protocols are not particular programs or software libraries. Instead, th
 
 When you type in a URL into your web browser, say <http://en.wikipedia.org/wiki/UC_Berkeley> , you are in fact telling your browser that it must request the page "wiki/UC\_Berkeley" from the server called "en.wikipedia.org" using the "http" protocol. The sender of the message is your computer, the recipient is en.wikipedia.org, and the format of the message content is:
 
-``` {}
+```
 GET /wiki/UC_Berkeley HTTP/1.1
 ```
 
@@ -71,7 +71,7 @@ The first word is the type of the request, the next word is the resource that is
 
 The server sends back a reply. This time, the sender is en.wikipedia.org, the recipient is your computer, and the format of the message content is a header, followed by data:
 
-``` {}
+```
 HTTP/1.1 200 OK
 Date: Mon, 23 May 2011 22:38:34 GMT
 Server: Apache/1.3.3.7 (Unix) (Red-Hat/Linux)
@@ -85,13 +85,13 @@ On the first line, the words "200 OK" mean that there were no errors. The subseq
 
 If you have typed in a wrong web address, or clicked on a broken link, you may have seen a message like this error:
 
-``` {}
+```
 404 Error File Not Found
 ```
 
 It means that the server sent back an HTTP header that started like this:
 
-``` {}
+```
 HTTP/1.1 404 Not Found
 ```
 

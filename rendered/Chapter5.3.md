@@ -21,13 +21,13 @@ In the previous section, we introduced generator functions, which use `yield` to
 
 Coroutines consume values using a `(yield)` statement as follows:
 
-``` {}
+```
 value = (yield)
 ```
 
 With this syntax, execution pauses at this statement until the object's `send` method is invoked with an argument:
 
-``` {}
+```
 coroutine.send(data)
 ```
 

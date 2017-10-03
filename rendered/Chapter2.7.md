@@ -15,7 +15,7 @@ String values provide a fundamental medium for communicating information among h
 
 Python stipulates that all objects should produce two different string representations: one that is human-interpretable text and one that is a Python-interpretable expression. The constructor function for strings, `str`, returns a human-readable string. Where possible, the `repr` function returns a Python expression that evaluates to an equal object. The docstring for *repr* explains this property:
 
-``` {}
+```
 repr(object) -> string
 
 Return the canonical string representation of the object.

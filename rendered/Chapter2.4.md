@@ -505,7 +505,7 @@ Mutable data allows us to simulate systems with change, but also allows us to bu
 
 Computer programs are traditionally organized as one-directional computations, which perform operations on pre-specified arguments to produce desired outputs. On the other hand, we often want to model systems in terms of relations among quantities. For example, we previously considered the ideal gas law, which relates the pressure (`p`), volume (`v`), quantity (`n`), and temperature (`t`) of an ideal gas via Boltzmann's constant (`k`):
 
-``` {}
+```
 p * v = n * k * t
 ```
 
@@ -517,7 +517,7 @@ We also define a means of combination, so that primitive constraints can be comb
 
 For example, we know that the relationship between Fahrenheit and Celsius temperatures is:
 
-``` {}
+```
 9 * c = 5 * (f - 32)
 ```
 

@@ -15,7 +15,7 @@ These guidelines improve the readability of code, reduce the number of errors, a
 
 A function definition will often include documentation describing the function, called a *docstring*, which must be indented along with the function body. Docstrings are conventionally triple quoted. The first line describes the job of the function in one line. The following lines can describe arguments and clarify the behavior of the function:
 
-``` {}
+```
 >>> def pressure(v, t, n):
         """Compute the pressure in pascals of an ideal gas.
 
@@ -43,7 +43,7 @@ A consequence of defining general functions is the introduction of additional ar
 
 In Python, we can provide default values for the arguments of a function. When calling that function, arguments with default values are optional. If they are not provided, then the default value is bound to the formal parameter name instead. For instance, if an application commonly computes pressure for one mole of particles, this value can be provided as a default:
 
-``` {}
+```
 >>> k_b=1.38e-23  # Boltzmann's constant
 >>> def pressure(v, t, n=6.022e23):
         """Compute the pressure in pascals of an ideal gas.

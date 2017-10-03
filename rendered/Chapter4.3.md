@@ -15,7 +15,7 @@ In order to be able to work together, multiple processors need to be able to sha
 
 Sharing state between multiple processes creates problems that a single-process environments do not have. To understand why, let us look the following simple calculation:
 
-``` {}
+```
 x = 5
 x = square(x)
 x = x + 1
@@ -23,7 +23,7 @@ x = x + 1
 
 The value of x is time-dependent. At first, it is 5, then, some time later, it is 25, and then finally, it is 26. In a single-process environment, this time-dependence is is not a problem. The value of `x` at the end is always 26. The same cannot be said, however, if multiple processes exist. Suppose we executed the last 2 lines of above code in parallel: one processor executes `x = square(x)` and the other executes `x = x+1`. Each of these assignment statements involves looking up the value currently bound to `x`, then updating that binding with a new value. Let us assume that since `x` is shared, only a single process will read or write it at a time. Even so, the order of the reads and writes may vary. For instance, the example below shows a series of steps for each of two processes, `P1` and `P2`. Each step is a part of the evaluation process described briefly, and time proceeds from top to bottom:
 
-``` {}
+```
 P1                    P2
 read x: 5
                       read x: 5
@@ -34,7 +34,7 @@ write 25 -> x
 
 In this order, the final value of `x` is 6. If we do not coordinate the two processes, we could have another order with a different result:
 
-``` {}
+```
 P1                    P2
                       read x: 5
 read x: 5             calculate 5+1: 6
@@ -75,7 +75,7 @@ w(7)
 
 In parallel, however, there can be many different outcomes. One possibility appears below:
 
-``` {}
+```
 P1: w(8)                        P2: w(7)
 read balance: 10
 read amount: 8                  read balance: 10
@@ -138,13 +138,13 @@ def make_withdraw(balance):
 
 If we set up the same situation as before:
 
-``` {}
+```
 w = make_withdraw(10)
 ```
 
 And now execute `w(8)` and `w(7)` in parallel:
 
-``` {}
+```
 P1                                  P2
 acquire balance_lock: ok
 read balance: 10                    acquire balance_lock: wait
@@ -191,7 +191,7 @@ insert(9)
 
 The semaphore will work as intended if all the processes are programmed to only access the database if they can acquire the semaphore. Once *N=2* processes have acquired the semaphore, any other processes will wait until one of them has released the semaphore, and then try to acquire it before accessing the database:
 
-``` {}
+```
 P1                          P2                           P3
 acquire db_semaphore: ok    acquire db_semaphore: wait   acquire db_semaphore: ok
 read data: 7                wait                         read data: 9
@@ -220,7 +220,7 @@ We will assign first half (in this case the first row) to one thread, and the se
 
 In pseudocode, the computation is:
 
-``` {}
+```
 def do_step_1(index):
   A[index] = B[index] + C[index]
 
@@ -230,21 +230,21 @@ def do_step_2(index):
 
 Process 1 does:
 
-``` {}
+```
 do_step_1(1)
 do_step_2(1)
 ```
 
 And process 2 does:
 
-``` {}
+```
 do_step_1(2)
 do_step_2(2)
 ```
 
 If allowed to proceed without synchronization, the following inconsistencies could result:
 
-``` {}
+```
 P1                          P2
 read B1: 2
 read C1: 0
@@ -271,14 +271,14 @@ Since condition variables are usually associated with shared variables that dete
 
 In our example, the condition that must be met before advancing to the second step is that both processes must have finished the first step. We can keep track of the number of processes that have finished a step, and whether or not the condition has been met, by introducing the following 2 variables:
 
-``` {}
+```
 step1_finished = 0
 start_step2 = Condition()
 ```
 
 We will insert a `start_step_2().wait()` at the beginning of `do_step_2`. Each process will increment `step1_finished` when it finishes Step 1, but we will only signal the condition when `step_1_finished = 2`. The following pseudocode illustrates this:
 
-``` {}
+```
 step1_finished = 0
 start_step2 = Condition()
 
@@ -300,7 +300,7 @@ def do_step_2(index):
 
 With the introduction of this condition, both processes enter Step 2 together as follows::
 
-``` {}
+```
 P1                            P2
 read B1: 2
 read C1: 0
@@ -359,7 +359,7 @@ def anti_compute():
 
 If `compute()` and `anti_compute()` are executed in parallel, and happen to interleave with each other as follows:
 
-``` {}
+```
 P1                          P2
 acquire x_lock: ok          acquire y_lock: ok
 acquire y_lock: wait        acquire x_lock: wait

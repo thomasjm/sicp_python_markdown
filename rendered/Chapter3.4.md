@@ -23,7 +23,7 @@ When an exception is raised, no further statements in the current block of code 
 
 **Handling exceptions.** An exception can be handled by an enclosing `try` statement. A `try` statement consists of multiple clauses; the first begins with `try` and the rest begin with `except`:
 
-``` {}
+```
 try:
     <try suite>
 except <exception class> as <name>:

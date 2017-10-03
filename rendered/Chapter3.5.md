@@ -13,7 +13,7 @@ We now embark on a tour of the technology by which languages are established in 
 
 Our first new language is Calculator, an expression language for the arithmetic operations of addition, subtraction, multiplication, and division. Calculator shares Python's call expression syntax, but its operators are more flexible in the number of arguments they accept. For instance, the Calculator operators `add` and `mul` take an arbitrary number of arguments:
 
-``` {}
+```
 calc> add(1, 2, 3, 4)
 10
 calc> mul()
@@ -22,7 +22,7 @@ calc> mul()
 
 The `sub` operator has two behaviors. With one argument, it negates the argument. With at least two arguments, it subtracts all but the first from the first. The `div` operator has the semantics of Python's `operator.truediv` function and takes exactly two arguments:
 
-``` {}
+```
 calc> sub(10, 1, 2, 3)
 4
 calc> sub(3)
@@ -33,7 +33,7 @@ calc> div(15, 12)
 
 As in Python, call expression nesting provides a means of combination in the Calculator language. To condense notation, the names of operators can also be replaced by their standard symbols:
 
-``` {}
+```
 calc> sub(100, mul(7, add(8, div(-12, -3))))
 16.0
 calc> -(100, *(7, +(8, /(-12, -3))))
@@ -172,7 +172,7 @@ def read_eval_print_loop():
 
 This version of `read_eval_print_loop` contains all of the essential components of an interactive interface. An example session would look like:
 
-``` {}
+```
 calc> mul(1, 2, 3)
 6
 calc> add()
@@ -199,7 +199,7 @@ def read_eval_print_loop():
 
 This loop implementation reports errors without exiting the loop. Rather than exiting the program on an error, restarting the loop after an error message lets users revise their expressions. Upon importing the `readline` module, users can even recall their previous inputs using the up arrow or `Control-P`. The final result provides an informative error reporting interface:
 
-``` {}
+```
 calc> add
 SyntaxError: expected ( after add
 calc> div(5)

@@ -224,7 +224,7 @@ count(digits, 8)
 
 A `for` statement consists of a single clause with the form:
 
-``` {}
+```
 for <name> in <expression>:
     <suite>
 ```
@@ -303,7 +303,7 @@ total
 
 A common convention is to use a single underscore character for the name in the `for` header if the name is unused in the suite:
 
-``` {}
+```
 >>> for _ in range(3):
         print('Go Bears!')
 
@@ -483,7 +483,7 @@ Consider these two problems, which appear at first to be related only in their u
 
 These problems are related because they can be decomposed into simple operations that take sequences as input and yield sequences as output. Moreover, those operations are instances of general methods of computation over sequences. Let's consider the first problem. It can be decomposed into the following steps:
 
-``` {}
+```
  enumerate     map    filter  accumulate
 -----------    ---    ------  ----------
 naturals(n)    fib    iseven     sum
@@ -535,7 +535,7 @@ sum_even_fibs(20)
 
 Now, let's consider the second problem. It can also be decomposed as a pipeline of sequence operations that include `map` and `filter`:
 
-``` {}
+```
 enumerate  filter   map   accumulate
 ---------  ------  -----  ----------
   words    iscap   first    tuple
@@ -581,7 +581,7 @@ Expressing programs as sequence operations helps us design programs that are mod
 
 Generator expressions combine the ideas of filtering and mapping together into a single expression type with the following form:
 
-``` {}
+```
 <map expression> for <name> in <sequence expression> if <filter expression>
 ```
 

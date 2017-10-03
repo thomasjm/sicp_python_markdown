@@ -28,7 +28,7 @@ There are several implementations of Scheme available, which add on various addi
 
 **Using the Interpreter.** As with the Python interpreter\[\#\], expressions typed to the Stk interpreter are evaluated and printed by what is known as a *read-eval-print loop*:
 
-``` {}
+```
 >>> 3
 3
 >>> (- (/ (* (+ 3 7 10) (- 1000 8)) 992) 17)
@@ -55,7 +55,7 @@ fib
 > 
 > :   Symbols are a kind of string, but are denoted without quotation marks. The valid characters include letters, digits, and:
 > 
->     ``` {}
+>     ```
 >     !  $  %  &  *  /  :  <  = >  ?  ^  _  ~  +  -  .  @
 >     ```
 > 
@@ -67,7 +67,7 @@ fib
 > 
 >     A standard Scheme list consists either of the special empty list value (denoted ()), or of a pair that contains the first item of the list as its `car` and the rest of the list as its `cdr`. Thus, the list consisting of the integers 1, 2, and 3 would be represented:
 > 
->     ``` {}
+>     ```
 >     (1 . (2 . (3 . ())))
 >     ```
 > 
@@ -85,7 +85,7 @@ fib
 
 **Program Denotations** As with other versions of Lisp, Scheme's data values double as representations of programs. For example, the Scheme list:
 
-``` {}
+```
 (+ x (* 10 y))
 ```
 
@@ -100,7 +100,7 @@ can, depending on how it is used, represent either a 3-item list (whose last ite
 
 For example:
 
-``` {}
+```
 >>> 5              ; A literal.
 5
 >>> (define x 3)   ; A special form that creates a binding for symbol
@@ -117,7 +117,7 @@ First, a couple of common constructs used in the forms:
 > 
 > :   Simply a sequence of expressions, such as:
 > 
->     ``` {}
+>     ```
 >     (+ 3 2) x (* y z)
 >     ```
 > 
@@ -145,7 +145,7 @@ Here is a representative subset of the special forms:
 > 
 > :   This evaluates to a function. *ARGUMENTS* is usually a list (possibly empty) of distinct symbols that gives names to the arguments of the function, and indicates their number. It is also possible for *ARGUMENTS* to have the form:
 > 
->     ``` {}
+>     ```
 >     (sym1 sym2 ... symn . symr)
 >     ```
 > 
@@ -358,7 +358,7 @@ A *derived construct* is one that can be translated into primitive constructs. T
 
 As a result, a sequence of internal function definitions can be mutually recursive, just as `def` statements in Python that are nested inside a function can be:
 
-``` {}
+```
 >>> (define (hard-even? x)     ;; An outer-level definition
 ...      (define (even? n)      ;; Inner definition
 ...          (if (zero? n)
@@ -377,7 +377,7 @@ As a result, a sequence of internal function definitions can be mutually recursi
 
 > -   **Arithmetic:** Scheme provides the standard arithmetic operators, many with familiar denotations, although the operators uniformly appear before the operands:
 > 
->     ``` {}
+>     ```
 >     >>> ; Semicolons introduce one-line comments.
 >     >>> ; Compute (3+7+10)*(1000-8) // 992 - 17
 >     >>> (- (quotient (* (+ 3 7 10) (- 1000 8))) 17)
@@ -407,7 +407,7 @@ As a result, a sequence of internal function definitions can be mutually recursi
 > 
 > -   **Lists and Pairs:** A large number of operations deal with pairs and lists (which again are built of pairs and empty lists):
 > 
->     ``` {}
+>     ```
 >     >>> (cons 'a 'b)
 >     (a . b)
 >     >>> (list 'a 'b)
@@ -454,7 +454,7 @@ As a result, a sequence of internal function definitions can be mutually recursi
 > 
 > -   **Equivalence:** The `=` operation is for numbers. For general equality of values, Scheme distinguishes `eq?` (like Python's `is`), `eqv?` (similar, but is the same as `=` on numbers), and `equal?` (compares list structures and strings for content). Generally, we use `eqv?` or `equal?`, except in cases such as comparing symbols, booleans, or the null list:
 > 
->     ``` {}
+>     ```
 >     >>> (eqv? 'a 'a)
 >     #t
 >     >>> (eqv? 'a 'b)
@@ -469,7 +469,7 @@ As a result, a sequence of internal function definitions can be mutually recursi
 > 
 > -   **Types:** Each type of value satisfies exactly one of the basic type predicates:
 > 
->     ``` {}
+>     ```
 >     >>> (boolean? #f)
 >     #t
 >     >>> (integer? 3)
@@ -486,7 +486,7 @@ As a result, a sequence of internal function definitions can be mutually recursi
 > 
 > -   **Input and Output:** Scheme interpreters typically run a read-eval-print loop, but one can also output things under explicit control of the program, using the same functions the interpreter does internally:
 > 
->     ``` {}
+>     ```
 >     >>> (begin (display 'a) (display 'b) (newline))
 >     ab
 >     ```
@@ -499,7 +499,7 @@ As a result, a sequence of internal function definitions can be mutually recursi
 > 
 >     For input, the `(read)` function reads a Scheme expression from the current "port". It does *not* interpret the expression, but rather reads it as data:
 > 
->     ``` {}
+>     ```
 >     >>> (read)
 >     >>> (a b c)
 >     (a b c)
@@ -527,7 +527,7 @@ As a result, a sequence of internal function definitions can be mutually recursi
 > 
 >     The following function is not in [Revised(4) Scheme](http://people.csail.mit.edu/jaffer/r4rs_toc.html), but is present in our versions of the interpreter (*warning:* a non-standard procedure that is not defined this way in later versions of Scheme):
 > 
->     ``` {}
+>     ```
 >     >>> (eval '(+ 1 2))
 >     3
 >     ```
@@ -554,7 +554,7 @@ You may want to download a fully implemented Logo interpreter at this point to e
 
 **Fundamentals.** Logo is designed to be conversational. The prompt of its read-eval loop is a question mark (`?`), evoking the question, "what shall I do next?" A natural starting point is to ask Logo to `print` a number:
 
-``` {}
+```
 ? print 5
 5
 ```
@@ -563,7 +563,7 @@ The Logo language employs an unusual call expression syntax that has no delimiti
 
 The most common data type in Logo is a *word*, a string without spaces. Words serve as general-purpose values that can represent numbers, names, and boolean values. Tokens that can be interpreted as numbers or boolean values, such as `5`, evaluate to words directly. On the other hand, names such as `five` are interpreted as procedure calls:
 
-``` {}
+```
 ? 5
 You do not say what to do with 5.
 ? five
@@ -574,7 +574,7 @@ While `5` and `five` are interpreted differently, the Logo read-eval loop compla
 
 A line of Logo can contain multiple expressions in sequence. The interpreter will evaluate each one in turn. It will complain if any top-level expression in a line does not evaluate to `None`. Once an error occurs, the rest of the line is ignored:
 
-``` {}
+```
 ? print 1 print 2
 1
 2
@@ -584,7 +584,7 @@ You do not say what to do with 3.
 
 Logo call expressions can be nested. In the version of Logo we will implement, each procedure takes a fixed number of arguments. Therefore, the Logo interpreter is able to determine uniquely when the operands of a nested call expression are complete. Consider, for instance, two procedures `sum` and `difference` that output the sum and difference of their two arguments, respectively:
 
-``` {}
+```
 ? print sum 10 difference 7 3
 14
 ```
@@ -593,7 +593,7 @@ We can see from this nesting example that the parentheses and commas that delimi
 
 Logo also supports infix operators, such as `+` and `*`. The precedence of these operators is resolved according to the standard rules of algebra; multiplication and division take precedence over addition and subtraction:
 
-``` {}
+```
 ? 2 + 3 * 4
 14
 ```
@@ -602,21 +602,21 @@ The details of how to implement operator precedence and infix operators to form 
 
 **Quotation.** A bare name is interpreted as the beginning of a call expression, but we would also like to reference words as data. A token that begins with a double quote is interpreted as a word literal. Note that word literals do not have a trailing quotation mark in Logo:
 
-``` {}
+```
 ? print "hello
 hello
 ```
 
 In dialects of Lisp (and Logo is such a dialect), any expression that is not evaluated is said to be *quoted*. This notion of quotation is derived from a classic philosophical distinction between a thing, such as a dog, which runs around and barks, and the word "dog" that is a linguistic construct for designating such things. When we use "dog" in quotation marks, we do not refer to some dog in particular but instead to a word. In language, quotation allow us to talk about language itself, and so it is in Logo. We can refer to the procedure for `sum` by name without actually applying it by quoting it:
 
-``` {}
+```
 ? print "sum
 sum
 ```
 
 In addition to words, Logo includes the *sentence* type, interchangeably called a list. Sentences are enclosed in square brackets. The `print` procedure does not show brackets to preserve the conversational style of Logo, but the square brackets can be printed in the output by using the `show` procedure:
 
-``` {}
+```
 ? print [hello world]
 hello world
 ? show [hello world]
@@ -625,7 +625,7 @@ hello world
 
 Sentences can be constructed using three different two-argument procedures. The `sentence` procedure combines its arguments into a sentence. It is polymorphic; it places its arguments into a new sentence if they are words or concatenates its arguments if they are sentences. The result is always a sentence:
 
-``` {}
+```
 ? show sentence 1 2
 [1 2]
 ? show sentence 1 [2 3]
@@ -638,7 +638,7 @@ Sentences can be constructed using three different two-argument procedures. The 
 
 The `list` procedure creates a sentence from two elements, which allows the user to create hierarchical data structures:
 
-``` {}
+```
 ? show list 1 2
 [1 2]
 ? show list 1 [2 3]
@@ -651,7 +651,7 @@ The `list` procedure creates a sentence from two elements, which allows the user
 
 Finally, the `fput` procedure creates a list from a first element and the rest of the list, as did the `Rlist` Python constructor from earlier in the chapter:
 
-``` {}
+```
 ? show fput 1 [2 3]
 [1 2 3]
 ? show fput [1 2] [3 4]
@@ -660,7 +660,7 @@ Finally, the `fput` procedure creates a list from a first element and the rest o
 
 Collectively, we can call `sentence`, `list`, and `fput` the *sentence constructors* in Logo. Deconstructing a sentence into its `first`, `last`, and rest (called `butfirst`) in Logo is straightforward as well. Hence, we also have a set of selector procedures for sentences:
 
-``` {}
+```
 ? print first [1 2 3]
 1
 ? print last [1 2 3]
@@ -671,21 +671,21 @@ Collectively, we can call `sentence`, `list`, and `fput` the *sentence construct
 
 **Expressions as Data.** The contents of a sentence is also quoted in the sense that it is not evaluated. Hence, we can print Logo expressions without evaluating them:
 
-``` {}
+```
 ? show [print sum 1 2]
 [print sum 1 2]
 ```
 
 The purpose of representing Logo expressions as sentences is typically not to print them out, but instead to evaluate them using the `run` procedure:
 
-``` {}
+```
 ? run [print sum 1 2]
 3
 ```
 
 Combining quotation, sentence constructors, and the `run` procedure, we arrive at a very general means of combination that builds Logo expressions on the fly and then evaluates them:
 
-``` {}
+```
 ? run sentence "print [sum 1 2]
 3
 ? print run sentence "sum sentence 10 run [difference 7 3]
@@ -700,7 +700,7 @@ The ability to represent code as data and later interpret it as part of the prog
 
 At any moment during the course of executing a Logo program, the Logo turtle has a position and heading on the canvas. Single-argument procedures such as `forward` and `right` change the position and heading of the turtle. Common procedures have abbreviations: `forward` can also be called as `fd`, etc. The nested expression below draws a star with a smaller star at each vertex:
 
-``` {}
+```
 ? repeat 5 [fd 100 repeat 5 [fd 20 rt 144] rt 144]
 ```
 
@@ -710,13 +710,13 @@ The full repertoire of Turtle procedures is also built into Python as the [turtl
 
 **Assignment.** Logo supports binding names to values. As in Python, a Logo environment consists of a sequence of frames, and each frame can have at most one value bound to a given name. In Logo, names are bound with the `make` procedure, which takes as arguments a name and a value:
 
-``` {}
+```
 ? make "x 2
 ```
 
 The first argument is the name `x`, rather than the output of applying the procedure `x`, and so it must be quoted. The values bound to names are retrieved by evaluating expressions that begin with a colon:
 
-``` {}
+```
 ? print :x
 2
 ```
@@ -732,7 +732,7 @@ This behavior contrasts sharply with the semantics of the Python assignment stat
 
 **Procedures.** Logo supports user-defined procedures using definitions that begin with the `to` keyword. Definitions are the final type of expression in Logo, along with call expressions, primitive expressions, and quoted expressions. The first line of a definition gives the name of the new procedure, followed by the formal parameters as variables. The lines that follow constitute the body of the procedure, which can span multiple lines and must end with a line that contains only the token `end`. The Logo read-eval loop prompts the user for procedure bodies with a `>` continuation symbol. Values are output from a user-defined procedure using the `output` procedure:
 
-``` {}
+```
 ? to double :x
 > output sum :x :x
 > end
@@ -744,7 +744,7 @@ Logo's application process for a user-defined procedure is similar to the proces
 
 A call to `output` has the same role in Logo as a `return` statement in Python: it halts the execution of the body of a procedure and returns a value. A Logo procedure can return no value at all by calling `stop`:
 
-``` {}
+```
 ? to count
 > print 1
 > print 2
@@ -758,7 +758,7 @@ A call to `output` has the same role in Logo as a `return` statement in Python: 
 
 **Scope.** Logo is a *dynamically scoped* language. A lexically scoped language such as Python does not allow the local names of one function to affect the evaluation of another function unless the second function was explicitly defined within the first. The formal parameters of two top-level functions are completely isolated. In a dynamically scoped language, there is no such isolation. When one function calls another function, the names bound in the local frame for the first are accessible in the body of the second:
 
-``` {}
+```
 ? to print_last_x
 > print :x
 > end
@@ -779,7 +779,7 @@ A dynamically scoped language has the advantage that its procedures may not need
 
 There is no conditional expression type in Logo; the procedures `if` and `ifelse` are applied using call expression evaluation rules. The first argument of `if` is a boolean word, either `True` or `False`. The second argument is not an output value, but instead a sentence that contains the line of Logo code to be evaluated if the first argument is `True`. An important consequence of this design is that the contents of the second argument is not evaluated at all unless it will be used:
 
-``` {}
+```
 ? 1/0
 div raised a ZeroDivisionError: division by zero
 ? to reciprocal :x
@@ -794,7 +794,7 @@ infinity
 
 Not only does the Logo conditional expression not require a special syntax, but it can in fact be implemented in terms of `word` and `run`. The primitive procedure `ifelse` takes three arguments: a boolean word, a sentence to be evaluated if that word is `True`, and a sentence to be evaluated if that word is `False`. By clever naming of the formal parameters, we can implement a user-defined procedure `ifelse2` with the same behavior:
 
-``` {}
+```
 ? to ifelse2 :predicate :True :False
 > output run run word ": :predicate
 > end
@@ -804,7 +804,7 @@ empty
 
 Recursive procedures do not require any special syntax, and they can be used with `run`, `sentence`, `first`, and `butfirst` to define general sequence operations on sentences. For instance, we can apply a procedure to an argument by building a two-element sentence and running it. The argument must be quoted if it is a word:
 
-``` {}
+```
 ? to apply_fn :fn :arg
 > output run list :fn ifelse word? :arg [word "" :arg] [:arg]
 > end
@@ -812,7 +812,7 @@ Recursive procedures do not require any special syntax, and they can be used wit
 
 Next, we can define a procedure for mapping a procedure `:fn` over the words in a sentence `:s` incrementally:
 
-``` {}
+```
 ? to map_fn :fn :s
 > if emptyp :s [output []]
 > output fput apply_fn :fn first :s map_fn :fn butfirst :s
@@ -823,7 +823,7 @@ Next, we can define a procedure for mapping a procedure `:fn` over the words in 
 
 The second line of the body of `map_fn` can also be written with parentheses to indicate the nested structure of the call expression. However, parentheses show where call expressions begin and end, rather than surrounding only the operands and not the operator:
 
-``` {}
+```
 > (output (fput (apply_fn :fn (first :s)) (map_fn :fn (butfirst :s))))
 ```
 
@@ -831,7 +831,7 @@ Parentheses are not necessary in Logo, but they often assist programmers in docu
 
 As a final example, Logo can express recursive drawings using its turtle graphics in a remarkably compact form. Sierpinski's triangle is a fractal that draws each triangle as three neighboring triangles that have vertexes at the midpoints of the legs of the triangle that contains them. It can be drawn to a finite recursive depth by this Logo program:
 
-``` {}
+```
 ? to triangle :exp
 > repeat 3 [run :exp lt 120]
 > end
@@ -848,7 +848,7 @@ As a final example, Logo can express recursive drawings using its turtle graphic
 
 The `triangle` procedure is a general method for repeating a drawing procedure three times with a left turn following each repetition. The `sierpinski` procedure takes a length and a recursive depth. It draws a plain triangle if the depth is `1`, and otherwise draws a triangle made up of calls to `leg`. The `leg` procedure draws a single leg of a recursive Sierpinski triangle by a recursive call to `sierpinski` that fills the first half of the length of the leg, then by moving the turtle to the next vertex. The procedures `up` and `down` stop the turtle from drawing as it moves by lifting its pen up and the placing it down again. The mutual recursion between `sierpinski` and `leg` yields this result:
 
-``` {}
+```
 ? sierpinski 400 6
 ```
 
@@ -970,7 +970,7 @@ def logo_make(symbol, val, env):
 
 With the addition of variables and the `make` primitive, our interpreter supports its first means of abstraction: binding names to values. In Logo, we can now replicate our first abstraction steps in Python from Chapter 1:
 
-``` {}
+```
 ? make "radius 10
 ? print 2 * :radius
 20
@@ -980,7 +980,7 @@ Assignment is only a limited form of abstraction. We have seen from the beginnin
 
 A definition is evaluated by creating a new `Procedure` instance that represents the user-defined procedure. Consider the following Logo procedure definition:
 
-``` {}
+```
 ? to factorial :n
 > output ifelse :n = 1 [1] [:n * factorial :n - 1]
 > end
@@ -996,7 +996,7 @@ The `logo_apply` function applies a `Procedure` instance to some arguments, whic
 
 The following example illustrates the list of frames and dynamic scoping rules that result from applying these two user-defined Logo procedures:
 
-``` {}
+```
 ? to f :x
 > make "z sum :x :y
 > end
@@ -1016,7 +1016,7 @@ The environment created from the evaluation of these expressions is divided betw
 
 In thinking about a program that evaluates Logo expressions, an analogy might be helpful. One operational view of the meaning of a program is that a program is a description of an abstract machine. For example, consider again this procedure to compute factorials:
 
-``` {}
+```
 ? to factorial :n
 > output ifelse :n = 1 [1] [:n * factorial :n - 1]
 > end

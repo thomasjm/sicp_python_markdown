@@ -81,7 +81,7 @@ pi_sum(100)
 
 These three functions clearly share a common underlying pattern. They are for the most part identical, differing only in name, the function of `k` used to compute the term to be added, and the function that provides the next value of `k`. We could generate each of the functions by filling in slots in the same template:
 
-``` {}
+```
 def <name>(n):
     total, k = 0, 1
     while k <= n:
@@ -337,7 +337,7 @@ def compose1(f,g):
 
 We can understand the structure of a `lambda` expression by constructing a corresponding English sentence:
 
-``` {}
+```
      lambda            x            :          f(g(x))
 "A function that    takes x    and returns     f(g(x))"
 ```

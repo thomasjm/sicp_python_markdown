@@ -63,7 +63,7 @@ As illustrated above, the behavior of a method can depend upon the changing attr
 
 User-defined classes are created by `class` statements, which consist of a single clause. A class statement defines the class name and a base class (discussed in the section on Inheritance), then includes a suite of statements to define the attributes of the class:
 
-``` {}
+```
 class <name>(<base class>):
     <suite>
 ```
@@ -190,7 +190,7 @@ The central idea in message passing was that data values should have behavior by
 
 **Dot expressions.** The code fragment `tom_account.deposit` is called a *dot expression*. A dot expression consists of an expression, a dot, and a name:
 
-``` {}
+```
 <expression> . <name>
 ```
 
@@ -294,7 +294,7 @@ jim_account.interest
 
 As we have seen, a dot expressions consist of an expression, a dot, and a name:
 
-``` {}
+```
 <expression> . <name>
 ```
 
@@ -493,7 +493,7 @@ But what about when the reference is ambiguous, such as the reference to the `wi
 
 For a simple "diamond" shape like this, Python resolves names from left to right, then upwards. In this example, Python checks for an attribute name in the following classes, in order, until an attribute with that name is found:
 
-``` {}
+```
 AsSeenOnTVAccount, CheckingAccount, SavingsAccount, Account, object
 ```
 

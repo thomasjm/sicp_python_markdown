@@ -153,7 +153,7 @@ In this diagram, the local frame points to its successor, the global frame. All 
 
 The body of `sum_squares` contains this call expression:
 
-``` {}
+```
    add     (  square(x)  ,  square(y)  )
  ________     _________     _________
 "operator"   "operand 0"   "operand 1"

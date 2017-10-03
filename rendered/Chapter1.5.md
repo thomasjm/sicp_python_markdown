@@ -40,7 +40,7 @@ At its highest level, the Python interpreter's job is to execute programs, compo
 
 In general, Python code is a sequence of statements. A simple statement is a single line that doesn't end in a colon. A compound statement is so called because it is composed of other statements (simple and compound). Compound statements typically span multiple lines and start with a one-line header ending in a colon, which identifies the type of statement. Together, a header and an indented suite of statements is called a clause. A compound statement consists of one or more clauses:
 
-``` {}
+```
 <header>:
     <statement>
     <statement>
@@ -129,7 +129,7 @@ This implementation of `absolute_value` raises several important issues.
 
 **Conditional statements**. A conditional statement in Python consist of a series of headers and suites: a required `if` clause, an optional sequence of `elif` clauses, and finally an optional `else` clause:
 
-``` {}
+```
 if <expression>:
     <suite>
 elif <expression>:
@@ -211,7 +211,7 @@ In addition to selecting which statements to execute, control statements are use
 
 Consider the sequence of Fibonacci numbers, in which each number is the sum of the preceding two:
 
-``` {}
+```
 0, 1, 1, 2, 3, 5, 8, 13, 21, ...
 ```
 
@@ -235,7 +235,7 @@ fib(8)
 
 Remember that commas seperate multiple names and values in an assignment statement. The line:
 
-``` {}
+```
 pred, curr = curr, pred + curr
 ```
 
@@ -243,7 +243,7 @@ has the effect of rebinding the name `pred` to the value of `curr`, and simultan
 
 A `while` clause contains a header expression followed by a suite:
 
-``` {}
+```
 while <expression>:
     <suite>
 ```
@@ -288,7 +288,7 @@ When writing Python in files, rather than directly into the interpreter, tests s
 
 **Doctests.** Python provides a convenient method for placing simple tests directly in the docstring of a function. The first line of a docstring should contain a one-line description of the function, followed by a blank line. A detailed description of arguments and behavior may follow. In addition, the docstring may include a sample interactive session that calls the function:
 
-``` {}
+```
 >>> def sum_naturals(n):
         """Return the sum of the first n natural numbers
 
@@ -312,7 +312,7 @@ run_docstring_examples(sum_naturals, globals())
 
 When writing Python in files, all doctests in a file can be run by starting Python with the doctest command line option:
 
-``` {}
+```
 python3 -m doctest <python_source_file>
 ```
 
