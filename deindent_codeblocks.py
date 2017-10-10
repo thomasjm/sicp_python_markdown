@@ -10,12 +10,13 @@ newLines = []
 
 def tryReadIndentedBlock(codeLines, i, linesToReturn):
     if codeLines[i].startswith(">>> "):
-        while i < len(codeLines) and (codeLines[i].startswith(">>> ") or codeLines[i].startswith("    ") or codeLines[i] == "\n"):
-            if codeLines[i] == "\n":
-                linesToReturn.append(codeLines[i])
+        while i < len(codeLines) and (codeLines[i].startswith(">>> ") or codeLines[i].startswith("    ") or codeLines[i].strip() == ""):
+            if codeLines[i].strip() == "":
+                linesToReturn.append("\n")
             else:
                 linesToReturn.append(codeLines[i][4:])
             i += 1
+
     return i
 
 def makeOutput(text):
@@ -25,7 +26,7 @@ def tryReadOutput(codeLines, i, linesToReturn):
     stdout = []
     gotSomething = False
 
-    while i < len(codeLines) and not (codeLines[i].startswith(">>> ") or codeLines[i].startswith("    ")):
+    while i < len(codeLines) and not (codeLines[i].startswith(">>> ")):
         gotSomething = True
         stdout.append(codeLines[i])
         i += 1

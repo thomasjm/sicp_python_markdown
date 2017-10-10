@@ -43,30 +43,28 @@ The idea of being able to define a function in terms of itself may be disturbing
 The steps of the Python evaluation procedures that produce this result are:
 
 1.  The `def` statement for `pig_latin` is executed, which
+2.  1.  Creates a new *pig\_latin* function object with the stated body, and
+    2.  Binds the name `pig_latin` to that function in the current (global) frame
 
-> 1.  Creates a new *pig\_latin* function object with the stated body, and
-> 2.  Binds the name `pig_latin` to that function in the current (global) frame
-
+&nbsp;
 2.  The `def` statement for `starts_with_a_vowel` is executed similarly
 3.  The call expression `pig_latin('pun')` is evaluated by
+4.  1.  Evaluating the operator and operand sub-expressions by
+    2.  1.  Looking up the name `pig_latin` that is bound to the *pig\_latin* function
+        2.  Evaluating the operand string literal to the string object `'pun'`
 
-> 1.  Evaluating the operator and operand sub-expressions by
-> 
-> > 1.  Looking up the name `pig_latin` that is bound to the *pig\_latin* function
-> > 2.  Evaluating the operand string literal to the string object `'pun'`
-> 
-> 2.  Applying the function *pig\_latin* to the argument `'pun'` by
-> 
-> > 1.  Adding a local frame that extends the global frame
-> > 2.  Binding the formal parameter `w` to the argument `'pun'` in that frame
-> > 3.  Executing the body of *pig\_latin* in the environment that starts with that frame:
-> >
-> > > 1.  The initial conditional statement has no effect, because the header expression evaluates to `False`.
-> > > 2.  The final return expression `pig_latin(w[1:] + w[0])` is evaluated by
-> > >
-> > > > 1.  Looking up the name `pig_latin` that is bound to the *pig\_latin* function
-> > > > 2.  Evaluating the operand expression to the string object `'unp'`
-> > > > 3.  Applying *pig\_latin* to the argument `'unp'`, which returns the desired result from the suite of the conditional statement in the body of *pig\_latin*.
+    &nbsp;
+    2.  Applying the function *pig\_latin* to the argument `'pun'` by
+
+    &nbsp;
+    1.  Adding a local frame that extends the global frame
+    2.  Binding the formal parameter `w` to the argument `'pun'` in that frame
+    3.  Executing the body of *pig\_latin* in the environment that starts with that frame:
+    4.  1.  The initial conditional statement has no effect, because the header expression evaluates to `False`.
+        2.  The final return expression `pig_latin(w[1:] + w[0])` is evaluated by
+        3.  1.  Looking up the name `pig_latin` that is bound to the *pig\_latin* function
+            2.  Evaluating the operand expression to the string object `'unp'`
+            3.  Applying *pig\_latin* to the argument `'unp'`, which returns the desired result from the suite of the conditional statement in the body of *pig\_latin*.
 
 As this example illustrates, a recursive function applies correctly, despite its circular character. The *pig\_latin* function is applied twice, but with a different argument each time. Although the second call comes from the body of *pig\_latin* itself, looking up that function by name succeeds because the name `pig_latin` is bound in the environment before its body is executed.
 

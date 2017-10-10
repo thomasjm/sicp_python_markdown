@@ -144,12 +144,12 @@
         if starts_with_a_vowel(w):
             return w + 'ay'
         return pig_latin(w[1:] + w[0])
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; def starts_with_a_vowel(w):
         &quot;&quot;&quot;Return whether w begins with a vowel.&quot;&quot;&quot;
         return w[0].lower() in 'aeiou'
-                    </pre>
+</pre>
                     <p>The idea behind this definition is that the Pig Latin variant of a string that
                         starts with a consonant is the same as the Pig Latin variant of another string:
                         that which is created by moving the first letter to the end.  Hence, the Pig
@@ -164,7 +164,7 @@
                     <pre class="doctest-block">
 &gt;&gt;&gt; pig_latin('pun')
 'unpay'
-                    </pre>
+</pre>
                     <p>The idea of being able to define a function in terms of itself may be
                         disturbing; it may seem unclear how such a &quot;circular&quot; definition could make
                         sense at all, much less specify a well-defined process to be carried out by a
@@ -178,60 +178,59 @@
                     <p>The steps of the Python evaluation procedures that produce this result are:</p>
                     <ol class="arabic simple">
                         <li>The <tt class="docutils literal">def</tt> statement for <tt class="docutils literal">pig_latin</tt> is executed, which</li>
+                        <li>
+                            <ol class="upperalpha simple">
+                                <li>Creates a new <em>pig_latin</em> function object with the stated body, and</li>
+                                <li>Binds the name <tt class="docutils literal">pig_latin</tt> to that function in the current (global)
+                                    frame</li>
+                            </ol>
+                        </li>
                     </ol>
-                    <blockquote>
-                        <ol class="upperalpha simple">
-                            <li>Creates a new <em>pig_latin</em> function object with the stated body, and</li>
-                            <li>Binds the name <tt class="docutils literal">pig_latin</tt> to that function in the current (global)
-                                frame</li>
-                        </ol>
-                    </blockquote>
                     <ol class="arabic simple" start="2">
                         <li>The <tt class="docutils literal">def</tt> statement for <tt class="docutils literal">starts_with_a_vowel</tt> is executed similarly</li>
                         <li>The call expression <tt class="docutils literal"><span class="pre">pig_latin('pun')</span></tt> is evaluated by</li>
-                    </ol>
-                    <blockquote>
-                        <ol class="upperalpha simple">
-                            <li>Evaluating the operator and operand sub-expressions by</li>
-                        </ol>
-                        <blockquote>
-                            <ol class="upperroman simple">
-                                <li>Looking up the name <tt class="docutils literal">pig_latin</tt> that is bound to the <em>pig_latin</em>
-                                    function</li>
-                                <li>Evaluating the operand string literal to the string object <tt class="docutils literal">'pun'</tt></li>
+                        <li>
+                            <ol class="upperalpha simple">
+                                <li>Evaluating the operator and operand sub-expressions by</li>
+                                <li>
+                                    <ol class="upperroman simple">
+                                        <li>Looking up the name <tt class="docutils literal">pig_latin</tt> that is bound to the <em>pig_latin</em>
+                                            function</li>
+                                        <li>Evaluating the operand string literal to the string object <tt class="docutils literal">'pun'</tt></li>
+                                    </ol>
+                                </li>
                             </ol>
-                        </blockquote>
-                        <ol class="upperalpha simple" start="2">
-                            <li>Applying the function <em>pig_latin</em> to the argument <tt class="docutils literal">'pun'</tt> by</li>
-                        </ol>
-                        <blockquote>
+                            <ol class="upperalpha simple" start="2">
+                                <li>Applying the function <em>pig_latin</em> to the argument <tt class="docutils literal">'pun'</tt> by</li>
+                            </ol>
+
                             <ol class="upperroman simple">
                                 <li>Adding a local frame that extends the global frame</li>
                                 <li>Binding the formal parameter <tt class="docutils literal">w</tt> to the argument <tt class="docutils literal">'pun'</tt> in that
                                     frame</li>
                                 <li>Executing the body of <em>pig_latin</em> in the environment that starts with
                                     that frame:</li>
-                            </ol>
-                            <blockquote>
-                                <ol class="loweralpha simple">
-                                    <li>The initial conditional statement has no effect, because the header
-                                        expression evaluates to <tt class="docutils literal">False</tt>.</li>
-                                    <li>The final return expression <tt class="docutils literal">pig_latin(w[1:] + w[0])</tt> is evaluated
-                                        by</li>
-                                </ol>
-                                <blockquote>
-                                    <ol class="arabic simple">
-                                        <li>Looking up the name <tt class="docutils literal">pig_latin</tt> that is bound to the
-                                            <em>pig_latin</em> function</li>
-                                        <li>Evaluating the operand expression to the string object <tt class="docutils literal">'unp'</tt></li>
-                                        <li>Applying <em>pig_latin</em> to the argument <tt class="docutils literal">'unp'</tt>, which returns the
-                                            desired result from the suite of the conditional statement in the
-                                            body of <em>pig_latin</em>.</li>
+                                <li>
+                                    <ol class="loweralpha simple">
+                                        <li>The initial conditional statement has no effect, because the header
+                                            expression evaluates to <tt class="docutils literal">False</tt>.</li>
+                                        <li>The final return expression <tt class="docutils literal">pig_latin(w[1:] + w[0])</tt> is evaluated
+                                            by</li>
+                                        <li>
+                                            <ol class="arabic simple">
+                                                <li>Looking up the name <tt class="docutils literal">pig_latin</tt> that is bound to the
+                                                    <em>pig_latin</em> function</li>
+                                                <li>Evaluating the operand expression to the string object <tt class="docutils literal">'unp'</tt></li>
+                                                <li>Applying <em>pig_latin</em> to the argument <tt class="docutils literal">'unp'</tt>, which returns the
+                                                    desired result from the suite of the conditional statement in the
+                                                    body of <em>pig_latin</em>.</li>
+                                            </ol>
+                                        </li>
                                     </ol>
-                                </blockquote>
-                            </blockquote>
-                        </blockquote>
-                    </blockquote>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
                     <p>As this example illustrates, a recursive function applies correctly, despite
                         its circular character.  The <em>pig_latin</em> function is applied twice, but with a
                         different argument each time.  Although the second call comes from the body of
@@ -271,11 +270,11 @@
         while k &lt;= n:
             total, k = total * k, k + 1
         return total
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; fact_iter(4)
 24
-                    </pre>
+</pre>
                     <p>On the other hand, a recursive implementation of factorial can express
                         <tt class="docutils literal">fact(n)</tt> in terms of <tt class="docutils literal"><span class="pre">fact(n-1)</span></tt>, a simpler problem.  The base case of the
                         recursion is the simplest form of the problem: <tt class="docutils literal">fact(1)</tt> is <tt class="docutils literal">1</tt>.</p>
@@ -284,11 +283,11 @@
         if n == 1:
             return 1
         return n * fact(n-1)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; fact(4)
 24
-                    </pre>
+</pre>
                     <p>The correctness of this function is easy to verify from the standard definition
                         of the mathematical function for factorial:</p>
                     \[\begin{array}{l l}
@@ -351,11 +350,11 @@
         if n == 2:
             return 1
         return fib(n-2) + fib(n-1)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; fib(6)
 5
-                    </pre>
+</pre>
                     <p>This recursive definition is tremendously appealing relative to our previous
                         attempts: it exactly mirrors the familiar definition of Fibonacci numbers.
                         Consider the pattern of computation that results from evaluating <tt class="docutils literal">fib(6)</tt>,
@@ -386,7 +385,7 @@
         for _ in range(n-1):
              prev, curr = curr, prev + curr
         return curr
-                    </pre>
+</pre>
                     <p>The state that we must maintain in this case consists of the current and
                         previous Fibonacci numbers.  Implicitly the <tt class="docutils literal">for</tt> statement also keeps track of
                         the iteration count. This definition does not reflect the standard mathematical
@@ -419,12 +418,12 @@
                 cache[n] = f(n)
             return cache[n]
         return memoized
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; fib = memo(fib)
 &gt;&gt;&gt; fib(40)
 63245986
-                    </pre>
+</pre>
                     <p>The amount of computation time saved by memoization in this case is
                         substantial. The memoized, recursive <em>fib</em> function and the iterative
                         <em>fib_iter</em> function both require an amount of time to compute that is only a
@@ -512,11 +511,11 @@
             return 0
         d = kinds[0]
         return count_change(a, kinds[1:]) + count_change(a - d, kinds)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; count_change(100)
 292
-                    </pre>
+</pre>
                     <p>The <tt class="docutils literal">count_change</tt> function generates a tree-recursive process with
                         redundancies similar to those in our first implementation of <tt class="docutils literal">fib</tt>. It will
                         take quite a while for that <tt class="docutils literal">292</tt> to be computed, unless we memoize the
@@ -598,7 +597,7 @@
         if n == 0:
             return 1
         return b * exp(b, n-1)
-                    </pre>
+</pre>
                     <p>This is a linear recursive process that requires \(\Theta(n)\) steps and
                         \(\Theta(n)\) space. Just as with factorial, we can readily formulate an
                         equivalent linear iteration that requires a similar number of steps but constant
@@ -609,7 +608,7 @@
         for _ in range(n):
             result = result * b
         return result
-                    </pre>
+</pre>
                     <p>We can compute exponentials in fewer steps by using successive squaring. For
                         instance, rather than computing \(b^8\) as</p>
                     \[b \cdot (b \cdot (b \cdot (b \cdot (b \cdot (b \cdot (b \cdot b))))))\]<p>we can compute it using three multiplications:</p>
@@ -626,7 +625,7 @@
                     <pre class="doctest-block">
 &gt;&gt;&gt; def square(x):
         return x*x
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; def fast_exp(b, n):
         if n == 0:
@@ -635,11 +634,11 @@
             return square(fast_exp(b, n//2))
         else:
             return b * fast_exp(b, n-1)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; fast_exp(2, 100)
 1267650600228229401496703205376
-                    </pre>
+</pre>
                     <p>The process evolved by <tt class="docutils literal">fast_exp</tt> grows logarithmically with <tt class="docutils literal">n</tt> in both
                         space and number of steps. To see this, observe that computing \(b^{2n}\)
                         using <tt class="docutils literal">fast_exp</tt> requires only one more multiplication than computing
@@ -692,7 +691,7 @@
             if i == 0:
                 return self.first
             return self.rest[i-1]
-                    </pre>
+</pre>
                     <p>The definitions of <tt class="docutils literal">__len__</tt> and <tt class="docutils literal">__getitem__</tt> are in fact recursive,
                         although not explicitly so.  The built-in Python function <tt class="docutils literal">len</tt> looks for a
                         method called <tt class="docutils literal">__len__</tt> when applied to a user-defined object argument.
@@ -709,7 +708,7 @@ Rlist(2, Rlist(3))
 3
 &gt;&gt;&gt; s[1]
 2
-                    </pre>
+</pre>
                     <p>Operations that create new lists are particularly straightforward to express
                         using recursion. For example, we can define a function <tt class="docutils literal">extend_rlist</tt>, which
                         takes two recursive lists as arguments and combines the elements of both into
@@ -719,22 +718,22 @@ Rlist(2, Rlist(3))
         if s1 is Rlist.empty:
             return s2
         return Rlist(s1.first, extend_rlist(s1.rest, s2))
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; extend_rlist(s.rest, s)
 Rlist(2, Rlist(3, Rlist(1, Rlist(2, Rlist(3)))))
-                    </pre>
+</pre>
                     <p>Likewise, mapping a function over a recursive list exhibits a similar pattern.</p>
                     <pre class="doctest-block">
 &gt;&gt;&gt; def map_rlist(s, fn):
         if s is Rlist.empty:
             return s
         return Rlist(fn(s.first), map_rlist(s.rest, fn))
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; map_rlist(s, square)
 Rlist(1, Rlist(4, Rlist(9)))
-                    </pre>
+</pre>
                     <p>Filtering includes an additional conditional statement, but otherwise has a
                         similar recursive structure.</p>
                     <pre class="doctest-block">
@@ -745,11 +744,11 @@ Rlist(1, Rlist(4, Rlist(9)))
         if fn(s.first):
             return Rlist(s.first, rest)
         return rest
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; filter_rlist(s, lambda x: x % 2 == 1)
 Rlist(1, Rlist(3))
-                    </pre>
+</pre>
                     <p>Recursive implementations of list operations do not, in general, require local
                         assignment or <tt class="docutils literal">while</tt> statements.  Instead, recursive lists are taken apart
                         and constructed incrementally as a consequence of function application. As a
@@ -764,7 +763,7 @@ Rlist(1, Rlist(3))
                     <pre class="doctest-block">
 &gt;&gt;&gt; ((1, 2), 3, 4)
 ((1, 2), 3, 4)
-                    </pre>
+</pre>
                     <p>This tuple is a length-three sequence, of which the first element is itself a
                         tuple. A box-and-pointer diagram of this nested structure shows that it can also
                         be thought of as a tree with four leaves, each of which is a number.</p>
@@ -784,7 +783,7 @@ Rlist(1, Rlist(3))
         if type(tree) != tuple:
             return 1
         return sum(map(count_leaves, tree))
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; t = ((1, 2), 3, 4)
 &gt;&gt;&gt; count_leaves(t)
@@ -794,7 +793,7 @@ Rlist(1, Rlist(3))
 ((((1, 2), 3, 4), ((1, 2), 3, 4)), 5)
 &gt;&gt;&gt; count_leaves(big_tree)
 9
-                    </pre>
+</pre>
                     <p>Just as <tt class="docutils literal">map</tt> is a powerful tool for dealing with sequences, mapping and
                         recursion together provide a powerful general form of computation for
                         manipulating trees.  For instance, we can square all leaves of a tree using a
@@ -805,11 +804,11 @@ Rlist(1, Rlist(3))
         if type(tree) != tuple:
             return fn(tree)
         return tuple(map_tree(branch, fn) for branch in tree)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; map_tree(big_tree, square)
 ((((1, 4), 9, 16), ((1, 4), 9, 16)), 25)
-                    </pre>
+</pre>
                     <p><strong>Internal values.</strong> The trees described above have values only at the
                         leaves.  Another common representation of tree-structured data has values for
                         the internal nodes of the tree as well. We can represent such trees using a
@@ -825,7 +824,7 @@ Rlist(1, Rlist(3))
             if self.left or self.right:
                 args += ', {0}, {1}'.format(repr(self.left), repr(self.right))
             return 'Tree({0})'.format(args)
-                    </pre>
+</pre>
                     <p>The <tt class="docutils literal">Tree</tt> class can represent, for instance, the values computed in an
                         expression tree for the recursive implementation of <tt class="docutils literal">fib</tt>, the function for
                         computing Fibonacci numbers. The function <tt class="docutils literal">fib_tree(n)</tt> below returns a
@@ -841,11 +840,11 @@ Rlist(1, Rlist(3))
         left = fib_tree(n-2)
         right = fib_tree(n-1)
         return Tree(left.entry + right.entry, left, right)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; fib_tree(5)
 Tree(3, Tree(1, Tree(0), Tree(1)), Tree(2, Tree(1), Tree(1, Tree(0), Tree(1))))
-                    </pre>
+</pre>
                     <p>This example shows that expression trees can be represented programmatically
                         using tree-structured data. This connection between nested expressions and
                         tree-structured data type plays a central role in our discussion of designing
@@ -862,7 +861,7 @@ Tree(3, Tree(1, Tree(0), Tree(1)), Tree(2, Tree(1), Tree(1, Tree(0), Tree(1))))
 &gt;&gt;&gt; s = {3, 2, 1, 4, 4}
 &gt;&gt;&gt; s
 {1, 2, 3, 4}
-                    </pre>
+</pre>
                     <p>Python sets support a variety of operations, including membership tests, length
                         computation, and the standard set operations of union and intersection</p>
                     <pre class="doctest-block">
@@ -874,7 +873,7 @@ True
 {1, 2, 3, 4, 5}
 &gt;&gt;&gt; s.intersection({6, 5, 4, 3})
 {3, 4}
-                    </pre>
+</pre>
                     <p>In addition to <tt class="docutils literal">union</tt> and <tt class="docutils literal">intersection</tt>, Python sets support several
                         other methods. The predicates <tt class="docutils literal">isdisjoint</tt>, <tt class="docutils literal">issubset</tt>, and <tt class="docutils literal">issuperset</tt>
                         provide set comparison.  Sets are mutable, and can be changed one element at a
@@ -902,7 +901,7 @@ True
                     <pre class="doctest-block">
 &gt;&gt;&gt; def empty(s):
         return s is Rlist.empty
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; def set_contains(s, v):
         &quot;&quot;&quot;Return True if and only if set s contains v.&quot;&quot;&quot;
@@ -911,14 +910,14 @@ True
         elif s.first == v:
             return True
         return set_contains(s.rest, v)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; s = Rlist(1, Rlist(2, Rlist(3)))
 &gt;&gt;&gt; set_contains(s, 2)
 True
 &gt;&gt;&gt; set_contains(s, 5)
 False
-                    </pre>
+</pre>
                     <p>This implementation of <tt class="docutils literal">set_contains</tt> requires \(\Theta(n)\) time to test
                         membership of an element, where \(n\) is the size of the set <tt class="docutils literal">s</tt>. Using
                         this linear-time function for membership, we can adjoin an element to a set,
@@ -929,12 +928,12 @@ False
         if set_contains(s, v):
             return s
         return Rlist(v, s)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; t = adjoin_set(s, 4)
 &gt;&gt;&gt; t
 Rlist(4, Rlist(1, Rlist(2, Rlist(3))))
-                    </pre>
+</pre>
                     <p>In designing a representation, one of the issues with which we should be
                         concerned is efficiency.  Intersecting two sets <tt class="docutils literal">set1</tt> and <tt class="docutils literal">set2</tt> also
                         requires membership testing, but this time each element of <tt class="docutils literal">set1</tt> must be
@@ -944,11 +943,11 @@ Rlist(4, Rlist(1, Rlist(2, Rlist(3))))
 &gt;&gt;&gt; def intersect_set(set1, set2):
         &quot;&quot;&quot;Return a set containing all elements common to set1 and set2.&quot;&quot;&quot;
         return filter_rlist(set1, lambda v: set_contains(set2, v))
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; intersect_set(t, map_rlist(s, square))
 Rlist(4, Rlist(1))
-                    </pre>
+</pre>
                     <p>When computing the union of two sets, we must be careful not to include any
                         element twice.  The <tt class="docutils literal">union_set</tt> function also requires a linear number of
                         membership tests, creating a process that also includes \(\Theta(n^2)\)
@@ -958,11 +957,11 @@ Rlist(4, Rlist(1))
         &quot;&quot;&quot;Return a set containing all elements either in set1 or set2.&quot;&quot;&quot;
         set1_not_set2 = filter_rlist(set1, lambda v: not set_contains(set2, v))
         return extend_rlist(set1_not_set2, set2)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; union_set(t, s)
 Rlist(4, Rlist(1, Rlist(2, Rlist(3))))
-                    </pre>
+</pre>
                     <p><strong>Sets as ordered tuples.</strong> One way to speed up our set operations is to change
                         the representation so that the set elements are listed in increasing order. To
                         do this, we need some way to compare two objects so that we can say which is
@@ -980,11 +979,11 @@ Rlist(4, Rlist(1, Rlist(2, Rlist(3))))
         elif s.first == v:
             return True
         return set_contains(s.rest, v)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; set_contains(s, 0)
 False
-                    </pre>
+</pre>
                     <p>How many steps does this save? In the worst case, the item we are looking for
                         may be the largest one in the set, so the number of steps is the same as for
                         the unordered representation. On the other hand, if we search for items of many
@@ -1019,11 +1018,11 @@ False
             return intersect_set(set1.rest, set2)
         elif e2 &lt; e1:
             return intersect_set(set1, set2.rest)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; intersect_set(s, s.rest)
 Rlist(2, Rlist(3))
-                    </pre>
+</pre>
                     <p>To estimate the number of steps required by this process, observe that in each
                         step we shrink the size of at least one of the sets. Thus, the number of steps
                         required is at most the sum of the sizes of <tt class="docutils literal">set1</tt> and <tt class="docutils literal">set2</tt>, rather than
@@ -1069,7 +1068,7 @@ Rlist(2, Rlist(3))
             return set_contains(s.right, v)
         elif s.entry &gt; v:
             return set_contains(s.left, v)
-                    </pre>
+</pre>
                     <p>Adjoining an item to a set is implemented similarly and also requires
                         \(\Theta(\log n)\) steps. To adjoin a value <tt class="docutils literal">v</tt>, we compare <tt class="docutils literal">v</tt> with
                         <tt class="docutils literal">entry</tt> to determine whether <tt class="docutils literal">v</tt> should be added to the <tt class="docutils literal">right</tt> or to the
@@ -1089,11 +1088,11 @@ Rlist(2, Rlist(3))
             return Tree(s.entry, s.left, adjoin_set(s.right, v))
         if s.entry &gt; v:
             return Tree(s.entry, adjoin_set(s.left, v), s.right)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; adjoin_set(adjoin_set(adjoin_set(None, 2), 3), 1)
 Tree(2, Tree(1), Tree(3))
-                    </pre>
+</pre>
                     <p>Our claim that searching the tree can be performed in a logarithmic number
                         of steps rests on the assumption that the tree is &quot;balanced,&quot; i.e., that the
                         left and the right subtree of every tree have approximately the same number of
@@ -1159,7 +1158,7 @@ Tree(2, Tree(1), Tree(3))
 Traceback (most recent call last):
   File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
 Exception: an error occurred
-                </pre>
+</pre>
                 <p>When an exception is raised, no further statements in the current block of code
                     are executed. Unless the exception is <em>handled</em> (described below), the
                     interpreter will return directly to the interactive read-eval-print loop, or
@@ -1178,15 +1177,14 @@ try:
 except &lt;exception class&gt; as &lt;name&gt;:
     &lt;except suite&gt;
 ...
-                </pre>
+</pre>
                 <p>The <tt class="docutils literal">&lt;try suite&gt;</tt> is always executed immediately when the <tt class="docutils literal">try</tt> statement
                     is executed.  Suites of the <tt class="docutils literal">except</tt> clauses are only executed when an
                     exception is raised during the course of executing the <tt class="docutils literal">&lt;try suite&gt;</tt>. Each
                     <tt class="docutils literal">except</tt> clause specifies the particular class of exception to handle. For
                     instance, if the <tt class="docutils literal">&lt;exception class&gt;</tt> is <tt class="docutils literal">AssertionError</tt>, then any instance
                     of a class inheriting from <tt class="docutils literal">AssertionError</tt> that is raised during the course
-                    of executing the <tt class="docutils literal">&lt;try suite&gt;</tt> will be handled by the following <tt class="docutils literal">&lt;except
-                        suite&gt;</tt>. Within the <tt class="docutils literal">&lt;except suite&gt;</tt>, the identifier <tt class="docutils literal">&lt;name&gt;</tt> is bound to
+                    of executing the <tt class="docutils literal">&lt;try suite&gt;</tt> will be handled by the following <tt class="docutils literal">&lt;except suite&gt;</tt>. Within the <tt class="docutils literal">&lt;except suite&gt;</tt>, the identifier <tt class="docutils literal">&lt;name&gt;</tt> is bound to
                     the exception object that was raised, but this binding does not persist beyond
                     the <tt class="docutils literal">&lt;except suite&gt;</tt>.</p>
                 <p>For example, we can handle a <tt class="docutils literal">ZeroDivisionError</tt> exception using a <tt class="docutils literal">try</tt>
@@ -1200,10 +1198,9 @@ except &lt;exception class&gt; as &lt;name&gt;:
 handling a &lt;class 'ZeroDivisionError'&gt;
 &gt;&gt;&gt; x
 0
-                </pre>
+</pre>
                 <p>A <tt class="docutils literal">try</tt> statement will handle exceptions that occur within the body of a
-                    function that is applied (either directly or indirectly) within the <tt class="docutils literal">&lt;try
-                    suite&gt;</tt>.  When an exception is raised, control jumps directly to the body of
+                    function that is applied (either directly or indirectly) within the <tt class="docutils literal">&lt;try suite&gt;</tt>.  When an exception is raised, control jumps directly to the body of
                     the <tt class="docutils literal">&lt;except suite&gt;</tt> of the most recent <tt class="docutils literal">try</tt> statement that handles that
                     type of exception.</p>
                 <pre class="doctest-block">
@@ -1211,21 +1208,21 @@ handling a &lt;class 'ZeroDivisionError'&gt;
         result = 1/x  # Raises a ZeroDivisionError if x is 0
         print('Never printed if x is 0')
         return result
-                </pre>
+</pre>
                 <pre class="doctest-block">
 &gt;&gt;&gt; def invert_safe(x):
         try:
             return invert(x)
         except ZeroDivisionError as e:
             return str(e)
-                </pre>
+</pre>
                 <pre class="doctest-block">
 &gt;&gt;&gt; invert_safe(2)
 Never printed if x is 0
 0.5
 &gt;&gt;&gt; invert_safe(0)
 'division by zero'
-                </pre>
+</pre>
                 <p>This example illustrates that the <tt class="docutils literal">print</tt> expression in <tt class="docutils literal">invert</tt> is never
                     evaluated, and instead control is transferred to the suite of the <tt class="docutils literal">except</tt>
                     clause in <tt class="docutils literal">handler</tt>. Coercing the <tt class="docutils literal">ZeroDivisionError</tt> <tt class="docutils literal">e</tt> to a
@@ -1249,7 +1246,7 @@ Never printed if x is 0
 &gt;&gt;&gt; class IterImproveError(Exception):
         def __init__(self, last_guess):
             self.last_guess = last_guess
-                    </pre>
+</pre>
                     <p>Next, we define a version of <tt class="docutils literal">IterImprove</tt>, our generic iterative improvement
                         algorithm.  This version handles any <tt class="docutils literal">ValueError</tt> by raising an
                         <tt class="docutils literal">IterImproveError</tt> that stores the most recent guess. As before,
@@ -1267,7 +1264,7 @@ Never printed if x is 0
             return guess
         except ValueError:
             raise IterImproveError(guess)
-                    </pre>
+</pre>
                     <p>Finally, we define <tt class="docutils literal">find_root</tt>, which returns the result of <tt class="docutils literal">iter_improve</tt>
                         applied to a Newton update function returned by <tt class="docutils literal">newton_update</tt>, which is
                         defined in Chapter 1 and requires no changes for this example. This version of
@@ -1280,7 +1277,7 @@ Never printed if x is 0
             return iter_improve(newton_update(f), done, guess)
         except IterImproveError as e:
             return e.last_guess
-                    </pre>
+</pre>
                     <p>Consider applying <tt class="docutils literal">find_root</tt> to find the zero of the function \(2x^2 +
                         \sqrt{x}\). This function has a zero at <tt class="docutils literal">0</tt>, but evaluating it on any negative
                         number will raise a <tt class="docutils literal">ValueError</tt>. Our Chapter 1 implementation of Newton's
@@ -1290,7 +1287,7 @@ Never printed if x is 0
 &gt;&gt;&gt; from math import sqrt
 &gt;&gt;&gt; find_root(lambda x: 2*x*x + sqrt(x))
 -0.030211203830201594
-                    </pre>
+</pre>
                     <p>While this approximation is still far from the correct answer of <tt class="docutils literal">0</tt>, some
                         applications would prefer this coarse approximation to a <tt class="docutils literal">ValueError</tt>.</p>
                     <p>Exceptions are another technique that help us as programs to separate the
@@ -1344,7 +1341,7 @@ calc&gt; add(1, 2, 3, 4)
 10
 calc&gt; mul()
 1
-                    </pre>
+</pre>
                     <p>The <tt class="docutils literal">sub</tt> operator has two behaviors.  With one argument, it negates the
                         argument.  With at least two arguments, it subtracts all but the first from the
                         first.  The <tt class="docutils literal">div</tt> operator has the semantics of Python's <tt class="docutils literal">operator.truediv</tt>
@@ -1356,7 +1353,7 @@ calc&gt; sub(3)
 -3
 calc&gt; div(15, 12)
 1.25
-                    </pre>
+</pre>
                     <p>As in Python, call expression nesting provides a means of combination in the
                         Calculator language. To condense notation, the names of operators can also be
                         replaced by their standard symbols:</p>
@@ -1365,7 +1362,7 @@ calc&gt; sub(100, mul(7, add(8, div(-12, -3))))
 16.0
 calc&gt; -(100, *(7, +(8, /(-12, -3))))
 16.0
-                    </pre>
+</pre>
                     <p>We will implement an interpreter for Calculator in Python.  That is, we will
                         write a Python program that takes a string as input and either returns the
                         result of evaluating that string if it is a well-formed Calculator expression
@@ -1395,7 +1392,7 @@ calc&gt; -(100, *(7, +(8, /(-12, -3))))
         def __str__(self):
             operand_strs = ', '.join(map(str, self.operands))
             return '{0}({1})'.format(self.operator, operand_strs)
-                    </pre>
+</pre>
                     <p>An <tt class="docutils literal">Exp</tt> instance defines two string methods. The <tt class="docutils literal">__repr__</tt> method returns
                         Python expression, while the <tt class="docutils literal">__str__</tt> method returns a Calculator expression.</p>
                     <pre class="doctest-block">
@@ -1407,7 +1404,7 @@ Exp('add', [1, 2])
 Exp('add', [1, Exp('mul', [2, 3, 4])])
 &gt;&gt;&gt; str(Exp('add', [1, Exp('mul', [2, 3, 4])]))
 'add(1, mul(2, 3, 4))'
-                    </pre>
+</pre>
                     <p>This final example demonstrates how the <tt class="docutils literal">Exp</tt> class represents the
                         hierarchical structure in expression trees by including instances of <tt class="docutils literal">Exp</tt> as
                         elements of <tt class="docutils literal">operands</tt>.</p>
@@ -1425,7 +1422,7 @@ Exp('add', [1, Exp('mul', [2, 3, 4])])
         elif type(exp) == Exp:
             arguments = list(map(calc_eval, exp.operands))
             return calc_apply(exp.operator, arguments)
-                    </pre>
+</pre>
                     <p>Call expressions are evaluated by first recursively mapping the <tt class="docutils literal">calc_eval</tt>
                         function to the list of operands to compute a list of <tt class="docutils literal">arguments</tt>.  Then, the
                         operator is applied to those arguments in a second function, <tt class="docutils literal">calc_apply</tt>.</p>
@@ -1452,7 +1449,7 @@ Exp('add', [1, Exp('mul', [2, 3, 4])])
                 raise TypeError(operator + ' requires exactly 2 arguments')
             numer, denom = args
             return numer/denom
-                    </pre>
+</pre>
                     <p>Above, each suite computes the result of a different operator, or raises an
                         appropriate <tt class="docutils literal">TypeError</tt> when the wrong number of arguments is given. The
                         <tt class="docutils literal">calc_apply</tt> function can be applied directly, but it must be passed a list
@@ -1466,7 +1463,7 @@ Exp('add', [1, Exp('mul', [2, 3, 4])])
 1
 &gt;&gt;&gt; calc_apply('/', [40, 5])
 8.0
-                    </pre>
+</pre>
                     <p>The role of <tt class="docutils literal">calc_eval</tt> is to make proper calls to <tt class="docutils literal">calc_apply</tt> by first
                         computing the value of operand sub-expressions before passing them as arguments
                         to <tt class="docutils literal">calc_apply</tt>. Thus, <tt class="docutils literal">calc_eval</tt> can accept a nested expression.</p>
@@ -1476,7 +1473,7 @@ Exp('add', [1, Exp('mul', [2, 3, 4])])
 'add(2, mul(4, 6))'
 &gt;&gt;&gt; calc_eval(e)
 26
-                    </pre>
+</pre>
                     <p>The structure of <tt class="docutils literal">calc_eval</tt> is an example of dispatching on type: the form
                         of the expression. The first form of expression is a number, which requires no
                         additional evaluation step. In general, primitive expressions that do not
@@ -1499,7 +1496,7 @@ Exp('add', [1, Exp('mul', [2, 3, 4])])
         while True:
             expression_tree = calc_parse(input('calc&gt; '))
             print(calc_eval(expression_tree))
-                    </pre>
+</pre>
                     <p>This version of <tt class="docutils literal">read_eval_print_loop</tt> contains all of the essential
                         components of an interactive interface.  An example session would look like:</p>
                     <pre class="literal-block">
@@ -1509,7 +1506,7 @@ calc&gt; add()
 0
 calc&gt; add(2, div(4, 8))
 2.5
-                    </pre>
+</pre>
                     <p>This loop implementation has no mechanism for termination or error handling.
                         We can improve the interface by reporting errors to the user. We can also allow
                         the user to exit the loop by signalling a keyboard interrupt (<tt class="docutils literal"><span class="pre">Control-C</span></tt> on
@@ -1530,7 +1527,7 @@ calc&gt; add(2, div(4, 8))
             except (KeyboardInterrupt, EOFError):  # &lt;Control&gt;-D, etc.
                 print('Calculation completed.')
                 return
-                    </pre>
+</pre>
                     <p>This loop implementation reports errors without exiting the loop.  Rather than
                         exiting the program on an error, restarting the loop after an error message
                         lets users revise their expressions. Upon importing the <tt class="docutils literal">readline</tt> module,
@@ -1545,7 +1542,7 @@ TypeError: div requires exactly 2 arguments
 calc&gt; div(1, 0)
 ZeroDivisionError: division by zero
 calc&gt; ^DCalculation completed.
-                    </pre>
+</pre>
                     <p>As we generalize our interpreter to new languages other than Calculator, we
                         will see that the <tt class="docutils literal">read_eval_print_loop</tt> is parameterized by a parse
                         function, an evaluation function, and the exception types handled by the <tt class="docutils literal">try</tt>
@@ -1570,7 +1567,7 @@ calc&gt; ^DCalculation completed.
         if len(tokens) &gt; 0:
             raise SyntaxError('Extra token(s): ' + ' '.join(tokens))
         return expression_tree
-                    </pre>
+</pre>
                     <p>The sequence of tokens produced by the lexical analyzer, called <tt class="docutils literal">tokenize</tt>,
                         is consumed by the syntactic analyzer, called <tt class="docutils literal">analyze</tt>.  In this case, we
                         define <tt class="docutils literal">calc_parse</tt> to expect only one well-formed Calculator expression.
@@ -1590,13 +1587,13 @@ calc&gt; ^DCalculation completed.
         &quot;&quot;&quot;Convert a string into a list of tokens.&quot;&quot;&quot;
         spaced = line.replace('(',' ( ').replace(')',' ) ').replace(',', ' , ')
         return spaced.split()
-                    </pre>
+</pre>
                     <p>Tokenizing a well-formed Calculator expression keeps names intact, but
                         separates all symbols and delimiters.</p>
                     <pre class="doctest-block">
 &gt;&gt;&gt; tokenize('add(2, mul(4, 6))')
 ['add', '(', '2', ',', 'mul', '(', '4', ',', '6', ')', ')']
-                    </pre>
+</pre>
                     <p>Languages with a more complicated syntax may require a more sophisticated
                         tokenizer.  In particular, many tokenizers resolve the syntactic type of each
                         token returned. For example, the type of a token in Calculator may be an
@@ -1627,7 +1624,7 @@ calc&gt; ^DCalculation completed.
         else:
             tokens.pop(0)  # Remove (
             return Exp(token, analyze_operands(tokens))
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; def analyze_operands(tokens):
         &quot;&quot;&quot;Read a list of comma-separated operands.&quot;&quot;&quot;
@@ -1638,7 +1635,7 @@ calc&gt; ^DCalculation completed.
             operands.append(analyze(tokens))
         tokens.pop(0)  # Remove )
         return operands
-                    </pre>
+</pre>
                     <p>Finally, we need to implement <tt class="docutils literal">analyze_token</tt>. The <tt class="docutils literal">analyze_token</tt> function
                         that converts number literals into numbers.  Rather than implementing this
                         logic ourselves, we rely on built-in Python type coercion, using the <tt class="docutils literal">int</tt>
@@ -1653,7 +1650,7 @@ calc&gt; ^DCalculation completed.
                 return float(token)
             except (TypeError, ValueError):
                 return token
-                    </pre>
+</pre>
                     <p>Our implementation of <tt class="docutils literal">analyze</tt> is complete; it correctly parses well-formed
                         Calculator expressions into expression trees. These trees can be converted back
                         into Calculator expressions by the <tt class="docutils literal">str</tt> function.</p>
@@ -1663,7 +1660,7 @@ calc&gt; ^DCalculation completed.
 Exp('add', [2, Exp('mul', [4, 6])])
 &gt;&gt;&gt; str(analyze(tokenize(expression)))
 'add(2, mul(4, 6))'
-                    </pre>
+</pre>
                     <p>The <tt class="docutils literal">analyze</tt> function is meant to return only well-formed expression trees,
                         and so it must detect errors in the syntax of its input. In particular, it must
                         detect that expressions are complete, correctly delimited, and use only known
@@ -1671,7 +1668,7 @@ Exp('add', [2, Exp('mul', [4, 6])])
                         analysis finds the token it expects.</p>
                     <pre class="doctest-block">
 &gt;&gt;&gt; known_operators = ['add', 'sub', 'mul', 'div', '+', '-', '*', '/']
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; def analyze(tokens):
         &quot;&quot;&quot;Create a tree of nested lists from a sequence of tokens.&quot;&quot;&quot;
@@ -1685,7 +1682,7 @@ Exp('add', [2, Exp('mul', [4, 6])])
             return Exp(token, analyze_operands(tokens))
         else:
             raise SyntaxError('unexpected ' + token)
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; def analyze_operands(tokens):
         &quot;&quot;&quot;Analyze a sequence of comma-separated operands.&quot;&quot;&quot;
@@ -1698,13 +1695,13 @@ Exp('add', [2, Exp('mul', [4, 6])])
             assert_non_empty(tokens)
         tokens.pop(0)  # Remove )
         return elements
-                    </pre>
+</pre>
                     <pre class="doctest-block">
 &gt;&gt;&gt; def assert_non_empty(tokens):
         &quot;&quot;&quot;Raise an exception if tokens is empty.&quot;&quot;&quot;
         if len(tokens) == 0:
             raise SyntaxError('unexpected end of line')
-                    </pre>
+</pre>
                     <p>Informative syntax errors improve the usability of an interpreter
                         substantially. Above, the <tt class="docutils literal">SyntaxError</tt> exceptions that are raised include
                         a description of the problem encountered.  These error strings also serve to
@@ -1782,7 +1779,7 @@ Exp('add', [2, Exp('mul', [4, 6])])
 fib
 &gt;&gt;&gt; '(1 (7 19))
 (1 (7 19))
-                    </pre>
+</pre>
                     <table class="docutils footnote" frame="void" id="id3" rules="none">
                         <colgroup><col class="label" /><col /></colgroup>
                         <tbody valign="top">
@@ -1796,104 +1793,104 @@ fib
                     </table>
                     <p><strong>Values in Scheme.</strong>
                         Values in Scheme generally have their counterparts in Python.</p>
-                    <blockquote>
-                        <dl class="docutils">
-                            <dt>Booleans</dt>
-                            <dd>The values true and false, denoted <tt class="docutils literal">#t</tt> and <tt class="docutils literal">#f</tt>.  In
-                                Scheme, the only false value (in the Python sense) is <tt class="docutils literal">#f</tt>.</dd>
-                            <dt>Numbers</dt>
-                            <dd>These include integers of arbitrary precision, rational numbers,
-                                complex numbers, and &quot;inexact&quot; (generally floating-point) numbers.
-                                Integers may be denoted either in standard decimal notation or
-                                in other radixes by prefixing a numeral with <tt class="docutils literal">#o</tt> (octal),
-                                <tt class="docutils literal">#x</tt> (hexadecimal), or <tt class="docutils literal">#b</tt> (binary).</dd>
-                            <dt>Symbols</dt>
-                            <dd><p class="first">Symbols are a kind of string, but are denoted without quotation marks.
-                                The valid characters include letters, digits, and:</p>
-                                <pre class="literal-block">
+
+                    <dl class="docutils">
+                        <dt>Booleans</dt>
+                        <dd>The values true and false, denoted <tt class="docutils literal">#t</tt> and <tt class="docutils literal">#f</tt>.  In
+                            Scheme, the only false value (in the Python sense) is <tt class="docutils literal">#f</tt>.</dd>
+                        <dt>Numbers</dt>
+                        <dd>These include integers of arbitrary precision, rational numbers,
+                            complex numbers, and &quot;inexact&quot; (generally floating-point) numbers.
+                            Integers may be denoted either in standard decimal notation or
+                            in other radixes by prefixing a numeral with <tt class="docutils literal">#o</tt> (octal),
+                            <tt class="docutils literal">#x</tt> (hexadecimal), or <tt class="docutils literal">#b</tt> (binary).</dd>
+                        <dt>Symbols</dt>
+                        <dd><p class="first">Symbols are a kind of string, but are denoted without quotation marks.
+                            The valid characters include letters, digits, and:</p>
+                            <pre class="literal-block">
 !  $  %  &amp;  *  /  :  &lt;  = &gt;  ?  ^  _  ~  +  -  .  &#64;
-                                </pre>
-                                <p class="last">When input by the <tt class="docutils literal">read</tt> function, which reads Scheme expressions
-                                    (and which the interpreter uses to input program text), upper and
-                                    lower case characters in symbols are not distinguished (in the STk
-                                    implementation, converted to lower case).
-                                    Two symbols with the same denotation denote
-                                    the same object (not just two objects that happen to have the same
-                                    contents).</p>
-                            </dd>
-                            <dt>Pairs and Lists</dt>
-                            <dd><p class="first">A pair is an object containing two components (of any types), called
-                                its <tt class="docutils literal">car</tt> and <tt class="docutils literal">cdr</tt>.  A pair whose <tt class="docutils literal">car</tt> is <tt class="docutils literal">A</tt> and whose
-                                <tt class="docutils literal">cdr</tt> is <tt class="docutils literal">B</tt> is denoted <tt class="docutils literal">(A . B)</tt>.  Pairs (like tuples in
-                                Python) can represent lists, trees, and arbitrary hierarchical
-                                structures.</p>
-                                <p>A standard Scheme list consists either of the special empty
-                                    list value (denoted ()), or of a pair that contains the first item of
-                                    the list as its <tt class="docutils literal">car</tt> and the rest of the list as its <tt class="docutils literal">cdr</tt>.
-                                    Thus, the list consisting of the integers 1, 2, and 3 would be
-                                    represented:</p>
-                                <pre class="literal-block">
+</pre>
+                            <p class="last">When input by the <tt class="docutils literal">read</tt> function, which reads Scheme expressions
+                                (and which the interpreter uses to input program text), upper and
+                                lower case characters in symbols are not distinguished (in the STk
+                                implementation, converted to lower case).
+                                Two symbols with the same denotation denote
+                                the same object (not just two objects that happen to have the same
+                                contents).</p>
+                        </dd>
+                        <dt>Pairs and Lists</dt>
+                        <dd><p class="first">A pair is an object containing two components (of any types), called
+                            its <tt class="docutils literal">car</tt> and <tt class="docutils literal">cdr</tt>.  A pair whose <tt class="docutils literal">car</tt> is <tt class="docutils literal">A</tt> and whose
+                            <tt class="docutils literal">cdr</tt> is <tt class="docutils literal">B</tt> is denoted <tt class="docutils literal">(A . B)</tt>.  Pairs (like tuples in
+                            Python) can represent lists, trees, and arbitrary hierarchical
+                            structures.</p>
+                            <p>A standard Scheme list consists either of the special empty
+                                list value (denoted ()), or of a pair that contains the first item of
+                                the list as its <tt class="docutils literal">car</tt> and the rest of the list as its <tt class="docutils literal">cdr</tt>.
+                                Thus, the list consisting of the integers 1, 2, and 3 would be
+                                represented:</p>
+                            <pre class="literal-block">
 (1 . (2 . (3 . ())))
-                                </pre>
-                                <p>Lists are so pervasive that Scheme allows one to abbreviate
-                                    <tt class="docutils literal">(a . ())</tt> as <tt class="docutils literal">(a)</tt>, and allows one to abbreviate <tt class="docutils literal">(a . (b <span class="pre">...))</span></tt>
-                                    as <tt class="docutils literal">(a b <span class="pre">...)</span></tt>.  Thus, the list above is usually written:</p>
-                                <pre class="last literal-block">
+</pre>
+                            <p>Lists are so pervasive that Scheme allows one to abbreviate
+                                <tt class="docutils literal">(a . ())</tt> as <tt class="docutils literal">(a)</tt>, and allows one to abbreviate <tt class="docutils literal">(a . (b <span class="pre">...))</span></tt>
+                                as <tt class="docutils literal">(a b <span class="pre">...)</span></tt>.  Thus, the list above is usually written:</p>
+                            <pre class="last literal-block">
 (1 2 3)
-                                </pre>
-                            </dd>
-                            <dt>Procedures (functions)</dt>
-                            <dd>As in Python, a procedure (or function) value represents some
-                                computation that can be invoked by a function call supplying
-                                argument values.  Procedures may either be primitives, supplied
-                                by the Scheme runtime system, or they may be constructed out of
-                                Scheme expression(s) and an environment (exactly as in Python).
-                                There is no direct denotation for function values,
-                                although there
-                                are predefined identifiers that are bound to primitive
-                                functions and there are Scheme expressions that, when evaluated,
-                                produce new procedure values.</dd>
-                            <dt>Other Types</dt>
-                            <dd>Scheme also supports characters and strings (like Python strings,
-                                except that Scheme distinguishes characters from strings),
-                                and vectors (like Python lists).</dd>
-                        </dl>
-                    </blockquote>
+</pre>
+                        </dd>
+                        <dt>Procedures (functions)</dt>
+                        <dd>As in Python, a procedure (or function) value represents some
+                            computation that can be invoked by a function call supplying
+                            argument values.  Procedures may either be primitives, supplied
+                            by the Scheme runtime system, or they may be constructed out of
+                            Scheme expression(s) and an environment (exactly as in Python).
+                            There is no direct denotation for function values,
+                            although there
+                            are predefined identifiers that are bound to primitive
+                            functions and there are Scheme expressions that, when evaluated,
+                            produce new procedure values.</dd>
+                        <dt>Other Types</dt>
+                        <dd>Scheme also supports characters and strings (like Python strings,
+                            except that Scheme distinguishes characters from strings),
+                            and vectors (like Python lists).</dd>
+                    </dl>
+
                     <p><strong>Program Denotations</strong>
                         As with other versions of Lisp, Scheme's data values double as representations
                         of programs.  For example, the Scheme list:</p>
                     <pre class="literal-block">
 (+ x (* 10 y))
-                    </pre>
+</pre>
                     <p>can, depending on how it is used, represent either a 3-item list (whose last
                         item is also a 3-item list), or it can represent a Scheme expression for
                         computing \(x+10y\).  To interpret a Scheme value as a program, we consider
                         the type of value, and evaluate as follows:</p>
-                    <blockquote>
-                        <ul class="simple">
-                            <li>Integers, booleans, characters, strings, and vectors
-                                evaluate to themselves.  Thus,
-                                the expression <tt class="docutils literal">5</tt> evaluates to 5.</li>
-                            <li>Bare symbols serve as variables.  Their values are determined by the
-                                current environment in which they are being evaluated, just as in
-                                Python.</li>
-                            <li>Non-empty lists are interpreted in two different ways, depending on their
-                                first component:<ul>
-                                <li>If the first component is one of the symbols denoting a <em>special form</em>,
-                                    described below, the evaluation proceeds by the rules for that special
-                                    form.</li>
-                                <li>In all other cases (called <em>combinations</em>),
-                                    the items in the list are evaluated (recursively) in some unspecified
-                                    order.
-                                    The value of the first item must be a function value.  That value is
-                                    called, with the values of the remaining items in the list supplying
-                                    the arguments.</li>
-                                </ul>
-                            </li>
-                            <li>Other Scheme values (in particular, pairs that are not lists) are
-                                erroneous as programs.</li>
-                        </ul>
-                    </blockquote>
+
+                    <ul class="simple">
+                        <li>Integers, booleans, characters, strings, and vectors
+                            evaluate to themselves.  Thus,
+                            the expression <tt class="docutils literal">5</tt> evaluates to 5.</li>
+                        <li>Bare symbols serve as variables.  Their values are determined by the
+                            current environment in which they are being evaluated, just as in
+                            Python.</li>
+                        <li>Non-empty lists are interpreted in two different ways, depending on their
+                            first component:<ul>
+                            <li>If the first component is one of the symbols denoting a <em>special form</em>,
+                                described below, the evaluation proceeds by the rules for that special
+                                form.</li>
+                            <li>In all other cases (called <em>combinations</em>),
+                                the items in the list are evaluated (recursively) in some unspecified
+                                order.
+                                The value of the first item must be a function value.  That value is
+                                called, with the values of the remaining items in the list supplying
+                                the arguments.</li>
+                            </ul>
+                        </li>
+                        <li>Other Scheme values (in particular, pairs that are not lists) are
+                            erroneous as programs.</li>
+                    </ul>
+
                     <p>For example:</p>
                     <pre class="literal-block">
 &gt;&gt;&gt; 5              ; A literal.
@@ -1902,95 +1899,92 @@ fib
 x                   ; x.
 &gt;&gt;&gt; (+ 3 (* 10 x)) ; A combination.  Symbol + is bound to the primitive
 33                  ; add function and * to primitive multiply.
-                    </pre>
+</pre>
                     <p><strong>Primitive Special Forms.</strong>
                         The special forms denote things such as control structures,
                         function definitions, or class definitions in Python: constructs in which the
                         operands are not simply evaluated immediately, as they are in calls.</p>
                     <p>First, a couple of common constructs used in the forms:</p>
-                    <blockquote>
-                        <dl class="docutils">
-                            <dt><em>EXPR-SEQ</em></dt>
-                            <dd><p class="first">Simply a sequence of expressions, such as:</p>
-                                <pre class="literal-block">
+                    <dl class="docutils">
+                        <dt><em>EXPR-SEQ</em></dt>
+                        <dd><p class="first">Simply a sequence of expressions, such as:</p>
+                            <pre class="literal-block">
 (+ 3 2) x (* y z)
-                                </pre>
-                                <p class="last">When this appears in the definitions below, it refers to a sequence
-                                    of expressions that are evaluated from left to right, with the
-                                    value of the sequence (if needed) being the value of the last
-                                    expression.</p>
-                            </dd>
-                            <dt><em>BODY</em></dt>
-                            <dd>Several constructs have &quot;bodies&quot;, which are <em>EXPR-SEQ</em>s, as above,
-                                optionally preceded by one or more <a class="reference internal" href="#definitions">Definitions</a>.
-                                Their value is that
-                                of their <em>EXPR-SEQ</em>.  See the section on <a class="reference internal" href="#internal-definitions">Internal Definitions</a>
-                                for the interpretation of these definitions.</dd>
-                        </dl>
-                    </blockquote>
+</pre>
+                            <p class="last">When this appears in the definitions below, it refers to a sequence
+                                of expressions that are evaluated from left to right, with the
+                                value of the sequence (if needed) being the value of the last
+                                expression.</p>
+                        </dd>
+                        <dt><em>BODY</em></dt>
+                        <dd>Several constructs have &quot;bodies&quot;, which are <em>EXPR-SEQ</em>s, as above,
+                            optionally preceded by one or more <a class="reference internal" href="#definitions">Definitions</a>.
+                            Their value is that
+                            of their <em>EXPR-SEQ</em>.  See the section on <a class="reference internal" href="#internal-definitions">Internal Definitions</a>
+                            for the interpretation of these definitions.</dd>
+                    </dl>
+
                     <p>Here is a representative subset of the special forms:</p>
-                    <blockquote id="definitions">
-                        <dl class="docutils">
-                            <dt>Definitions</dt>
-                            <dd><p class="first">Definitions may appear either at the top level
-                                of a program (that is, not enclosed in another construct).</p>
-                                <blockquote class="last">
-                                    <dl class="docutils">
-                                        <dt>(define <em>SYM</em> <em>EXPR</em>)</dt>
-                                        <dd>This evaluates <em>EXPR</em> and binds its value to the symbol <em>SYM</em> in the
-                                            current environment.</dd>
-                                        <dt>(define (<em>SYM</em> <em>ARGUMENTS</em>) <em>BODY</em>)</dt>
-                                        <dd><p class="first">This is equivalent to</p>
-                                            <blockquote class="last">
-                                                <div class="line-block">
-                                                    <div class="line">(define <em>SYM</em> (lambda (<em>ARGUMENTS</em>) <em>BODY</em>))</div>
-                                                </div>
-                                            </blockquote>
-                                        </dd>
-                                    </dl>
-                                </blockquote>
-                            </dd>
-                            <dt>(lambda (<em>ARGUMENTS</em>) <em>BODY</em>)</dt>
-                            <dd><p class="first">This evaluates to a function.  <em>ARGUMENTS</em> is usually
-                                a list (possibly empty) of distinct symbols that gives names
-                                to the arguments of the function, and indicates their number.
-                                It is also possible for <em>ARGUMENTS</em> to have the form:</p>
-                                <pre class="literal-block">
+
+                    <dl class="docutils">
+                        <dt>Definitions</dt>
+                        <dd><p class="first">Definitions may appear either at the top level
+                            of a program (that is, not enclosed in another construct).</p>
+                            <blockquote class="last">
+                                <dl class="docutils">
+                                    <dt>(define <em>SYM</em> <em>EXPR</em>)</dt>
+                                    <dd>This evaluates <em>EXPR</em> and binds its value to the symbol <em>SYM</em> in the
+                                        current environment.</dd>
+                                    <dt>(define (<em>SYM</em> <em>ARGUMENTS</em>) <em>BODY</em>)</dt>
+                                    <dd><p class="first">This is equivalent to</p>
+                                        <div class="line-block">
+                                            <div class="line">(define <em>SYM</em> (lambda (<em>ARGUMENTS</em>) <em>BODY</em>))</div>
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </blockquote>
+                        </dd>
+                        <dt>(lambda (<em>ARGUMENTS</em>) <em>BODY</em>)</dt>
+                        <dd><p class="first">This evaluates to a function.  <em>ARGUMENTS</em> is usually
+                            a list (possibly empty) of distinct symbols that gives names
+                            to the arguments of the function, and indicates their number.
+                            It is also possible for <em>ARGUMENTS</em> to have the form:</p>
+                            <pre class="literal-block">
 (sym1 sym2 ... symn . symr)
-                                </pre>
-                                <p>(that is, instead of ending in the empty list like a normal list,
-                                    the last <tt class="docutils literal">cdr</tt> is a symbol).  In this case, <tt class="docutils literal">symr</tt> will be bound
-                                    to the list of trailing argument values (argument n+1 onward).</p>
-                                <p class="last">When the resulting function is called, <em>ARGUMENTS</em> are bound to the
-                                    argument values in a fresh environment frame that extends the
-                                    environment in which the <tt class="docutils literal">lambda</tt> expression was evaluated (just
-                                    like Python).
-                                    Then the <em>BODY</em> is evaluated and its value returned as
-                                    the value of the call.</p>
-                            </dd>
-                            <dt>(if <em>COND-EXPR</em> <em>TRUE-EXPR</em> <em>OPTIONAL-FALSE-EXPR</em>)</dt>
-                            <dd>Evaluates <em>COND-EXPR</em>, and if its value is not <tt class="docutils literal">#f</tt>, then
-                                evaluates  <em>TRUE-EXPR</em>, and the result is the value of the <tt class="docutils literal">if</tt>.
-                                If <em>COND-EXPR</em> evaluates to <tt class="docutils literal">#f</tt> and
-                                <em>OPTIONAL-FALSE-EXPR</em> is present, it is evaluated and its result
-                                is the value of the <tt class="docutils literal">if</tt>.  If it is absent, the value of
-                                the <tt class="docutils literal">if</tt> is unspecified.</dd>
-                            <dt>(set! <em>SYMBOL</em> <em>EXPR</em>)</dt>
-                            <dd>Evaluates <em>EXPR</em> and replaces the binding of <em>SYMBOL</em> with the
-                                resulting value.  <em>SYMBOL</em> must be bound, or there is an error.
-                                In contrast to Python's default,
-                                this replaces the binding of <em>SYMBOL</em> in
-                                the first enclosing environment frame that defines it, which is not
-                                always the innermost frame.</dd>
-                            <dt>(quote <em>EXPR</em>)  or  '<em>EXPR</em></dt>
-                            <dd><p class="first">One problem with using Scheme data structures as program representations
-                                is that one needs a way to indicate when a particular symbol or list
-                                represents literal data to be manipulated by a program, and when it is
-                                program text that is intended to be evaluated.  The <tt class="docutils literal">quote</tt> form
-                                evaluates to <em>EXPR</em> itself, without further evaluating <em>EXPR</em>.
-                                (The alternative form, with leading apostrophe, gets converted to
-                                the first form by Scheme's expression reader.)  For example:</p>
-                                <pre class="last literal-block">
+</pre>
+                            <p>(that is, instead of ending in the empty list like a normal list,
+                                the last <tt class="docutils literal">cdr</tt> is a symbol).  In this case, <tt class="docutils literal">symr</tt> will be bound
+                                to the list of trailing argument values (argument n+1 onward).</p>
+                            <p class="last">When the resulting function is called, <em>ARGUMENTS</em> are bound to the
+                                argument values in a fresh environment frame that extends the
+                                environment in which the <tt class="docutils literal">lambda</tt> expression was evaluated (just
+                                like Python).
+                                Then the <em>BODY</em> is evaluated and its value returned as
+                                the value of the call.</p>
+                        </dd>
+                        <dt>(if <em>COND-EXPR</em> <em>TRUE-EXPR</em> <em>OPTIONAL-FALSE-EXPR</em>)</dt>
+                        <dd>Evaluates <em>COND-EXPR</em>, and if its value is not <tt class="docutils literal">#f</tt>, then
+                            evaluates  <em>TRUE-EXPR</em>, and the result is the value of the <tt class="docutils literal">if</tt>.
+                            If <em>COND-EXPR</em> evaluates to <tt class="docutils literal">#f</tt> and
+                            <em>OPTIONAL-FALSE-EXPR</em> is present, it is evaluated and its result
+                            is the value of the <tt class="docutils literal">if</tt>.  If it is absent, the value of
+                            the <tt class="docutils literal">if</tt> is unspecified.</dd>
+                        <dt>(set! <em>SYMBOL</em> <em>EXPR</em>)</dt>
+                        <dd>Evaluates <em>EXPR</em> and replaces the binding of <em>SYMBOL</em> with the
+                            resulting value.  <em>SYMBOL</em> must be bound, or there is an error.
+                            In contrast to Python's default,
+                            this replaces the binding of <em>SYMBOL</em> in
+                            the first enclosing environment frame that defines it, which is not
+                            always the innermost frame.</dd>
+                        <dt>(quote <em>EXPR</em>)  or  '<em>EXPR</em></dt>
+                        <dd><p class="first">One problem with using Scheme data structures as program representations
+                            is that one needs a way to indicate when a particular symbol or list
+                            represents literal data to be manipulated by a program, and when it is
+                            program text that is intended to be evaluated.  The <tt class="docutils literal">quote</tt> form
+                            evaluates to <em>EXPR</em> itself, without further evaluating <em>EXPR</em>.
+                            (The alternative form, with leading apostrophe, gets converted to
+                            the first form by Scheme's expression reader.)  For example:</p>
+                            <pre class="last literal-block">
 &gt;&gt;&gt; (+ 1 2)
 3
 &gt;&gt;&gt; '(+ 1 2)
@@ -2005,26 +1999,25 @@ x
 5
 &gt;&gt;&gt; (quote 'x)
 (quote x)
-                                </pre>
-                            </dd>
-                        </dl>
-                    </blockquote>
+</pre>
+                        </dd>
+                    </dl>
+
                     <p><strong>Derived Special Forms</strong></p>
                     <p>A <em>derived construct</em> is one that can be translated into primitive constructs.
                         Their purpose is to make programs more concise or clear for the reader.
                         In Scheme, we have</p>
-                    <blockquote>
-                        <dl class="docutils">
-                            <dt>(begin <em>EXPR-SEQ</em>)</dt>
-                            <dd>Simply evaluates and yields the value of the <em>EXPR-SEQ</em>.
-                                This construct is simply a way to execute a sequence of expressions in
-                                a context (such as an <tt class="docutils literal">if</tt>) that requires a single expression.</dd>
-                            <dt>(and <em>EXPR1</em> <em>EXPR2</em> ...)</dt>
-                            <dd><p class="first">Each <em>EXPR</em> is evaluated from left to right until one returns
-                                <tt class="docutils literal">#f</tt> or the <em>EXPR</em>s are exhausted. The value is that of the last
-                                <em>EXPR</em> evaluated, or <tt class="docutils literal">#t</tt> if the list of <em>EXPR</em>s is empty.
-                                For example:</p>
-                                <pre class="last literal-block">
+                    <dl class="docutils">
+                        <dt>(begin <em>EXPR-SEQ</em>)</dt>
+                        <dd>Simply evaluates and yields the value of the <em>EXPR-SEQ</em>.
+                            This construct is simply a way to execute a sequence of expressions in
+                            a context (such as an <tt class="docutils literal">if</tt>) that requires a single expression.</dd>
+                        <dt>(and <em>EXPR1</em> <em>EXPR2</em> ...)</dt>
+                        <dd><p class="first">Each <em>EXPR</em> is evaluated from left to right until one returns
+                            <tt class="docutils literal">#f</tt> or the <em>EXPR</em>s are exhausted. The value is that of the last
+                            <em>EXPR</em> evaluated, or <tt class="docutils literal">#t</tt> if the list of <em>EXPR</em>s is empty.
+                            For example:</p>
+                            <pre class="last literal-block">
 &gt;&gt;&gt; (and (= 2 2) (&gt; 2 1))
 #t
 &gt;&gt;&gt; (and (&lt; 2 2) (&gt; 2 1))
@@ -2033,14 +2026,14 @@ x
 (a b)
 &gt;&gt;&gt; (and)
 #t
-                                </pre>
-                            </dd>
-                            <dt>(or <em>EXPR1</em> <em>EXPR2</em> ...)</dt>
-                            <dd><p class="first">Each <em>EXPR</em> is evaluated from left to right until one returns
-                                a value other than <tt class="docutils literal">#f</tt> or the <em>EXPR</em>s are exhausted.
-                                The value is that of the last <em>EXPR</em> evaluated, or <tt class="docutils literal">#f</tt> if
-                                the list of <em>EXPR</em>s is empty:  For example:</p>
-                                <pre class="last literal-block">
+</pre>
+                        </dd>
+                        <dt>(or <em>EXPR1</em> <em>EXPR2</em> ...)</dt>
+                        <dd><p class="first">Each <em>EXPR</em> is evaluated from left to right until one returns
+                            a value other than <tt class="docutils literal">#f</tt> or the <em>EXPR</em>s are exhausted.
+                            The value is that of the last <em>EXPR</em> evaluated, or <tt class="docutils literal">#f</tt> if
+                            the list of <em>EXPR</em>s is empty:  For example:</p>
+                            <pre class="last literal-block">
 &gt;&gt;&gt; (or (= 2 2) (&gt; 2 3))
 #t
 &gt;&gt;&gt; (or (= 2 2) '(a b))
@@ -2051,45 +2044,45 @@ x
 #f
 &gt;&gt;&gt; (or)
 #f
-                                </pre>
-                            </dd>
-                            <dt>(cond <em>CLAUSE1</em> <em>CLAUSE2</em> ...)</dt>
-                            <dd><p class="first">Each <em>CLAUSEi</em> is processed in turn until one succeeds, and its
-                                value becomes the value of the <tt class="docutils literal">cond</tt>. If no clause succeeds, the
-                                value is unspecified.  Each clause has one of three possible forms.
-                                The form</p>
-                                <blockquote>
-                                    <div class="line-block">
-                                        <div class="line">(<em>TEST-EXPR</em> <em>EXPR-SEQ</em>)</div>
-                                    </div>
-                                </blockquote>
-                                <p>succeeds if <em>TEST-EXPR</em> evaluates to a value other than <tt class="docutils literal">#f</tt>.  In
-                                    that case, it evaluates <em>EXPR-SEQ</em> and yields its value.  The <em>EXPR-SEQ</em>
-                                    may be omitted, in which case the value is that of <em>TEST-EXPR</em> itself.</p>
-                                <p>The last clause may have the form</p>
-                                <blockquote>
-                                    <div class="line-block">
-                                        <div class="line">(else <em>EXPR-SEQ</em>)</div>
-                                    </div>
-                                </blockquote>
-                                <p>which is equivalent to</p>
-                                <blockquote>
-                                    <div class="line-block">
-                                        <div class="line">(#t <em>EXPR-SEQ</em>)</div>
-                                    </div>
-                                </blockquote>
-                                <p>Finally, the form</p>
-                                <blockquote>
-                                    <div class="line-block">
-                                        <div class="line">(<em>TEST_EXPR</em> =&gt; <em>EXPR</em>)</div>
-                                    </div>
-                                </blockquote>
-                                <p>succeeds if <em>TEST_EXPR</em> evaluates to a value other than <tt class="docutils literal">#f</tt>, call
-                                    it <em>V</em>.  If it succeeds, the value of the <tt class="docutils literal">cond</tt> construct is that
-                                    returned by (<em>EXPR</em> <em>V</em>).  That is, <em>EXPR</em> must evaluate to a
-                                    one-argument function, which is applied to the value of <em>TEST_EXPR</em>.</p>
-                                <p>For example:</p>
-                                <pre class="last literal-block">
+</pre>
+                        </dd>
+                        <dt>(cond <em>CLAUSE1</em> <em>CLAUSE2</em> ...)</dt>
+                        <dd><p class="first">Each <em>CLAUSEi</em> is processed in turn until one succeeds, and its
+                            value becomes the value of the <tt class="docutils literal">cond</tt>. If no clause succeeds, the
+                            value is unspecified.  Each clause has one of three possible forms.
+                            The form</p>
+                            <blockquote>
+                                <div class="line-block">
+                                    <div class="line">(<em>TEST-EXPR</em> <em>EXPR-SEQ</em>)</div>
+                                </div>
+                            </blockquote>
+                            <p>succeeds if <em>TEST-EXPR</em> evaluates to a value other than <tt class="docutils literal">#f</tt>.  In
+                                that case, it evaluates <em>EXPR-SEQ</em> and yields its value.  The <em>EXPR-SEQ</em>
+                                may be omitted, in which case the value is that of <em>TEST-EXPR</em> itself.</p>
+                            <p>The last clause may have the form</p>
+                            <blockquote>
+                                <div class="line-block">
+                                    <div class="line">(else <em>EXPR-SEQ</em>)</div>
+                                </div>
+                            </blockquote>
+                            <p>which is equivalent to</p>
+                            <blockquote>
+                                <div class="line-block">
+                                    <div class="line">(#t <em>EXPR-SEQ</em>)</div>
+                                </div>
+                            </blockquote>
+                            <p>Finally, the form</p>
+                            <blockquote>
+                                <div class="line-block">
+                                    <div class="line">(<em>TEST_EXPR</em> =&gt; <em>EXPR</em>)</div>
+                                </div>
+                            </blockquote>
+                            <p>succeeds if <em>TEST_EXPR</em> evaluates to a value other than <tt class="docutils literal">#f</tt>, call
+                                it <em>V</em>.  If it succeeds, the value of the <tt class="docutils literal">cond</tt> construct is that
+                                returned by (<em>EXPR</em> <em>V</em>).  That is, <em>EXPR</em> must evaluate to a
+                                one-argument function, which is applied to the value of <em>TEST_EXPR</em>.</p>
+                            <p>For example:</p>
+                            <pre class="last literal-block">
 &gt;&gt;&gt; (cond ((&gt; 3 2) 'greater)
 ...        ((&lt; 3 2) 'less)))
 greater
@@ -2100,31 +2093,31 @@ equal
 &gt;&gt;&gt; (cond ((if (&lt; -2 -3) #f -3) =&gt; abs)
 ...        (else #f))
 3
-                                </pre>
-                            </dd>
-                            <dt>(case <em>KEY-EXPR</em> <em>CLAUSE1</em> <em>CLAUSE2</em> ...)</dt>
-                            <dd><p class="first">Evaluates <em>KEY-EXPR</em> to produce a value, <em>K</em>.  Then matches <em>K</em>
-                                against each <em>CLAUSE1</em> in turn until one succeeds, and returns
-                                the value of that clause.  If no clause succeeds, the value is
-                                unspecified.  Each clause has the form</p>
-                                <blockquote>
-                                    <div class="line-block">
-                                        <div class="line">((<em>DATUM1</em> <em>DATUM2</em> ...) <em>EXPR-SEQ</em>)</div>
-                                    </div>
-                                </blockquote>
-                                <p>The <em>DATUM</em>s are Scheme values (they are <em>not</em> evaluated).  The
-                                    clause succeeds if <em>K</em> matches one of the <em>DATUM</em> values (as
-                                    determined by the <tt class="docutils literal">eqv?</tt> function described below.)  If the
-                                    clause succeeds, its <em>EXPR-SEQ</em> is evaluated and its value becomes
-                                    the value of the <tt class="docutils literal">case</tt>.  The last clause
-                                    may have the form</p>
-                                <blockquote>
-                                    <div class="line-block">
-                                        <div class="line">(else <em>EXPR-SEQ</em>)</div>
-                                    </div>
-                                </blockquote>
-                                <p>which always succeeds.  For example:</p>
-                                <pre class="last literal-block">
+</pre>
+                        </dd>
+                        <dt>(case <em>KEY-EXPR</em> <em>CLAUSE1</em> <em>CLAUSE2</em> ...)</dt>
+                        <dd><p class="first">Evaluates <em>KEY-EXPR</em> to produce a value, <em>K</em>.  Then matches <em>K</em>
+                            against each <em>CLAUSE1</em> in turn until one succeeds, and returns
+                            the value of that clause.  If no clause succeeds, the value is
+                            unspecified.  Each clause has the form</p>
+                            <blockquote>
+                                <div class="line-block">
+                                    <div class="line">((<em>DATUM1</em> <em>DATUM2</em> ...) <em>EXPR-SEQ</em>)</div>
+                                </div>
+                            </blockquote>
+                            <p>The <em>DATUM</em>s are Scheme values (they are <em>not</em> evaluated).  The
+                                clause succeeds if <em>K</em> matches one of the <em>DATUM</em> values (as
+                                determined by the <tt class="docutils literal">eqv?</tt> function described below.)  If the
+                                clause succeeds, its <em>EXPR-SEQ</em> is evaluated and its value becomes
+                                the value of the <tt class="docutils literal">case</tt>.  The last clause
+                                may have the form</p>
+                            <blockquote>
+                                <div class="line-block">
+                                    <div class="line">(else <em>EXPR-SEQ</em>)</div>
+                                </div>
+                            </blockquote>
+                            <p>which always succeeds.  For example:</p>
+                            <pre class="last literal-block">
 &gt;&gt;&gt; (case (* 2 3)
 ...     ((2 3 5 7) 'prime)
 ...     ((1 4 6 8 9) 'composite))
@@ -2138,33 +2131,33 @@ d
 ...    ((w y) 'semivowel)
 ...    (else 'consonant))
 consonant
-                                </pre>
-                            </dd>
-                            <dt>(let <em>BINDINGS</em> <em>BODY</em>)</dt>
-                            <dd><p class="first"><em>BINDINGS</em> is a list of pairs of the form</p>
-                                <blockquote>
+</pre>
+                        </dd>
+                        <dt>(let <em>BINDINGS</em> <em>BODY</em>)</dt>
+                        <dd><p class="first"><em>BINDINGS</em> is a list of pairs of the form</p>
+                            <blockquote>
+                                <div class="line-block">
+                                    <div class="line">( (<em>VAR1</em> <em>INIT1</em>) (<em>VAR2</em> <em>INIT2</em>) ...)</div>
+                                </div>
+                            </blockquote>
+                            <p>where the <em>VAR</em>s are (distinct) symbols and the <em>INIT</em>s are
+                                expressions.  This first evaluates the <em>INIT</em> expressions, then
+                                creates a new frame that binds those values to the <em>VAR</em>s, and then
+                                evaluates the <em>BODY</em> in that new environment,
+                                returning its value.  In other words, this is equivalent to
+                                the call</p>
+                            <blockquote>
+                                <div class="line-block">
+                                    <div class="line">((lambda (<em>VAR1</em> <em>VAR2</em> ...) <em>BODY</em>)</div>
                                     <div class="line-block">
-                                        <div class="line">( (<em>VAR1</em> <em>INIT1</em>) (<em>VAR2</em> <em>INIT2</em>) ...)</div>
+                                        <div class="line"><em>INIT1</em> <em>INIT2</em> ...)</div>
                                     </div>
-                                </blockquote>
-                                <p>where the <em>VAR</em>s are (distinct) symbols and the <em>INIT</em>s are
-                                    expressions.  This first evaluates the <em>INIT</em> expressions, then
-                                    creates a new frame that binds those values to the <em>VAR</em>s, and then
-                                    evaluates the <em>BODY</em> in that new environment,
-                                    returning its value.  In other words, this is equivalent to
-                                    the call</p>
-                                <blockquote>
-                                    <div class="line-block">
-                                        <div class="line">((lambda (<em>VAR1</em> <em>VAR2</em> ...) <em>BODY</em>)</div>
-                                        <div class="line-block">
-                                            <div class="line"><em>INIT1</em> <em>INIT2</em> ...)</div>
-                                        </div>
-                                    </div>
-                                </blockquote>
-                                <p>Thus, any references to the <em>VAR</em>s in the <em>INIT</em> expressions refers
-                                    to the definitions (if any) of those symbols <em>outside</em> of the <tt class="docutils literal">let</tt>
-                                    construct. For example:</p>
-                                <pre class="last literal-block">
+                                </div>
+                            </blockquote>
+                            <p>Thus, any references to the <em>VAR</em>s in the <em>INIT</em> expressions refers
+                                to the definitions (if any) of those symbols <em>outside</em> of the <tt class="docutils literal">let</tt>
+                                construct. For example:</p>
+                            <pre class="last literal-block">
 &gt;&gt;&gt; (let ((x 2) (y 3))
 ...       (* x y))
 6
@@ -2172,27 +2165,27 @@ consonant
 ...       (let ((x 7) (z (+ x y)))
 ...            (* z x)))
 35
-                                </pre>
-                            </dd>
-                            <dt>(let* <em>BINDINGS</em> <em>BODY</em>)</dt>
-                            <dd><p class="first">The syntax of <em>BINDINGS</em> is the same as for <tt class="docutils literal">let</tt>.  This is equivalent
-                                to</p>
-                                <blockquote>
+</pre>
+                        </dd>
+                        <dt>(let* <em>BINDINGS</em> <em>BODY</em>)</dt>
+                        <dd><p class="first">The syntax of <em>BINDINGS</em> is the same as for <tt class="docutils literal">let</tt>.  This is equivalent
+                            to</p>
+                            <blockquote>
+                                <div class="line-block">
+                                    <div class="line">(let ((<em>VAR1</em> <em>INIT1</em>))</div>
                                     <div class="line-block">
-                                        <div class="line">(let ((<em>VAR1</em> <em>INIT1</em>))</div>
+                                        <div class="line">...</div>
+                                        <div class="line">(let ((<em>VARn</em> <em>INITn</em>))</div>
                                         <div class="line-block">
-                                            <div class="line">...</div>
-                                            <div class="line">(let ((<em>VARn</em> <em>INITn</em>))</div>
-                                            <div class="line-block">
-                                                <div class="line"><em>BODY</em>))</div>
-                                            </div>
+                                            <div class="line"><em>BODY</em>))</div>
                                         </div>
                                     </div>
-                                </blockquote>
-                                <p>In other words, it is like <tt class="docutils literal">let</tt> except that the new binding of <em>VAR1</em>
-                                    is visible in subsequent <em>INIT</em>s as well as in the <em>BODY</em>, and
-                                    similarly for <em>VAR2</em>.  For example:</p>
-                                <pre class="last literal-block">
+                                </div>
+                            </blockquote>
+                            <p>In other words, it is like <tt class="docutils literal">let</tt> except that the new binding of <em>VAR1</em>
+                                is visible in subsequent <em>INIT</em>s as well as in the <em>BODY</em>, and
+                                similarly for <em>VAR2</em>.  For example:</p>
+                            <pre class="last literal-block">
 &gt;&gt;&gt; (define x 3)
 x
 &gt;&gt;&gt; (define y 4)
@@ -2201,18 +2194,18 @@ y
 4
 &gt;&gt;&gt; (let* ((x 5) (y (+ x 1))) y)
 6
-                                </pre>
-                            </dd>
-                            <dt>(<span class="target" id="letrec">letrec</span> <em>BINDINGS</em> <em>BODY</em>)</dt>
-                            <dd><p class="first">Again, the syntax is as for <tt class="docutils literal">let</tt>.  In this case, the new bindings
-                                are all created first (with undefined values) and then the
-                                <em>INIT</em>s are evaluated and assigned to them.  It is undefined what
-                                happens if one of the <em>INIT</em>s uses the value of a <em>VAR</em> that has not had an
-                                initial value assigned yet.  This form is intended mostly for defining
-                                mutually recursive functions (lambdas do not, by themselves, use the
-                                values of the variables they mention; that only happens later, when
-                                they are called.  For example:</p>
-                                <pre class="last literal-block">
+</pre>
+                        </dd>
+                        <dt>(<span class="target" id="letrec">letrec</span> <em>BINDINGS</em> <em>BODY</em>)</dt>
+                        <dd><p class="first">Again, the syntax is as for <tt class="docutils literal">let</tt>.  In this case, the new bindings
+                            are all created first (with undefined values) and then the
+                            <em>INIT</em>s are evaluated and assigned to them.  It is undefined what
+                            happens if one of the <em>INIT</em>s uses the value of a <em>VAR</em> that has not had an
+                            initial value assigned yet.  This form is intended mostly for defining
+                            mutually recursive functions (lambdas do not, by themselves, use the
+                            values of the variables they mention; that only happens later, when
+                            they are called.  For example:</p>
+                            <pre class="last literal-block">
                                                                              (letrec ((even?
       (lambda (n)
              (if (zero? n)
@@ -2224,22 +2217,22 @@ y
                   #f
                   (even? (- n 1))))))
 (even? 88))
-                                </pre>
-                            </dd>
-                        </dl>
-                    </blockquote>
+</pre>
+                        </dd>
+                    </dl>
+
                     <p id="internal-definitions"><strong>Internal Definitions.</strong>  When a <em>BODY</em> begins with a sequence of <tt class="docutils literal">define</tt>
                         constructs, they are known as &quot;internal definitions&quot; and are interpreted a
                         little differently from top-level definitions.  Specifically, they work like
                         <a class="reference internal" href="#letrec">letrec</a> does.</p>
-                    <blockquote>
-                        <ul class="simple">
-                            <li>First, bindings are created for all the names defined by the
-                                <tt class="docutils literal">define</tt> statements, initially bound to undefined values.</li>
-                            <li>Then
-                                the values are filled in by the defines.</li>
-                        </ul>
-                    </blockquote>
+
+                    <ul class="simple">
+                        <li>First, bindings are created for all the names defined by the
+                            <tt class="docutils literal">define</tt> statements, initially bound to undefined values.</li>
+                        <li>Then
+                            the values are filled in by the defines.</li>
+                    </ul>
+
                     <p>As a result, a sequence of
                         internal function definitions can be mutually recursive, just as <tt class="docutils literal">def</tt>
                         statements in Python that are nested inside a function can be:</p>
@@ -2256,7 +2249,7 @@ y
 ...      (even? x))
 &gt;&gt;&gt; (hard-even? 22)
 #t
-                    </pre>
+</pre>
                     <p><strong>Predefined Functions.</strong>
                         There is a large collection of predefined functions, all bound to
                         names in the global environment, and we'll simply illustrate a few
@@ -2265,12 +2258,12 @@ y
                         completely uniform evaluation rule: recursively evaluate all items
                         (including the operator), and then apply the operator's value (which
                         must be a function) to the operands' values.</p>
-                    <blockquote>
-                        <ul>
-                            <li><p class="first"><strong>Arithmetic:</strong>
-                                Scheme provides the standard arithmetic operators, many with familiar
-                                denotations, although the operators uniformly appear before the operands:</p>
-                                <pre class="literal-block">
+
+                    <ul>
+                        <li><p class="first"><strong>Arithmetic:</strong>
+                            Scheme provides the standard arithmetic operators, many with familiar
+                            denotations, although the operators uniformly appear before the operands:</p>
+                            <pre class="literal-block">
 &gt;&gt;&gt; ; Semicolons introduce one-line comments.
 &gt;&gt;&gt; ; Compute (3+7+10)*(1000-8) // 992 - 17
 &gt;&gt;&gt; (- (quotient (* (+ 3 7 10) (- 1000 8))) 17)
@@ -2279,11 +2272,11 @@ y
 3
 &gt;&gt;&gt; (- 17)
 -17
-                                </pre>
-                                <p>Similarly, there are the usual numeric comparison operators,
-                                    extended to allow more than two operands:</p>
-                                <blockquote>
-                                    <pre class="doctest-block">
+</pre>
+                            <p>Similarly, there are the usual numeric comparison operators,
+                                extended to allow more than two operands:</p>
+                            <blockquote>
+                                <pre class="doctest-block">
 &gt;&gt;&gt; (&lt; 0 5)
 #t
 &gt;&gt;&gt; (&gt;= 100 10 10 0)
@@ -2294,16 +2287,16 @@ y
 #t
 &gt;&gt;&gt; (zero? (- 7 7))
 #t
-                                    </pre>
-                                </blockquote>
-                                <p><tt class="docutils literal">not</tt>, by the way, is a function, not a special form
-                                    like <tt class="docutils literal">and</tt> or <tt class="docutils literal">or</tt>, because its operand must always be evaluated,
-                                    and so needs no special treatment.</p>
-                            </li>
-                            <li><p class="first"><strong>Lists and Pairs:</strong>
-                                A large number of operations deal with pairs and lists (which again are built
-                                of pairs and empty lists):</p>
-                                <pre class="literal-block">
+</pre>
+                            </blockquote>
+                            <p><tt class="docutils literal">not</tt>, by the way, is a function, not a special form
+                                like <tt class="docutils literal">and</tt> or <tt class="docutils literal">or</tt>, because its operand must always be evaluated,
+                                and so needs no special treatment.</p>
+                        </li>
+                        <li><p class="first"><strong>Lists and Pairs:</strong>
+                            A large number of operations deal with pairs and lists (which again are built
+                            of pairs and empty lists):</p>
+                            <pre class="literal-block">
 &gt;&gt;&gt; (cons 'a 'b)
 (a . b)
 &gt;&gt;&gt; (list 'a 'b)
@@ -2346,15 +2339,15 @@ c
 #t
 &gt;&gt;&gt; (list? '(a . b))
 #f
-                                </pre>
-                            </li>
-                            <li><p class="first"><strong>Equivalence:</strong>  The <tt class="docutils literal">=</tt> operation is for numbers.  For general
-                                equality of values, Scheme distinguishes <tt class="docutils literal">eq?</tt> (like Python's
-                                <tt class="docutils literal">is</tt>), <tt class="docutils literal">eqv?</tt> (similar, but is the same as <tt class="docutils literal">=</tt> on numbers),
-                                and <tt class="docutils literal">equal?</tt> (compares list structures and strings for content).
-                                Generally, we use <tt class="docutils literal">eqv?</tt> or <tt class="docutils literal">equal?</tt>, except in cases such as
-                                comparing symbols, booleans, or the null list:</p>
-                                <pre class="literal-block">
+</pre>
+                        </li>
+                        <li><p class="first"><strong>Equivalence:</strong>  The <tt class="docutils literal">=</tt> operation is for numbers.  For general
+                            equality of values, Scheme distinguishes <tt class="docutils literal">eq?</tt> (like Python's
+                            <tt class="docutils literal">is</tt>), <tt class="docutils literal">eqv?</tt> (similar, but is the same as <tt class="docutils literal">=</tt> on numbers),
+                            and <tt class="docutils literal">equal?</tt> (compares list structures and strings for content).
+                            Generally, we use <tt class="docutils literal">eqv?</tt> or <tt class="docutils literal">equal?</tt>, except in cases such as
+                            comparing symbols, booleans, or the null list:</p>
+                            <pre class="literal-block">
 &gt;&gt;&gt; (eqv? 'a 'a)
 #t
 &gt;&gt;&gt; (eqv? 'a 'b)
@@ -2365,11 +2358,11 @@ c
 #f
 &gt;&gt;&gt; (equal? (list 'a 'b) (list 'a 'b))
 #t
-                                </pre>
-                            </li>
-                            <li><p class="first"><strong>Types:</strong>
-                                Each type of value satisfies exactly one of the basic type predicates:</p>
-                                <pre class="literal-block">
+</pre>
+                        </li>
+                        <li><p class="first"><strong>Types:</strong>
+                            Each type of value satisfies exactly one of the basic type predicates:</p>
+                            <pre class="literal-block">
 &gt;&gt;&gt; (boolean? #f)
 #t
 &gt;&gt;&gt; (integer? 3)
@@ -2382,37 +2375,37 @@ c
 #t
 &gt;&gt;&gt; (procedure? +)
 #t
-                                </pre>
-                            </li>
-                            <li><p class="first"><strong>Input and Output:</strong>
-                                Scheme interpreters typically run a  read-eval-print loop, but one can
-                                also output things under explicit control of the program, using the
-                                same functions the interpreter does internally:</p>
-                                <pre class="literal-block">
+</pre>
+                        </li>
+                        <li><p class="first"><strong>Input and Output:</strong>
+                            Scheme interpreters typically run a  read-eval-print loop, but one can
+                            also output things under explicit control of the program, using the
+                            same functions the interpreter does internally:</p>
+                            <pre class="literal-block">
 &gt;&gt;&gt; (begin (display 'a) (display 'b) (newline))
 ab
-                                </pre>
-                                <p>Thus, <tt class="docutils literal">(display x)</tt> is somewhat akin to Python's</p>
-                                <blockquote>
-                                    <div class="line-block">
-                                        <div class="line"><tt class="docutils literal">print(str(x), <span class="pre">end=&quot;&quot;)</span></tt></div>
-                                    </div>
-                                </blockquote>
-                                <p>and <tt class="docutils literal">(newline)</tt> is like <tt class="docutils literal">print()</tt>.</p>
-                                <p>For input, the <tt class="docutils literal">(read)</tt> function reads a Scheme expression from the
-                                    current &quot;port&quot;.  It does <em>not</em> interpret the expression, but rather reads
-                                    it as data:</p>
-                                <pre class="literal-block">
+</pre>
+                            <p>Thus, <tt class="docutils literal">(display x)</tt> is somewhat akin to Python's</p>
+                            <blockquote>
+                                <div class="line-block">
+                                    <div class="line"><tt class="docutils literal">print(str(x), <span class="pre">end=&quot;&quot;)</span></tt></div>
+                                </div>
+                            </blockquote>
+                            <p>and <tt class="docutils literal">(newline)</tt> is like <tt class="docutils literal">print()</tt>.</p>
+                            <p>For input, the <tt class="docutils literal">(read)</tt> function reads a Scheme expression from the
+                                current &quot;port&quot;.  It does <em>not</em> interpret the expression, but rather reads
+                                it as data:</p>
+                            <pre class="literal-block">
 &gt;&gt;&gt; (read)
 &gt;&gt;&gt; (a b c)
 (a b c)
-                                </pre>
-                            </li>
-                            <li><p class="first"><strong>Evaluation:</strong>
-                                The <tt class="docutils literal">apply</tt> function provides direct access to the function-calling
-                                operation:</p>
-                                <blockquote>
-                                    <pre class="doctest-block">
+</pre>
+                        </li>
+                        <li><p class="first"><strong>Evaluation:</strong>
+                            The <tt class="docutils literal">apply</tt> function provides direct access to the function-calling
+                            operation:</p>
+                            <blockquote>
+                                <pre class="doctest-block">
 &gt;&gt;&gt; (apply cons '(1 2))
 (1 . 2)
 &gt;&gt;&gt; ;; Apply the function f to the arguments in L after g is
@@ -2421,39 +2414,38 @@ ab
 ...     (apply f (map g L)))
 &gt;&gt;&gt; (compose-list + (lambda (x) (* x x)) '(1 2 3))
 14
-                                    </pre>
-                                </blockquote>
-                                <p>An extension allows for some &quot;fixed&quot; arguments at the beginning:</p>
-                                <blockquote>
-                                    <pre class="doctest-block">
+</pre>
+                            </blockquote>
+                            <p>An extension allows for some &quot;fixed&quot; arguments at the beginning:</p>
+                            <blockquote>
+                                <pre class="doctest-block">
 &gt;&gt;&gt; (apply + 1 2 '(3 4 5))
 15
-                                    </pre>
-                                </blockquote>
-                                <p>The following function is not in <a class="reference external" href="http://people.csail.mit.edu/jaffer/r4rs_toc.html">Revised(4) Scheme</a>, but is
-                                    present in our versions of the interpreter (<em>warning:</em> a non-standard
-                                    procedure that is not defined this way in later versions of Scheme):</p>
-                                <pre class="literal-block">
+</pre>
+                            </blockquote>
+                            <p>The following function is not in <a class="reference external" href="http://people.csail.mit.edu/jaffer/r4rs_toc.html">Revised(4) Scheme</a>, but is
+                                present in our versions of the interpreter (<em>warning:</em> a non-standard
+                                procedure that is not defined this way in later versions of Scheme):</p>
+                            <pre class="literal-block">
 &gt;&gt;&gt; (eval '(+ 1 2))
 3
-                                </pre>
-                                <p>That is, <tt class="docutils literal">eval</tt> evaluates a piece of Scheme data that represents
-                                    a correct Scheme expression.  This version evaluates its expression
-                                    argument in the global environment.  Our interpreter also provides a
-                                    way to specify a specific environment for the evaluation:</p>
-                                <blockquote>
-                                    <pre class="doctest-block">
+</pre>
+                            <p>That is, <tt class="docutils literal">eval</tt> evaluates a piece of Scheme data that represents
+                                a correct Scheme expression.  This version evaluates its expression
+                                argument in the global environment.  Our interpreter also provides a
+                                way to specify a specific environment for the evaluation:</p>
+                            <blockquote>
+                                <pre class="doctest-block">
 &gt;&gt;&gt; (define (incr n) (lambda (x) (+ n x)))
 &gt;&gt;&gt; (define add5 (incr 5))
 &gt;&gt;&gt; (add5 13)
 18
 &gt;&gt;&gt; (eval 'n (procedure-environment add5))
 5
-                                    </pre>
-                                </blockquote>
-                            </li>
-                        </ul>
-                    </blockquote>
+</pre>
+                            </blockquote>
+                        </li>
+                    </ul>
                 </div>
                 <div class="section" id="the-logo-language">
                     <span id="logo-language"></span><h2><a class="toc-backref" href="#id24">3.6.2&nbsp;&nbsp;&nbsp;The Logo Language</a></h2>
@@ -2481,7 +2473,7 @@ ab
                     <pre class="literal-block">
 ? print 5
 5
-                    </pre>
+</pre>
                     <p>The Logo language employs an unusual call expression syntax that has no
                         delimiting punctuation at all.  Above, the argument <tt class="docutils literal">5</tt> is passed to
                         <tt class="docutils literal">print</tt>, which prints out its argument. The terminology used to describe the
@@ -2501,7 +2493,7 @@ ab
 You do not say what to do with 5.
 ? five
 I do not know how to five.
-                    </pre>
+</pre>
                     <p>While <tt class="docutils literal">5</tt> and <tt class="docutils literal">five</tt> are interpreted differently, the Logo read-eval loop
                         complains either way.  The issue with the first case is that Logo complains
                         whenever a top-level expression it evaluates does not evaluate to <tt class="docutils literal">None</tt>.
@@ -2521,7 +2513,7 @@ I do not know how to five.
 2
 ? 3 print 4
 You do not say what to do with 3.
-                    </pre>
+</pre>
                     <p>Logo call expressions can be nested. In the version of Logo we will implement,
                         each procedure takes a fixed number of arguments. Therefore, the Logo
                         interpreter is able to determine uniquely when the operands of a nested call
@@ -2531,7 +2523,7 @@ You do not say what to do with 3.
                     <pre class="literal-block">
 ? print sum 10 difference 7 3
 14
-                    </pre>
+</pre>
                     <p>We can see from this nesting example that the parentheses and commas that
                         delimit call expressions are not strictly necessary. In the Calculator
                         interpreter, punctuation allowed us to build expression trees as a purely
@@ -2545,7 +2537,7 @@ You do not say what to do with 3.
                     <pre class="literal-block">
 ? 2 + 3 * 4
 14
-                    </pre>
+</pre>
                     <p>The details of how to implement operator precedence and infix operators to
                         form correct expression trees is left as an exercise. For the following
                         discussion, we will concentrate on call expressions using prefix syntax.</p>
@@ -2556,7 +2548,7 @@ You do not say what to do with 3.
                     <pre class="literal-block">
 ? print &quot;hello
 hello
-                    </pre>
+</pre>
                     <p>In dialects of Lisp (and Logo is such a dialect), any expression that is not
                         evaluated is said to be <em>quoted</em>. This notion of quotation is derived from a
                         classic philosophical distinction between a thing, such as a dog, which runs
@@ -2568,7 +2560,7 @@ hello
                     <pre class="literal-block">
 ? print &quot;sum
 sum
-                    </pre>
+</pre>
                     <p>In addition to words, Logo includes the <em>sentence</em> type, interchangeably called
                         a list. Sentences are enclosed in square brackets. The <tt class="docutils literal">print</tt> procedure does
                         not show brackets to preserve the conversational style of Logo, but the square
@@ -2578,7 +2570,7 @@ sum
 hello world
 ? show [hello world]
 [hello world]
-                    </pre>
+</pre>
                     <p>Sentences can be constructed using three different two-argument procedures. The
                         <tt class="docutils literal">sentence</tt> procedure combines its arguments into a sentence. It is
                         polymorphic; it places its arguments into a new sentence if they are words or
@@ -2593,7 +2585,7 @@ hello world
 [1 2 3]
 ? show sentence [1 2] [3 4]
 [1 2 3 4]
-                    </pre>
+</pre>
                     <p>The <tt class="docutils literal">list</tt> procedure creates a sentence from two elements, which allows the
                         user to create hierarchical data structures:</p>
                     <pre class="literal-block">
@@ -2605,7 +2597,7 @@ hello world
 [[1 2] 3]
 ? show list [1 2] [3 4]
 [[1 2] [3 4]]
-                    </pre>
+</pre>
                     <p>Finally, the <tt class="docutils literal">fput</tt> procedure creates a list from a first element and the
                         rest of the list, as did the <tt class="docutils literal">Rlist</tt> Python constructor from earlier in the
                         chapter:</p>
@@ -2614,7 +2606,7 @@ hello world
 [1 2 3]
 ? show fput [1 2] [3 4]
 [[1 2] 3 4]
-                    </pre>
+</pre>
                     <p>Collectively, we can call <tt class="docutils literal">sentence</tt>, <tt class="docutils literal">list</tt>, and <tt class="docutils literal">fput</tt> the <em>sentence
                         constructors</em> in Logo.  Deconstructing a sentence into its <tt class="docutils literal">first</tt>, <tt class="docutils literal">last</tt>,
                         and rest (called <tt class="docutils literal">butfirst</tt>) in Logo is straightforward as well. Hence, we
@@ -2626,20 +2618,20 @@ hello world
 3
 ? print butfirst [1 2 3]
 [2 3]
-                    </pre>
+</pre>
                     <p><strong>Expressions as Data.</strong> The contents of a sentence is also quoted in the sense
                         that it is not evaluated. Hence, we can print Logo expressions without
                         evaluating them:</p>
                     <pre class="literal-block">
 ? show [print sum 1 2]
 [print sum 1 2]
-                    </pre>
+</pre>
                     <p>The purpose of representing Logo expressions as sentences is typically not to
                         print them out, but instead to evaluate them using the <tt class="docutils literal">run</tt> procedure:</p>
                     <pre class="literal-block">
 ? run [print sum 1 2]
 3
-                    </pre>
+</pre>
                     <p>Combining quotation, sentence constructors, and the <tt class="docutils literal">run</tt> procedure, we
                         arrive at a very general means of combination that builds Logo expressions on
                         the fly and then evaluates them:</p>
@@ -2648,7 +2640,7 @@ hello world
 3
 ? print run sentence &quot;sum sentence 10 run [difference 7 3]
 14
-                    </pre>
+</pre>
                     <p>The point of this last example is to show that while the procedures <tt class="docutils literal">sum</tt> and
                         <tt class="docutils literal">difference</tt> are not first-class constructs in Logo (they cannot be placed in
                         a sentence, for instance), their quoted names are first-class, and the <tt class="docutils literal">run</tt>
@@ -2674,7 +2666,7 @@ hello world
                         The nested expression below draws a star with a smaller star at each vertex:</p>
                     <pre class="literal-block">
 ? repeat 5 [fd 100 repeat 5 [fd 20 rt 144] rt 144]
-                    </pre>
+</pre>
                     <div class="figure">
                         <img alt="img/star.png" src="img/star.png" />
                     </div>
@@ -2688,14 +2680,14 @@ hello world
                         <tt class="docutils literal">make</tt> procedure, which takes as arguments a name and a value:</p>
                     <pre class="literal-block">
 ? make &quot;x 2
-                    </pre>
+</pre>
                     <p>The first argument is the name <tt class="docutils literal">x</tt>, rather than the output of applying the
                         procedure <tt class="docutils literal">x</tt>, and so it must be quoted. The values bound to names are
                         retrieved by evaluating expressions that begin with a colon:</p>
                     <pre class="literal-block">
 ? print :x
 2
-                    </pre>
+</pre>
                     <p>Any word that begins with a colon, such as <tt class="docutils literal">:x</tt>, is called a variable.  A
                         variable evaluates to the value to which the name of the variable is bound in
                         the current environment.</p>
@@ -2728,7 +2720,7 @@ hello world
 &gt; end
 ? print double 4
 8
-                    </pre>
+</pre>
                     <p>Logo's application process for a user-defined procedure is similar to the
                         process in Python. Applying a procedure to a sequence of arguments begins by
                         extending an environment with a new frame, binding the formal parameters of the
@@ -2747,7 +2739,7 @@ hello world
 ? count
 1
 2
-                    </pre>
+</pre>
                     <p><strong>Scope.</strong> Logo is a <em>dynamically scoped</em> language. A lexically scoped language
                         such as Python does not allow the local names of one function to affect the
                         evaluation of another function unless the second function was explicitly
@@ -2764,7 +2756,7 @@ hello world
 &gt; end
 ? print_x 5
 5
-                    </pre>
+</pre>
                     <p>While the name <tt class="docutils literal">x</tt> is not bound in the global frame, it is bound in the local
                         frame for <tt class="docutils literal">print_x</tt>, the function that is called first. Logo's dynamic
                         scoping rules allow the function <tt class="docutils literal">print_last_x</tt> to refer to <tt class="docutils literal">x</tt>, which was
@@ -2807,7 +2799,7 @@ div raised a ZeroDivisionError: division by zero
 0.5
 ? print reciprocal 0
 infinity
-                    </pre>
+</pre>
                     <p>Not only does the Logo conditional expression not require a special syntax, but
                         it can in fact be implemented in terms of <tt class="docutils literal">word</tt> and <tt class="docutils literal">run</tt>. The primitive
                         procedure <tt class="docutils literal">ifelse</tt> takes three arguments: a boolean word, a sentence to be
@@ -2820,7 +2812,7 @@ infinity
 &gt; end
 ? print ifelse2 emptyp [] [&quot;empty] [&quot;full]
 empty
-                    </pre>
+</pre>
                     <p>Recursive procedures do not require any special syntax, and they can be used
                         with <tt class="docutils literal">run</tt>, <tt class="docutils literal">sentence</tt>, <tt class="docutils literal">first</tt>, and <tt class="docutils literal">butfirst</tt> to define general
                         sequence operations on sentences. For instance, we can apply a procedure to an
@@ -2830,7 +2822,7 @@ empty
 ? to apply_fn :fn :arg
 &gt; output run list :fn ifelse word? :arg [word &quot;&quot; :arg] [:arg]
 &gt; end
-                    </pre>
+</pre>
                     <p>Next, we can define a procedure for mapping a procedure <tt class="docutils literal">:fn</tt> over the words
                         in a sentence <tt class="docutils literal">:s</tt> incrementally:</p>
                     <pre class="literal-block">
@@ -2840,14 +2832,14 @@ empty
 &gt; end
 ? show map &quot;double [1 2 3]
 [2 4 6]
-                    </pre>
+</pre>
                     <p>The second line of the body of <tt class="docutils literal">map_fn</tt> can also be written with parentheses
                         to indicate the nested structure of the call expression. However, parentheses
                         show where call expressions begin and end, rather than surrounding only the
                         operands and not the operator:</p>
                     <pre class="literal-block">
 &gt; (output (fput (apply_fn :fn (first :s)) (map_fn :fn (butfirst :s))))
-                    </pre>
+</pre>
                     <p>Parentheses are not necessary in Logo, but they often assist programmers in
                         documenting the structure of nested expressions. Most dialects of Lisp require
                         parentheses and therefore have a syntax with explicit nesting.</p>
@@ -2869,7 +2861,7 @@ empty
 &gt; sierpinski :d / 2 :k - 1
 &gt; penup fd :d pendown
 &gt; end
-                    </pre>
+</pre>
                     <p>The <tt class="docutils literal">triangle</tt> procedure is a general method for repeating a drawing
                         procedure three times with a left turn following each repetition.  The
                         <tt class="docutils literal">sierpinski</tt> procedure takes a length and a recursive depth.  It draws a
@@ -2882,7 +2874,7 @@ empty
                         <tt class="docutils literal">sierpinski</tt> and <tt class="docutils literal">leg</tt> yields this result:</p>
                     <pre class="literal-block">
 ? sierpinski 400 6
-                    </pre>
+</pre>
                     <div class="figure">
                         <img alt="img/sier.png" src="img/sier.png" />
                     </div>
@@ -2912,7 +2904,7 @@ empty
                     <pre class="doctest-block">
 &gt;&gt;&gt; parse_line('print sum 10 difference 7 3')
 ['print', 'sum', '10', 'difference', '7', '3']
-                    </pre>
+</pre>
                     <p>The parser performs so little analysis because the dynamic character of Logo
                         requires that the evaluator resolve the structure of nested expressions.</p>
                     <p>The parser does identify the nested structure of sentences. Sentences within
@@ -2920,7 +2912,7 @@ empty
                     <pre class="doctest-block">
 &gt;&gt;&gt; parse_line('print sentence &quot;this [is a [deep] list]')
 ['print', 'sentence', '&quot;this', ['is', 'a', ['deep'], 'list']]
-                    </pre>
+</pre>
                     <p>A complete implementation of <tt class="docutils literal">parse_line</tt> appears in the companion projects
                         as <tt class="docutils literal">logo_parser.py</tt>.</p>
                     <p><strong>Evaluation.</strong> Logo is evaluated one line at a time. A skeleton implementation
@@ -2969,7 +2961,7 @@ empty
         else:
             procedure = env.procedures.get(token, None)
             return apply_procedure(procedure, line, env)
-                    </pre>
+</pre>
                     <p>The final case above invokes a second process, procedure application, that is
                         expressed by a function <tt class="docutils literal">apply_procedure</tt>. To apply a procedure named by an
                         operator token, that operator is looked up in the current environment.  In the
@@ -3019,7 +3011,7 @@ empty
             self.isprimitive = isprimitive
             self.needs_env = needs_env
             self.formal_params = formal_params
-                    </pre>
+</pre>
                     <p>A primitive procedure is applied by calling its body on the argument list and
                         returning its return value as the output of the procedure.</p>
                     <pre class="doctest-block">
@@ -3029,7 +3021,7 @@ empty
             return proc.body(*args)
         else:
             &quot;&quot;&quot;Apply a user-defined procedure&quot;&quot;&quot;
-                    </pre>
+</pre>
                     <p>The body of a user-defined procedure is a list of lines, each of which is a
                         Logo sentence. To apply the procedure to a list of arguments, we evaluate the
                         lines of the body in a new environment.  To construct this environment, a new
@@ -3089,7 +3081,7 @@ empty
 &gt;&gt;&gt; def logo_make(symbol, val, env):
         &quot;&quot;&quot;Apply the Logo make primitive, which binds a name to a value.&quot;&quot;&quot;
         env.set_variable_value(symbol, val)
-                    </pre>
+</pre>
                     <p>With the addition of variables and the <tt class="docutils literal">make</tt> primitive, our interpreter
                         supports its first means of abstraction: binding names to values. In Logo, we
                         can now replicate our first abstraction steps in Python from Chapter 1:</p>
@@ -3097,7 +3089,7 @@ empty
 ? make &quot;radius 10
 ? print 2 * :radius
 20
-                    </pre>
+</pre>
                     <p>Assignment is only a limited form of abstraction. We have seen from the
                         beginning of this course that user-defined functions are a critical tool in
                         managing the complexity of even moderately sized programs.  Two enhancements
@@ -3116,7 +3108,7 @@ empty
 &gt; end
 ? print fact 5
 120
-                    </pre>
+</pre>
                     <p>The first line of the definition supplies the name <tt class="docutils literal">factorial</tt> and formal
                         parameter <tt class="docutils literal">n</tt> of the procedure. The line that follows constitute the
                         body of the procedure.  This line is not evaluated immediately, but instead
@@ -3153,7 +3145,7 @@ empty
 ? g 3 7
 ? print :z
 13
-                    </pre>
+</pre>
                     <p>The environment created from the evaluation of these expressions is divided
                         between procedures and frames, which are maintained in separate name spaces.
                         The order of frames is determined by the order of calls.</p>
@@ -3171,13 +3163,13 @@ empty
 ? to factorial :n
 &gt; output ifelse :n = 1 [1] [:n * factorial :n - 1]
 &gt; end
-                    </pre>
+</pre>
                     <p>We could express an equivalent program in Python as well, using a conditional
                         expression.</p>
                     <pre class="doctest-block">
 &gt;&gt;&gt; def factorial(n):
         return 1 if n == 1 else n * factorial(n - 1)
-                    </pre>
+</pre>
                     <p>We may regard this program as the description of a machine containing parts
                         that decrement, multiply, and test for equality, together with a two-position
                         switch and another factorial machine. (The factorial machine is infinite
@@ -3214,12 +3206,12 @@ empty
                     <pre class="doctest-block">
 &gt;&gt;&gt; eval('2+2')
 4
-                    </pre>
+</pre>
                     <p>and</p>
                     <pre class="doctest-block">
 &gt;&gt;&gt; 2+2
 4
-                    </pre>
+</pre>
                     <p>both return the same result. Evaluating expressions that are constructed as a
                         part of execution is a common and powerful feature in dynamic programming
                         languages. In few languages is this practice as common as in Logo, but the

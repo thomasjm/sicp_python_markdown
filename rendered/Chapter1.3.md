@@ -22,8 +22,8 @@ which defines a new function that has been given the name `square`. This user-de
 
 Function definitions consist of a `def` statement that indicates a `<name>` and a list of named `<formal parameters>`, then a `return` statement, called the function body, that specifies the `<return expression>` of the function, which is an expression to be evaluated whenever the function is applied.
 
-> `def <name>(<formal parameters>):`
-> :   `return <return expression>`
+> `def <name>(<formal parameters>):`  
+> `return <return expression>`
 
 The second line *must* be indented! Convention dictates that we indent with four spaces, rather than a tab. The return expression is not evaluated right away; it is stored as part of the newly defined function and evaluated only when the function is eventually applied. (Soon, we will see that the indented region can span multiple lines.)
 

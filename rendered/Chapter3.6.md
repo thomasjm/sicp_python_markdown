@@ -45,43 +45,41 @@ fib
 
 **Values in Scheme.** Values in Scheme generally have their counterparts in Python.
 
-> Booleans
-> :   The values true and false, denoted `#t` and `#f`. In Scheme, the only false value (in the Python sense) is `#f`.
-> 
-> Numbers
-> :   These include integers of arbitrary precision, rational numbers, complex numbers, and "inexact" (generally floating-point) numbers. Integers may be denoted either in standard decimal notation or in other radixes by prefixing a numeral with `#o` (octal), `#x` (hexadecimal), or `#b` (binary).
-> 
-> Symbols
-> 
-> :   Symbols are a kind of string, but are denoted without quotation marks. The valid characters include letters, digits, and:
-> 
->     ```
->     !  $  %  &  *  /  :  <  = >  ?  ^  _  ~  +  -  .  @
->     ```
-> 
->     When input by the `read` function, which reads Scheme expressions (and which the interpreter uses to input program text), upper and lower case characters in symbols are not distinguished (in the STk implementation, converted to lower case). Two symbols with the same denotation denote the same object (not just two objects that happen to have the same contents).
-> 
-> Pairs and Lists
-> 
-> :   A pair is an object containing two components (of any types), called its `car` and `cdr`. A pair whose `car` is `A` and whose `cdr` is `B` is denoted `(A . B)`. Pairs (like tuples in Python) can represent lists, trees, and arbitrary hierarchical structures.
-> 
->     A standard Scheme list consists either of the special empty list value (denoted ()), or of a pair that contains the first item of the list as its `car` and the rest of the list as its `cdr`. Thus, the list consisting of the integers 1, 2, and 3 would be represented:
-> 
->     ```
->     (1 . (2 . (3 . ())))
->     ```
-> 
->     Lists are so pervasive that Scheme allows one to abbreviate `(a . ())` as `(a)`, and allows one to abbreviate `(a . (b ...))` as `(a b ...)`. Thus, the list above is usually written:
-> 
->     ``` {.last .literal-block}
->     (1 2 3)
->     ```
-> 
-> Procedures (functions)
-> :   As in Python, a procedure (or function) value represents some computation that can be invoked by a function call supplying argument values. Procedures may either be primitives, supplied by the Scheme runtime system, or they may be constructed out of Scheme expression(s) and an environment (exactly as in Python). There is no direct denotation for function values, although there are predefined identifiers that are bound to primitive functions and there are Scheme expressions that, when evaluated, produce new procedure values.
-> 
-> Other Types
-> :   Scheme also supports characters and strings (like Python strings, except that Scheme distinguishes characters from strings), and vectors (like Python lists).
+Booleans  
+The values true and false, denoted `#t` and `#f`. In Scheme, the only false value (in the Python sense) is `#f`.
+
+Numbers  
+These include integers of arbitrary precision, rational numbers, complex numbers, and "inexact" (generally floating-point) numbers. Integers may be denoted either in standard decimal notation or in other radixes by prefixing a numeral with `#o` (octal), `#x` (hexadecimal), or `#b` (binary).
+
+Symbols  
+Symbols are a kind of string, but are denoted without quotation marks. The valid characters include letters, digits, and:
+
+```
+!  $  %  &  *  /  :  <  = >  ?  ^  _  ~  +  -  .  @
+```
+
+When input by the `read` function, which reads Scheme expressions (and which the interpreter uses to input program text), upper and lower case characters in symbols are not distinguished (in the STk implementation, converted to lower case). Two symbols with the same denotation denote the same object (not just two objects that happen to have the same contents).
+
+Pairs and Lists  
+A pair is an object containing two components (of any types), called its `car` and `cdr`. A pair whose `car` is `A` and whose `cdr` is `B` is denoted `(A . B)`. Pairs (like tuples in Python) can represent lists, trees, and arbitrary hierarchical structures.
+
+A standard Scheme list consists either of the special empty list value (denoted ()), or of a pair that contains the first item of the list as its `car` and the rest of the list as its `cdr`. Thus, the list consisting of the integers 1, 2, and 3 would be represented:
+
+```
+(1 . (2 . (3 . ())))
+```
+
+Lists are so pervasive that Scheme allows one to abbreviate `(a . ())` as `(a)`, and allows one to abbreviate `(a . (b ...))` as `(a b ...)`. Thus, the list above is usually written:
+
+``` {.last .literal-block}
+(1 2 3)
+```
+
+Procedures (functions)  
+As in Python, a procedure (or function) value represents some computation that can be invoked by a function call supplying argument values. Procedures may either be primitives, supplied by the Scheme runtime system, or they may be constructed out of Scheme expression(s) and an environment (exactly as in Python). There is no direct denotation for function values, although there are predefined identifiers that are bound to primitive functions and there are Scheme expressions that, when evaluated, produce new procedure values.
+
+Other Types  
+Scheme also supports characters and strings (like Python strings, except that Scheme distinguishes characters from strings), and vectors (like Python lists).
 
 **Program Denotations** As with other versions of Lisp, Scheme's data values double as representations of programs. For example, the Scheme list:
 
@@ -91,12 +89,12 @@ fib
 
 can, depending on how it is used, represent either a 3-item list (whose last item is also a 3-item list), or it can represent a Scheme expression for computing $x+10y$. To interpret a Scheme value as a program, we consider the type of value, and evaluate as follows:
 
-> -   Integers, booleans, characters, strings, and vectors evaluate to themselves. Thus, the expression `5` evaluates to 5.
-> -   Bare symbols serve as variables. Their values are determined by the current environment in which they are being evaluated, just as in Python.
-> -   Non-empty lists are interpreted in two different ways, depending on their first component:
->     -   If the first component is one of the symbols denoting a *special form*, described below, the evaluation proceeds by the rules for that special form.
->     -   In all other cases (called *combinations*), the items in the list are evaluated (recursively) in some unspecified order. The value of the first item must be a function value. That value is called, with the values of the remaining items in the list supplying the arguments.
-> -   Other Scheme values (in particular, pairs that are not lists) are erroneous as programs.
+-   Integers, booleans, characters, strings, and vectors evaluate to themselves. Thus, the expression `5` evaluates to 5.
+-   Bare symbols serve as variables. Their values are determined by the current environment in which they are being evaluated, just as in Python.
+-   Non-empty lists are interpreted in two different ways, depending on their first component:
+    -   If the first component is one of the symbols denoting a *special form*, described below, the evaluation proceeds by the rules for that special form.
+    -   In all other cases (called *combinations*), the items in the list are evaluated (recursively) in some unspecified order. The value of the first item must be a function value. That value is called, with the values of the remaining items in the list supplying the arguments.
+-   Other Scheme values (in particular, pairs that are not lists) are erroneous as programs.
 
 For example:
 
@@ -113,248 +111,236 @@ x                   ; x.
 
 First, a couple of common constructs used in the forms:
 
-> *EXPR-SEQ*
-> 
-> :   Simply a sequence of expressions, such as:
-> 
->     ```
->     (+ 3 2) x (* y z)
->     ```
-> 
->     When this appears in the definitions below, it refers to a sequence of expressions that are evaluated from left to right, with the value of the sequence (if needed) being the value of the last expression.
-> 
-> *BODY*
-> :   Several constructs have "bodies", which are *EXPR-SEQ*s, as above, optionally preceded by one or more [Definitions](#definitions){.reference .internal}. Their value is that of their *EXPR-SEQ*. See the section on [Internal Definitions](#internal-definitions){.reference .internal} for the interpretation of these definitions.
+*EXPR-SEQ*  
+Simply a sequence of expressions, such as:
+
+```
+(+ 3 2) x (* y z)
+```
+
+When this appears in the definitions below, it refers to a sequence of expressions that are evaluated from left to right, with the value of the sequence (if needed) being the value of the last expression.
+
+*BODY*  
+Several constructs have "bodies", which are *EXPR-SEQ*s, as above, optionally preceded by one or more [Definitions](#definitions){.reference .internal}. Their value is that of their *EXPR-SEQ*. See the section on [Internal Definitions](#internal-definitions){.reference .internal} for the interpretation of these definitions.
 
 Here is a representative subset of the special forms:
 
-> Definitions
+Definitions  
+Definitions may appear either at the top level of a program (that is, not enclosed in another construct).
+
+> (define *SYM* *EXPR*)  
+> This evaluates *EXPR* and binds its value to the symbol *SYM* in the current environment.
 > 
-> :   Definitions may appear either at the top level of a program (that is, not enclosed in another construct).
+> (define (*SYM* *ARGUMENTS*) *BODY*)  
+> This is equivalent to
 > 
->     > (define *SYM* *EXPR*)
->     > :   This evaluates *EXPR* and binds its value to the symbol *SYM* in the current environment.
->     >
->     > (define (*SYM* *ARGUMENTS*) *BODY*)
->     >
->     > :   This is equivalent to
->     >
->     >     > (define *SYM* (lambda (*ARGUMENTS*) *BODY*))
->     >
-> (lambda (*ARGUMENTS*) *BODY*)
-> 
-> :   This evaluates to a function. *ARGUMENTS* is usually a list (possibly empty) of distinct symbols that gives names to the arguments of the function, and indicates their number. It is also possible for *ARGUMENTS* to have the form:
-> 
->     ```
->     (sym1 sym2 ... symn . symr)
->     ```
-> 
->     (that is, instead of ending in the empty list like a normal list, the last `cdr` is a symbol). In this case, `symr` will be bound to the list of trailing argument values (argument n+1 onward).
-> 
->     When the resulting function is called, *ARGUMENTS* are bound to the argument values in a fresh environment frame that extends the environment in which the `lambda` expression was evaluated (just like Python). Then the *BODY* is evaluated and its value returned as the value of the call.
-> 
-> (if *COND-EXPR* *TRUE-EXPR* *OPTIONAL-FALSE-EXPR*)
-> :   Evaluates *COND-EXPR*, and if its value is not `#f`, then evaluates *TRUE-EXPR*, and the result is the value of the `if`. If *COND-EXPR* evaluates to `#f` and *OPTIONAL-FALSE-EXPR* is present, it is evaluated and its result is the value of the `if`. If it is absent, the value of the `if` is unspecified.
-> 
-> (set! *SYMBOL* *EXPR*)
-> :   Evaluates *EXPR* and replaces the binding of *SYMBOL* with the resulting value. *SYMBOL* must be bound, or there is an error. In contrast to Python's default, this replaces the binding of *SYMBOL* in the first enclosing environment frame that defines it, which is not always the innermost frame.
-> 
-> (quote *EXPR*) or '*EXPR*
-> 
-> :   One problem with using Scheme data structures as program representations is that one needs a way to indicate when a particular symbol or list represents literal data to be manipulated by a program, and when it is program text that is intended to be evaluated. The `quote` form evaluates to *EXPR* itself, without further evaluating *EXPR*. (The alternative form, with leading apostrophe, gets converted to the first form by Scheme's expression reader.) For example:
-> 
->     ``` {.last .literal-block}
->     >>> (+ 1 2)
->     3
->     >>> '(+ 1 2)
->     (+ 1 2)
->     >>> (define x 3)
->     x
->     >>> x
->     3
->     >>> (quote x)
->     x
->     >>> '5
->     5
->     >>> (quote 'x)
->     (quote x)
->     ```
-> 
+> (define *SYM* (lambda (*ARGUMENTS*) *BODY*))
+
+(lambda (*ARGUMENTS*) *BODY*)  
+This evaluates to a function. *ARGUMENTS* is usually a list (possibly empty) of distinct symbols that gives names to the arguments of the function, and indicates their number. It is also possible for *ARGUMENTS* to have the form:
+
+```
+(sym1 sym2 ... symn . symr)
+```
+
+(that is, instead of ending in the empty list like a normal list, the last `cdr` is a symbol). In this case, `symr` will be bound to the list of trailing argument values (argument n+1 onward).
+
+When the resulting function is called, *ARGUMENTS* are bound to the argument values in a fresh environment frame that extends the environment in which the `lambda` expression was evaluated (just like Python). Then the *BODY* is evaluated and its value returned as the value of the call.
+
+(if *COND-EXPR* *TRUE-EXPR* *OPTIONAL-FALSE-EXPR*)  
+Evaluates *COND-EXPR*, and if its value is not `#f`, then evaluates *TRUE-EXPR*, and the result is the value of the `if`. If *COND-EXPR* evaluates to `#f` and *OPTIONAL-FALSE-EXPR* is present, it is evaluated and its result is the value of the `if`. If it is absent, the value of the `if` is unspecified.
+
+(set! *SYMBOL* *EXPR*)  
+Evaluates *EXPR* and replaces the binding of *SYMBOL* with the resulting value. *SYMBOL* must be bound, or there is an error. In contrast to Python's default, this replaces the binding of *SYMBOL* in the first enclosing environment frame that defines it, which is not always the innermost frame.
+
+(quote *EXPR*) or '*EXPR*  
+One problem with using Scheme data structures as program representations is that one needs a way to indicate when a particular symbol or list represents literal data to be manipulated by a program, and when it is program text that is intended to be evaluated. The `quote` form evaluates to *EXPR* itself, without further evaluating *EXPR*. (The alternative form, with leading apostrophe, gets converted to the first form by Scheme's expression reader.) For example:
+
+``` {.last .literal-block}
+>>> (+ 1 2)
+3
+>>> '(+ 1 2)
+(+ 1 2)
+>>> (define x 3)
+x
+>>> x
+3
+>>> (quote x)
+x
+>>> '5
+5
+>>> (quote 'x)
+(quote x)
+```
+
 **Derived Special Forms**
 
 A *derived construct* is one that can be translated into primitive constructs. Their purpose is to make programs more concise or clear for the reader. In Scheme, we have
 
-> (begin *EXPR-SEQ*)
-> :   Simply evaluates and yields the value of the *EXPR-SEQ*. This construct is simply a way to execute a sequence of expressions in a context (such as an `if`) that requires a single expression.
+(begin *EXPR-SEQ*)  
+Simply evaluates and yields the value of the *EXPR-SEQ*. This construct is simply a way to execute a sequence of expressions in a context (such as an `if`) that requires a single expression.
+
+(and *EXPR1* *EXPR2* ...)  
+Each *EXPR* is evaluated from left to right until one returns `#f` or the *EXPR*s are exhausted. The value is that of the last *EXPR* evaluated, or `#t` if the list of *EXPR*s is empty. For example:
+
+``` {.last .literal-block}
+>>> (and (= 2 2) (> 2 1))
+#t
+>>> (and (< 2 2) (> 2 1))
+#f
+>>> (and (= 2 2) '(a b))
+(a b)
+>>> (and)
+#t
+```
+
+(or *EXPR1* *EXPR2* ...)  
+Each *EXPR* is evaluated from left to right until one returns a value other than `#f` or the *EXPR*s are exhausted. The value is that of the last *EXPR* evaluated, or `#f` if the list of *EXPR*s is empty: For example:
+
+``` {.last .literal-block}
+>>> (or (= 2 2) (> 2 3))
+#t
+>>> (or (= 2 2) '(a b))
+#t
+>>> (or (> 2 2) '(a b))
+(a b)
+>>> (or (> 2 2) (> 2 3))
+#f
+>>> (or)
+#f
+```
+
+(cond *CLAUSE1* *CLAUSE2* ...)  
+Each *CLAUSEi* is processed in turn until one succeeds, and its value becomes the value of the `cond`. If no clause succeeds, the value is unspecified. Each clause has one of three possible forms. The form
+
+> (*TEST-EXPR* *EXPR-SEQ*)
+
+succeeds if *TEST-EXPR* evaluates to a value other than `#f`. In that case, it evaluates *EXPR-SEQ* and yields its value. The *EXPR-SEQ* may be omitted, in which case the value is that of *TEST-EXPR* itself.
+
+The last clause may have the form
+
+> (else *EXPR-SEQ*)
+
+which is equivalent to
+
+> (\#t *EXPR-SEQ*)
+
+Finally, the form
+
+> (*TEST\_EXPR* =&gt; *EXPR*)
+
+succeeds if *TEST\_EXPR* evaluates to a value other than `#f`, call it *V*. If it succeeds, the value of the `cond` construct is that returned by (*EXPR* *V*). That is, *EXPR* must evaluate to a one-argument function, which is applied to the value of *TEST\_EXPR*.
+
+For example:
+
+``` {.last .literal-block}
+>>> (cond ((> 3 2) 'greater)
+...        ((< 3 2) 'less)))
+greater
+>>> (cond ((> 3 3) 'greater)
+...        ((< 3 3) 'less)
+...        (else 'equal))
+equal
+>>> (cond ((if (< -2 -3) #f -3) => abs)
+...        (else #f))
+3
+```
+
+(case *KEY-EXPR* *CLAUSE1* *CLAUSE2* ...)  
+Evaluates *KEY-EXPR* to produce a value, *K*. Then matches *K* against each *CLAUSE1* in turn until one succeeds, and returns the value of that clause. If no clause succeeds, the value is unspecified. Each clause has the form
+
+> ((*DATUM1* *DATUM2* ...) *EXPR-SEQ*)
+
+The *DATUM*s are Scheme values (they are *not* evaluated). The clause succeeds if *K* matches one of the *DATUM* values (as determined by the `eqv?` function described below.) If the clause succeeds, its *EXPR-SEQ* is evaluated and its value becomes the value of the `case`. The last clause may have the form
+
+> (else *EXPR-SEQ*)
+
+which always succeeds. For example:
+
+``` {.last .literal-block}
+>>> (case (* 2 3)
+...     ((2 3 5 7) 'prime)
+...     ((1 4 6 8 9) 'composite))
+composite
+>>> (case (car '(a . b))
+...     ((a c) 'd)
+...     ((b 3) 'e))
+d
+>>> (case (car '(c d))
+...    ((a e i o u) 'vowel)
+...    ((w y) 'semivowel)
+...    (else 'consonant))
+consonant
+```
+
+(let *BINDINGS* *BODY*)  
+*BINDINGS* is a list of pairs of the form
+
+> ( (*VAR1* *INIT1*) (*VAR2* *INIT2*) ...)
+
+where the *VAR*s are (distinct) symbols and the *INIT*s are expressions. This first evaluates the *INIT* expressions, then creates a new frame that binds those values to the *VAR*s, and then evaluates the *BODY* in that new environment, returning its value. In other words, this is equivalent to the call
+
+> ((lambda (*VAR1* *VAR2* ...) *BODY*)
 > 
-> (and *EXPR1* *EXPR2* ...)
+> *INIT1* *INIT2* ...)
+
+Thus, any references to the *VAR*s in the *INIT* expressions refers to the definitions (if any) of those symbols *outside* of the `let` construct. For example:
+
+``` {.last .literal-block}
+>>> (let ((x 2) (y 3))
+...       (* x y))
+6
+>>> (let ((x 2) (y 3))
+...       (let ((x 7) (z (+ x y)))
+...            (* z x)))
+35
+```
+
+(let\* *BINDINGS* *BODY*)  
+The syntax of *BINDINGS* is the same as for `let`. This is equivalent to
+
+> (let ((*VAR1* *INIT1*))
 > 
-> :   Each *EXPR* is evaluated from left to right until one returns `#f` or the *EXPR*s are exhausted. The value is that of the last *EXPR* evaluated, or `#t` if the list of *EXPR*s is empty. For example:
+> ...
 > 
->     ``` {.last .literal-block}
->     >>> (and (= 2 2) (> 2 1))
->     #t
->     >>> (and (< 2 2) (> 2 1))
->     #f
->     >>> (and (= 2 2) '(a b))
->     (a b)
->     >>> (and)
->     #t
->     ```
+> (let ((*VARn* *INITn*))
 > 
-> (or *EXPR1* *EXPR2* ...)
-> 
-> :   Each *EXPR* is evaluated from left to right until one returns a value other than `#f` or the *EXPR*s are exhausted. The value is that of the last *EXPR* evaluated, or `#f` if the list of *EXPR*s is empty: For example:
-> 
->     ``` {.last .literal-block}
->     >>> (or (= 2 2) (> 2 3))
->     #t
->     >>> (or (= 2 2) '(a b))
->     #t
->     >>> (or (> 2 2) '(a b))
->     (a b)
->     >>> (or (> 2 2) (> 2 3))
->     #f
->     >>> (or)
->     #f
->     ```
-> 
-> (cond *CLAUSE1* *CLAUSE2* ...)
-> 
-> :   Each *CLAUSEi* is processed in turn until one succeeds, and its value becomes the value of the `cond`. If no clause succeeds, the value is unspecified. Each clause has one of three possible forms. The form
-> 
->     > (*TEST-EXPR* *EXPR-SEQ*)
-> 
->     succeeds if *TEST-EXPR* evaluates to a value other than `#f`. In that case, it evaluates *EXPR-SEQ* and yields its value. The *EXPR-SEQ* may be omitted, in which case the value is that of *TEST-EXPR* itself.
-> 
->     The last clause may have the form
-> 
->     > (else *EXPR-SEQ*)
-> 
->     which is equivalent to
-> 
->     > (\#t *EXPR-SEQ*)
-> 
->     Finally, the form
-> 
->     > (*TEST\_EXPR* =&gt; *EXPR*)
-> 
->     succeeds if *TEST\_EXPR* evaluates to a value other than `#f`, call it *V*. If it succeeds, the value of the `cond` construct is that returned by (*EXPR* *V*). That is, *EXPR* must evaluate to a one-argument function, which is applied to the value of *TEST\_EXPR*.
-> 
->     For example:
-> 
->     ``` {.last .literal-block}
->     >>> (cond ((> 3 2) 'greater)
->     ...        ((< 3 2) 'less)))
->     greater
->     >>> (cond ((> 3 3) 'greater)
->     ...        ((< 3 3) 'less)
->     ...        (else 'equal))
->     equal
->     >>> (cond ((if (< -2 -3) #f -3) => abs)
->     ...        (else #f))
->     3
->     ```
-> 
-> (case *KEY-EXPR* *CLAUSE1* *CLAUSE2* ...)
-> 
-> :   Evaluates *KEY-EXPR* to produce a value, *K*. Then matches *K* against each *CLAUSE1* in turn until one succeeds, and returns the value of that clause. If no clause succeeds, the value is unspecified. Each clause has the form
-> 
->     > ((*DATUM1* *DATUM2* ...) *EXPR-SEQ*)
-> 
->     The *DATUM*s are Scheme values (they are *not* evaluated). The clause succeeds if *K* matches one of the *DATUM* values (as determined by the `eqv?` function described below.) If the clause succeeds, its *EXPR-SEQ* is evaluated and its value becomes the value of the `case`. The last clause may have the form
-> 
->     > (else *EXPR-SEQ*)
-> 
->     which always succeeds. For example:
-> 
->     ``` {.last .literal-block}
->     >>> (case (* 2 3)
->     ...     ((2 3 5 7) 'prime)
->     ...     ((1 4 6 8 9) 'composite))
->     composite
->     >>> (case (car '(a . b))
->     ...     ((a c) 'd)
->     ...     ((b 3) 'e))
->     d
->     >>> (case (car '(c d))
->     ...    ((a e i o u) 'vowel)
->     ...    ((w y) 'semivowel)
->     ...    (else 'consonant))
->     consonant
->     ```
-> 
-> (let *BINDINGS* *BODY*)
-> 
-> :   *BINDINGS* is a list of pairs of the form
-> 
->     > ( (*VAR1* *INIT1*) (*VAR2* *INIT2*) ...)
-> 
->     where the *VAR*s are (distinct) symbols and the *INIT*s are expressions. This first evaluates the *INIT* expressions, then creates a new frame that binds those values to the *VAR*s, and then evaluates the *BODY* in that new environment, returning its value. In other words, this is equivalent to the call
-> 
->     > ((lambda (*VAR1* *VAR2* ...) *BODY*)
->     >
->     > *INIT1* *INIT2* ...)
-> 
->     Thus, any references to the *VAR*s in the *INIT* expressions refers to the definitions (if any) of those symbols *outside* of the `let` construct. For example:
-> 
->     ``` {.last .literal-block}
->     >>> (let ((x 2) (y 3))
->     ...       (* x y))
->     6
->     >>> (let ((x 2) (y 3))
->     ...       (let ((x 7) (z (+ x y)))
->     ...            (* z x)))
->     35
->     ```
-> 
-> (let\* *BINDINGS* *BODY*)
-> 
-> :   The syntax of *BINDINGS* is the same as for `let`. This is equivalent to
-> 
->     > (let ((*VAR1* *INIT1*))
->     >
->     > ...
->     >
->     > (let ((*VARn* *INITn*))
->     >
->     > *BODY*))
-> 
->     In other words, it is like `let` except that the new binding of *VAR1* is visible in subsequent *INIT*s as well as in the *BODY*, and similarly for *VAR2*. For example:
-> 
->     ``` {.last .literal-block}
->     >>> (define x 3)
->     x
->     >>> (define y 4)
->     y
->     >>> (let ((x 5) (y (+ x 1))) y)
->     4
->     >>> (let* ((x 5) (y (+ x 1))) y)
->     6
->     ```
-> 
-> ([letrec]{#letrec .target} *BINDINGS* *BODY*)
-> 
-> :   Again, the syntax is as for `let`. In this case, the new bindings are all created first (with undefined values) and then the *INIT*s are evaluated and assigned to them. It is undefined what happens if one of the *INIT*s uses the value of a *VAR* that has not had an initial value assigned yet. This form is intended mostly for defining mutually recursive functions (lambdas do not, by themselves, use the values of the variables they mention; that only happens later, when they are called. For example:
-> 
->     ``` {.last .literal-block}
->                                                                                  (letrec ((even?
->           (lambda (n)
->                  (if (zero? n)
->                       #t
->                       (odd? (- n 1)))))
->          (odd?
->           (lambda (n)
->                   (if (zero? n)
->                       #f
->                       (even? (- n 1))))))
->     (even? 88))
->     ```
-> 
+> *BODY*))
+
+In other words, it is like `let` except that the new binding of *VAR1* is visible in subsequent *INIT*s as well as in the *BODY*, and similarly for *VAR2*. For example:
+
+``` {.last .literal-block}
+>>> (define x 3)
+x
+>>> (define y 4)
+y
+>>> (let ((x 5) (y (+ x 1))) y)
+4
+>>> (let* ((x 5) (y (+ x 1))) y)
+6
+```
+
+([letrec]{#letrec .target} *BINDINGS* *BODY*)  
+Again, the syntax is as for `let`. In this case, the new bindings are all created first (with undefined values) and then the *INIT*s are evaluated and assigned to them. It is undefined what happens if one of the *INIT*s uses the value of a *VAR* that has not had an initial value assigned yet. This form is intended mostly for defining mutually recursive functions (lambdas do not, by themselves, use the values of the variables they mention; that only happens later, when they are called. For example:
+
+``` {.last .literal-block}
+                                                                             (letrec ((even?
+      (lambda (n)
+             (if (zero? n)
+                  #t
+                  (odd? (- n 1)))))
+     (odd?
+      (lambda (n)
+              (if (zero? n)
+                  #f
+                  (even? (- n 1))))))
+(even? 88))
+```
+
 **Internal Definitions.** When a *BODY* begins with a sequence of `define` constructs, they are known as "internal definitions" and are interpreted a little differently from top-level definitions. Specifically, they work like [letrec](#letrec){.reference .internal} does.
 
-> -   First, bindings are created for all the names defined by the `define` statements, initially bound to undefined values.
-> -   Then the values are filled in by the defines.
+-   First, bindings are created for all the names defined by the `define` statements, initially bound to undefined values.
+-   Then the values are filled in by the defines.
 
 As a result, a sequence of internal function definitions can be mutually recursive, just as `def` statements in Python that are nested inside a function can be:
 
@@ -375,174 +361,174 @@ As a result, a sequence of internal function definitions can be mutually recursi
 
 **Predefined Functions.** There is a large collection of predefined functions, all bound to names in the global environment, and we'll simply illustrate a few here; the rest are catalogued in the [Revised(4) Scheme](http://people.csail.mit.edu/jaffer/r4rs_toc.html) Report. Function calls are not "special" in that they all use the same completely uniform evaluation rule: recursively evaluate all items (including the operator), and then apply the operator's value (which must be a function) to the operands' values.
 
-> -   **Arithmetic:** Scheme provides the standard arithmetic operators, many with familiar denotations, although the operators uniformly appear before the operands:
-> 
->     ```
->     >>> ; Semicolons introduce one-line comments.
->     >>> ; Compute (3+7+10)*(1000-8) // 992 - 17
->     >>> (- (quotient (* (+ 3 7 10) (- 1000 8))) 17)
->     3
->     >>> (remainder 27 4)
->     3
->     >>> (- 17)
->     -17
->     ```
-> 
->     Similarly, there are the usual numeric comparison operators, extended to allow more than two operands:
-> 
->     > ``` {.python}
->     > >>> (< 0 5)
->     > #t
->     > >>> (>= 100 10 10 0)
->     > #t
->     > >>> (= 21 (* 7 3) (+ 19 2))
->     > #t
->     > >>> (not (= 15 14))
->     > #t
->     > >>> (zero? (- 7 7))
->     > #t
->     > ```
-> 
->     `not`, by the way, is a function, not a special form like `and` or `or`, because its operand must always be evaluated, and so needs no special treatment.
-> 
-> -   **Lists and Pairs:** A large number of operations deal with pairs and lists (which again are built of pairs and empty lists):
-> 
->     ```
->     >>> (cons 'a 'b)
->     (a . b)
->     >>> (list 'a 'b)
->     (a b)
->     >>> (cons 'a (cons 'b '()))
->     (a b)
->     >>> (car (cons 'a 'b))
->     a
->     >>> (cdr (cons 'a 'b))
->     b
->     >>> (cdr (list a b))
->     (b)
->     >>> (cadr '(a b))   ; An abbreviation for (car (cdr '(a b)))
->     b
->     >>> (cddr '(a b))   ; Similarly, an abbreviation for (cdr (cdr '(a b)))
->     ()
->     >>> (list-tail '(a b c) 0)
->     (a b c)
->     >>> (list-tail '(a b c) 1)
->     (b c)
->     >>> (list-ref '(a b c) 0)
->     a
->     >>> (list-ref '(a b c) 2)
->     c
->     >>> (append '(a b) '(c d) '() '(e))
->     (a b c d e)
->     >>> ; All but the last list is copied.  The last is shared, so:
->     >>> (define L1 (list 'a 'b 'c))
->     >>> (define L2 (list 'd))
->     >>> (define L3 (append L1 L2))
->     >>> (set-car! L1 1)
->     >>> (set-car! L2 2)
->     >>> L3
->     (a b c 2)
->     >>> (null? '())
->     #t
->     >>> (list? '())
->     #t
->     >>> (list? '(a b))
->     #t
->     >>> (list? '(a . b))
->     #f
->     ```
-> 
-> -   **Equivalence:** The `=` operation is for numbers. For general equality of values, Scheme distinguishes `eq?` (like Python's `is`), `eqv?` (similar, but is the same as `=` on numbers), and `equal?` (compares list structures and strings for content). Generally, we use `eqv?` or `equal?`, except in cases such as comparing symbols, booleans, or the null list:
-> 
->     ```
->     >>> (eqv? 'a 'a)
->     #t
->     >>> (eqv? 'a 'b)
->     #f
->     >>> (eqv? 100 (+ 50 50))
->     #t
->     >>> (eqv? (list 'a 'b) (list 'a 'b))
->     #f
->     >>> (equal? (list 'a 'b) (list 'a 'b))
->     #t
->     ```
-> 
-> -   **Types:** Each type of value satisfies exactly one of the basic type predicates:
-> 
->     ```
->     >>> (boolean? #f)
->     #t
->     >>> (integer? 3)
->     #t
->     >>> (pair? '(a b))
->     #t
->     >>> (null? '())
->     #t
->     >>> (symbol? 'a)
->     #t
->     >>> (procedure? +)
->     #t
->     ```
-> 
-> -   **Input and Output:** Scheme interpreters typically run a read-eval-print loop, but one can also output things under explicit control of the program, using the same functions the interpreter does internally:
-> 
->     ```
->     >>> (begin (display 'a) (display 'b) (newline))
->     ab
->     ```
-> 
->     Thus, `(display x)` is somewhat akin to Python's
-> 
->     > `print(str(x), end="")`
-> 
->     and `(newline)` is like `print()`.
-> 
->     For input, the `(read)` function reads a Scheme expression from the current "port". It does *not* interpret the expression, but rather reads it as data:
-> 
->     ```
->     >>> (read)
->     >>> (a b c)
->     (a b c)
->     ```
-> 
-> -   **Evaluation:** The `apply` function provides direct access to the function-calling operation:
-> 
->     > ``` {.python}
->     > >>> (apply cons '(1 2))
->     > (1 . 2)
->     > >>> ;; Apply the function f to the arguments in L after g is
->     > >>> ;; applied to each of them
->     > >>> (define (compose-list f g L)
->     > ...     (apply f (map g L)))
->     > >>> (compose-list + (lambda (x) (* x x)) '(1 2 3))
->     > 14
->     > ```
-> 
->     An extension allows for some "fixed" arguments at the beginning:
-> 
->     > ``` {.python}
->     > >>> (apply + 1 2 '(3 4 5))
->     > 15
->     > ```
-> 
->     The following function is not in [Revised(4) Scheme](http://people.csail.mit.edu/jaffer/r4rs_toc.html), but is present in our versions of the interpreter (*warning:* a non-standard procedure that is not defined this way in later versions of Scheme):
-> 
->     ```
->     >>> (eval '(+ 1 2))
->     3
->     ```
-> 
->     That is, `eval` evaluates a piece of Scheme data that represents a correct Scheme expression. This version evaluates its expression argument in the global environment. Our interpreter also provides a way to specify a specific environment for the evaluation:
-> 
->     > ``` {.python}
->     > >>> (define (incr n) (lambda (x) (+ n x)))
->     > >>> (define add5 (incr 5))
->     > >>> (add5 13)
->     > 18
->     > >>> (eval 'n (procedure-environment add5))
->     > 5
->     > ```
-> 
+-   **Arithmetic:** Scheme provides the standard arithmetic operators, many with familiar denotations, although the operators uniformly appear before the operands:
+
+    ```
+    >>> ; Semicolons introduce one-line comments.
+    >>> ; Compute (3+7+10)*(1000-8) // 992 - 17
+    >>> (- (quotient (* (+ 3 7 10) (- 1000 8))) 17)
+    3
+    >>> (remainder 27 4)
+    3
+    >>> (- 17)
+    -17
+    ```
+
+    Similarly, there are the usual numeric comparison operators, extended to allow more than two operands:
+
+    > ``` {.python}
+    > >>> (< 0 5)
+    > #t
+    > >>> (>= 100 10 10 0)
+    > #t
+    > >>> (= 21 (* 7 3) (+ 19 2))
+    > #t
+    > >>> (not (= 15 14))
+    > #t
+    > >>> (zero? (- 7 7))
+    > #t
+    > ```
+
+    `not`, by the way, is a function, not a special form like `and` or `or`, because its operand must always be evaluated, and so needs no special treatment.
+
+-   **Lists and Pairs:** A large number of operations deal with pairs and lists (which again are built of pairs and empty lists):
+
+    ```
+    >>> (cons 'a 'b)
+    (a . b)
+    >>> (list 'a 'b)
+    (a b)
+    >>> (cons 'a (cons 'b '()))
+    (a b)
+    >>> (car (cons 'a 'b))
+    a
+    >>> (cdr (cons 'a 'b))
+    b
+    >>> (cdr (list a b))
+    (b)
+    >>> (cadr '(a b))   ; An abbreviation for (car (cdr '(a b)))
+    b
+    >>> (cddr '(a b))   ; Similarly, an abbreviation for (cdr (cdr '(a b)))
+    ()
+    >>> (list-tail '(a b c) 0)
+    (a b c)
+    >>> (list-tail '(a b c) 1)
+    (b c)
+    >>> (list-ref '(a b c) 0)
+    a
+    >>> (list-ref '(a b c) 2)
+    c
+    >>> (append '(a b) '(c d) '() '(e))
+    (a b c d e)
+    >>> ; All but the last list is copied.  The last is shared, so:
+    >>> (define L1 (list 'a 'b 'c))
+    >>> (define L2 (list 'd))
+    >>> (define L3 (append L1 L2))
+    >>> (set-car! L1 1)
+    >>> (set-car! L2 2)
+    >>> L3
+    (a b c 2)
+    >>> (null? '())
+    #t
+    >>> (list? '())
+    #t
+    >>> (list? '(a b))
+    #t
+    >>> (list? '(a . b))
+    #f
+    ```
+
+-   **Equivalence:** The `=` operation is for numbers. For general equality of values, Scheme distinguishes `eq?` (like Python's `is`), `eqv?` (similar, but is the same as `=` on numbers), and `equal?` (compares list structures and strings for content). Generally, we use `eqv?` or `equal?`, except in cases such as comparing symbols, booleans, or the null list:
+
+    ```
+    >>> (eqv? 'a 'a)
+    #t
+    >>> (eqv? 'a 'b)
+    #f
+    >>> (eqv? 100 (+ 50 50))
+    #t
+    >>> (eqv? (list 'a 'b) (list 'a 'b))
+    #f
+    >>> (equal? (list 'a 'b) (list 'a 'b))
+    #t
+    ```
+
+-   **Types:** Each type of value satisfies exactly one of the basic type predicates:
+
+    ```
+    >>> (boolean? #f)
+    #t
+    >>> (integer? 3)
+    #t
+    >>> (pair? '(a b))
+    #t
+    >>> (null? '())
+    #t
+    >>> (symbol? 'a)
+    #t
+    >>> (procedure? +)
+    #t
+    ```
+
+-   **Input and Output:** Scheme interpreters typically run a read-eval-print loop, but one can also output things under explicit control of the program, using the same functions the interpreter does internally:
+
+    ```
+    >>> (begin (display 'a) (display 'b) (newline))
+    ab
+    ```
+
+    Thus, `(display x)` is somewhat akin to Python's
+
+    > `print(str(x), end="")`
+
+    and `(newline)` is like `print()`.
+
+    For input, the `(read)` function reads a Scheme expression from the current "port". It does *not* interpret the expression, but rather reads it as data:
+
+    ```
+    >>> (read)
+    >>> (a b c)
+    (a b c)
+    ```
+
+-   **Evaluation:** The `apply` function provides direct access to the function-calling operation:
+
+    > ``` {.python}
+    > >>> (apply cons '(1 2))
+    > (1 . 2)
+    > >>> ;; Apply the function f to the arguments in L after g is
+    > >>> ;; applied to each of them
+    > >>> (define (compose-list f g L)
+    > ...     (apply f (map g L)))
+    > >>> (compose-list + (lambda (x) (* x x)) '(1 2 3))
+    > 14
+    > ```
+
+    An extension allows for some "fixed" arguments at the beginning:
+
+    > ``` {.python}
+    > >>> (apply + 1 2 '(3 4 5))
+    > 15
+    > ```
+
+    The following function is not in [Revised(4) Scheme](http://people.csail.mit.edu/jaffer/r4rs_toc.html), but is present in our versions of the interpreter (*warning:* a non-standard procedure that is not defined this way in later versions of Scheme):
+
+    ```
+    >>> (eval '(+ 1 2))
+    3
+    ```
+
+    That is, `eval` evaluates a piece of Scheme data that represents a correct Scheme expression. This version evaluates its expression argument in the global environment. Our interpreter also provides a way to specify a specific environment for the evaluation:
+
+    > ``` {.python}
+    > >>> (define (incr n) (lambda (x) (+ n x)))
+    > >>> (define add5 (incr 5))
+    > >>> (add5 13)
+    > 18
+    > >>> (eval 'n (procedure-environment add5))
+    > 5
+    > ```
+
 []{#logo-language}
 ## 3.6.2 The Logo Language
 
